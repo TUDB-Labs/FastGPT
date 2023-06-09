@@ -6,29 +6,37 @@
     <main class="">
       <div class="main-content">
         <div ref="chatList" class="chat-list">
-          <div
-            v-for="(item, index) in chatList"
-            class="chat-item"
-            :key="index"
-            :class="[index % 2 === 1 ? 'question' : 'answer']"
-          >
-            <div class="header-img-wrapper">
-              <img
-                v-if="index % 2 === 1"
-                src="@/assets/images/jqr.png"
-                alt=""
-                class="header-img"
-              />
+          <template v-for="(item, index) in chatList">
+            <!-- answer -->
+            <div :key="'answer' + index" class="chat-item answer">
+              <div class="header-img-wrapper"></div>
+              <div class="content">
+                <div>{{ item.answer }}</div>
+                <div class="indicator"></div>
+              </div>
+              <div class="header-img-wrapper">
+                <div class="self">U</div>
+                <!-- <img v-if="index%2===0" src="./static/images/header-img.jpg" alt="" class="header-img"> -->
+              </div>
             </div>
-            <div class="content">
-              <div>{{ item.content }}</div>
-              <div class="indicator"></div>
+            <div :key="'question' + index" class="chat-item question">
+              <div class="header-img-wrapper">
+                <img src="@/assets/images/jqr.png" alt="" class="header-img" />
+              </div>
+              <div class="content">
+                <div v-html="item.question" />
+                <Actions
+                  v-if="item.msgId"
+                  :content="item.question"
+                  class="action-wrapper"
+                  @like="onLike(item)"
+                  @diss="onDiss(item)"
+                />
+                <div class="indicator"></div>
+              </div>
+              <div class="header-img-wrapper"></div>
             </div>
-            <div class="header-img-wrapper">
-              <div v-if="index % 2 === 0" class="self">U</div>
-              <!-- <img v-if="index%2===0" src="./static/images/header-img.jpg" alt="" class="header-img"> -->
-            </div>
-          </div>
+          </template>
           <div v-if="!chatList.length" class="no-message">
             您好，我是LegalGPT
             <br />请问有什么可以帮助到您？
@@ -81,10 +89,20 @@
 <script>
 const maxCount = 20;
 import showToast from "@/utils/toast.js";
+import Actions from "@/components/actions.vue";
+import { likeLaw, dissLaw } from "@/api/request.js";
+const { v4: uuidv4 } = require("uuid");
+// 生成 UUID
+let uuid = localStorage.getItem("uuid");
+if (!uuid) {
+  uuid = uuidv4();
+  localStorage.setItem("uuid", uuid);
+}
+console.log("uuid:", uuid);
 export default {
   name: "law",
   props: {},
-  components: {},
+  components: { Actions },
   data() {
     return {
       // 是否正在返回查询结果
@@ -92,7 +110,13 @@ export default {
       isStop: false,
       searchValue: "",
       // 聊天信息列表
-      chatList: [],
+      chatList: [
+        // {
+        //   id: "12233",
+        //   answer: "",
+        //   question: "",
+        // },
+      ],
       xhr: null,
       answerStatus: "", // stop ing
       answerCount: localStorage.getItem("answerCount")
@@ -107,14 +131,12 @@ export default {
   methods: {
     // 通过sse监听服务端返回的内容
     async getQuestion() {
-      const userId = "c91ed10b-4480-4f0e-9468-85be67c77b99";
-      const url = `https://legal.sco.tudb.work/api/chat?question=${this.searchValue}&userId=${userId}`;
+      const url = `https://legal.sco.tudb.work/api/chat?question=${this.searchValue}&userId=${uuid}`;
       // 输入框清空
       this.searchValue = "";
       this.answerStatus = "ing";
       // 新增一条空白回复
-      const newChatQues = { content: "" };
-      this.chatList.push(newChatQues);
+      const curChat = this.chatList.slice(-1)[0];
       const xhr = new XMLHttpRequest();
       this.xhr = xhr;
       this.answerCount += 1;
@@ -124,23 +146,32 @@ export default {
       xhr.addEventListener("progress", () => {
         let str = xhr.responseText;
         // 发现EOF，就结束链接
-        if (str.includes("<br/>")) {
-          str = str.replace("<br/>", "");
+        if (str.includes("EOF")) {
+          const msgId = xhr.getResponseHeader("x-msgid");
+          curChat.msgId = msgId;
+          str = str.replace("EOF", "");
           xhr.abort();
           this.isQuestionIng = false;
+          this.answerStatus = "";
         }
         // 向回复内容里写值
-        newChatQues.content = str;
+        curChat.question = str;
+        this.chatList.splice(-1, 1, curChat);
         this.scrollBottom();
+      });
+      xhr.addEventListener("error", (error) => {
+        console.log(error);
+        xhr.abort();
+        this.isQuestionIng = false;
       });
     },
     stopQuestion() {
-      this.answerStatus = "stop";
+      this.answerStatus = "";
       this.xhr.abort();
       this.isQuestionIng = false;
     },
     reloadQuestion() {
-      this.searchValue = this.chatList.slice(-2, -1)[0].content;
+      this.searchValue = this.chatList.slice(-1)[0].answer;
       this.onSend();
     },
     onKeydown(e) {
@@ -170,13 +201,25 @@ export default {
       if (this.isQuestionIng) return;
       this.isQuestionIng = true;
       this.chatList.push({
-        content: this.searchValue,
+        answer: this.searchValue,
       });
       this.scrollBottom();
       this.getQuestion();
     },
     getAnswerCount() {
       // const answerCount = localStorage.getItem("answerCount") || 0;
+    },
+    onLike() {
+      likeLaw({
+        msgId: "YevMlIgBBskDWLwj4t7J",
+        userId: uuid,
+      }).then(() => {});
+    },
+    onDiss() {
+      dissLaw({
+        msgId: "YevMlIgBBskDWLwj4t7J",
+        userId: uuid,
+      }).then(() => {});
     },
   },
 };
@@ -259,6 +302,7 @@ export default {
           border-radius: 4px;
           padding: 12px;
           line-height: 26px;
+          min-height: 26px;
           text-align: left;
         }
         &.question {
@@ -274,6 +318,15 @@ export default {
             box-shadow: 0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
               0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
               0 0 20px -8px #74eaff;
+          }
+          .content {
+            position: relative;
+            padding-bottom: 25px !important;
+            .action-wrapper {
+              position: absolute;
+              right: 6px;
+              bottom: 6px;
+            }
           }
         }
         &.answer {

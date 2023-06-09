@@ -20,7 +20,12 @@
 <script>
 export default {
   name: "actions",
-  props: {},
+  props: {
+    content: {
+      type: String,
+      default: "",
+    },
+  },
   components: {},
   data() {
     return {
@@ -34,7 +39,7 @@ export default {
   computed: {},
   methods: {
     onCopy() {
-      const text = this.resultContent;
+      const text = this.content;
 
       const textarea = document.createElement("textarea");
       textarea.value = text;
@@ -47,12 +52,14 @@ export default {
     },
     onLike() {
       this.showLikeAnimat = true;
+      this.$emit("like");
       setTimeout(() => {
         this.showLikeAnimat = false;
       }, 1000);
     },
     onNoLike() {
       this.showNoLikeAnimat = true;
+      this.$emit("diss");
       setTimeout(() => {
         this.showNoLikeAnimat = false;
       }, 1000);
@@ -66,9 +73,10 @@ export default {
 }
 .actions {
   text-align: right;
-  margin-top: 12px;
+  // margin-top: 12px;
   img {
-    margin-left: 12px;
+    margin-left: 8px;
+    width: 20px;
     cursor: pointer;
   }
 }

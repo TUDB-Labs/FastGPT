@@ -8,8 +8,20 @@
       <b-button @click="startBtn">免费1V1咨询</b-button>
     </div>
     <div class="phone banner-content">
-      <h5 class="">
-        <span style="font-style: italic">中科知道</span> <strong>AIGC</strong>
+      <h5 class="" style="">
+        <span style="font-style: italic">中科知道</span>
+
+        <strong
+          ><span
+            style="
+              font-size: 14px;
+              margin: 0 8px;
+              position: relative;
+              top: -4px;
+            "
+            >|</span
+          >AIGC</strong
+        >
       </h5>
       <!-- <img src="@/assets/images/zd_logo.png" class="logo" alt="logo" /> -->
       <h4 class="">

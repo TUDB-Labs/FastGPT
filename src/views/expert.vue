@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { insertSolution } from "@/api/request.js";
+import { insertSolution, insertClickrecord } from "@/api/request.js";
 import showToast from "@/utils/toast.js";
 export default {
   name: "expert",
@@ -77,7 +77,13 @@ export default {
                 content: "已提交，我们会及时联系您",
               });
               //按钮点击记录
-              this.$emit("buttonClick", "提交");
+              let params = {
+                clickedItem: "提交",
+                clickedCookie: this.$cookies.get("token"),
+              };
+              insertClickrecord(params)
+                .then(() => {})
+                .catch(() => {});
             } else {
               showToast(this, {
                 content: res.message,
