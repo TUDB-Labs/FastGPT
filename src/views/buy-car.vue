@@ -1,0 +1,223 @@
+<template>
+  <div class="wrapper">
+    <h4>
+      <img src="@/assets/images/demo2.png" alt="" /> <strong>购车咨询</strong>
+    </h4>
+    <main>
+      <div class="main-content content-width">
+        <div class="submit-wrapper">
+          <input
+            v-model.trim="searchValue"
+            type="text"
+            placeholder="请输入您想了解的购车信息......"
+            maxlength="100"
+            @keydown="onKeydown"
+          />
+          <img
+            src="@/assets/images/send-btn.png"
+            alt="send-img"
+            class="send-img"
+            @click="onSearch"
+          />
+        </div>
+        <div class="recommend-wrapper">
+          <h5>
+            <strong>推荐问题</strong>
+            <span class="refresh" @click="onRefresh"
+              >换一批<img src="@/assets/images/change.png" alt="" />
+            </span>
+          </h5>
+          <div class="recommend-list">
+            <div
+              v-for="(item, index) in recommendList"
+              :key="index"
+              class="recommend-item"
+              @click="onSelectRecommend(item)"
+            >
+              {{ item.name }} 北京市2022年上半年，销量前10的汽车品牌是什么?
+            </div>
+          </div>
+          <p class="sql"><b-button>SQL</b-button></p>
+          <div class="result-wrap">
+            <div class="result-content">{{ resultContent }}</div>
+          </div>
+          <Actions />
+        </div>
+        <div class="tips">
+          本公司不对服务内容与结果的真实性，准确性进行陈述与保证，相关内容亦不能替代特定领域专家意见
+        </div>
+      </div>
+    </main>
+  </div>
+</template>
+
+<script>
+import Actions from "../components/actions.vue";
+export default {
+  name: "buy-car",
+  props: {},
+  components: { Actions },
+  data() {
+    return {
+      searchValue: "",
+      recommendList: [{}, {}, {}, {}],
+      resultContent:
+        "本公司不对服务内容与结果的真实性，准确性进行陈述与保证，相关内容亦不能替代特定领域专家意见",
+    };
+  },
+  created() {},
+  mounted() {},
+  watch: {},
+  computed: {},
+  methods: {
+    onSearch() {},
+    onKeydown() {},
+    onSelectRecommend(item) {
+      console.log(item);
+      this.searchValue = "北京市2022年上半年，销量前10的汽车品牌是什么?";
+      this.onSearch();
+    },
+    onRefresh() {},
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.wrapper {
+  h4 {
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 0;
+    img {
+      width: 56px;
+      margin-right: 12px;
+    }
+  }
+
+  main {
+    background: #f0f0f0;
+    .main-content {
+      margin: 0 auto;
+      padding: 24px 0;
+      .submit-wrapper {
+        height: 50px;
+        // border: 1px solid gray;
+        box-shadow: 0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
+          0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
+          0 0 20px -12px #80808061;
+        overflow: hidden;
+        background: #ffffff;
+        border-radius: 5px;
+        margin-top: 25px;
+        display: flex;
+        input {
+          height: 50px;
+          border: none;
+          width: 100%;
+          background: transparent;
+          color: #000;
+          padding: 0 16px;
+          outline: none;
+          flex: 1;
+        }
+        input::placeholder {
+          color: #666;
+        }
+        .send-img {
+          width: 50px;
+          cursor: pointer;
+        }
+      }
+      .recommend-wrapper {
+        margin-top: 40px;
+        h5 {
+          display: flex;
+          align-items: center;
+          font-size: 24px;
+          margin-bottom: 0;
+        }
+        .refresh {
+          font-size: 14px;
+          height: 30px;
+          line-height: 30px;
+          width: 90px;
+          border-radius: 15px;
+          background: #fff;
+          margin-left: 12px;
+          cursor: pointer;
+          img {
+            width: 16px;
+            margin-left: 6px;
+          }
+        }
+        .recommend-list {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          .recommend-item {
+            width: 49%;
+            padding: 12px;
+            background: #f0f0f0;
+            border: 1px solid #bdbdbd;
+            border-radius: 5px;
+            color: #000;
+            margin-top: 20px;
+            cursor: pointer;
+          }
+        }
+        .result-wrap {
+          height: 479px;
+          background: #ffffff;
+          border: 1px solid #254cd8;
+          border-radius: 5px;
+          position: relative;
+          .result-content {
+            height: 100%;
+            overflow: auto;
+            text-align: left;
+            padding: 12px;
+          }
+        }
+        .sql {
+          // right: 6px;
+          // top: 6px;
+          // position: absolute;
+          text-align: right;
+          button {
+            margin: 40px 0 12px;
+            padding: 6px 24px;
+            line-height: 12px;
+          }
+        }
+      }
+      .tips {
+        color: #717171;
+        font-size: 14px;
+        margin-top: 26px;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .wrapper {
+    main {
+      .main-content {
+        .recommend-wrapper {
+          .recommend-list {
+            .recommend-item {
+              width: 100% !important;
+              line-height: 20px;
+            }
+          }
+          .result-wrap {
+            height: 300px;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
