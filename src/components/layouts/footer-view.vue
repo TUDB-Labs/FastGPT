@@ -7,7 +7,7 @@
       <div class="weixin">
         <img
           src="@/assets/images/new_code.png"
-          style="width: 160px; height: 160px"
+          style="width: 10rem; height: 10rem"
           alt="微信公众号"
         />
         <p class="tips">
@@ -61,7 +61,7 @@ footer {
     .footer-info {
       flex: 1;
       text-align: right;
-      font-size: 14px;
+      font-size: 13px;
     }
   }
 }
@@ -92,7 +92,7 @@ footer {
         margin-top: 12px;
       }
       .tips {
-        font-size: 24px;
+        font-size: 1.6rem;
         color: #fff;
         margin: 16px 0;
         span {

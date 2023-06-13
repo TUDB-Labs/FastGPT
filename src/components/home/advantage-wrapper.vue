@@ -122,7 +122,7 @@ export default {
   background-color: #f3f3f3;
   .middle01-title {
     height: 130px;
-    font-size: 40px;
+    font-size: 2rem;
     font-family: PingFangSC-Semibold;
     text-align: center;
     margin: 0 auto;
@@ -202,7 +202,6 @@ export default {
   .main-middle01 {
     width: 100% !important;
     .middle01-title {
-      font-size: 24px;
       height: 90px;
     }
   }
@@ -242,7 +241,7 @@ export default {
         border-radius: 0 !important;
         padding: 0 0;
         h4 {
-          font-size: 16px;
+          // font-size: 16px;
         }
       }
     }

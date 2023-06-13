@@ -147,8 +147,8 @@ export default {
     showDemoDetail(item) {
       this.$emit("buttonClick", item.title);
       if (item.path) {
-        window.open(window.location.origin + "/" + item.path);
-        // this.$router.push(item.path);
+        const routeUrl = this.$router.resolve(item.path);
+        window.open(routeUrl.href, "_blank");
       } else {
         this.$refs["myModal"].show();
       }
@@ -164,7 +164,7 @@ export default {
     width: 100%;
     height: 80px;
     color: #000;
-    font-size: 40px;
+    font-size: 2rem;
     font-family: PingFangSC-Semibold;
     display: flex;
     justify-content: center;
@@ -199,8 +199,7 @@ export default {
           justify-content: center;
           align-items: center;
           img {
-            width: 140px;
-            height: 140px;
+            width: 7.5rem;
             display: block;
           }
         }
@@ -255,19 +254,14 @@ export default {
     display: none !important;
   }
   .demo-wrapper {
-    .main-tt-title {
-      font-size: 24px;
-    }
     .phone {
       display: block !important;
       .main-card-wrapper {
         width: 100% !important;
         .main-card {
           h4 {
-            font-size: 24px;
           }
           button {
-            font-size: 16px;
           }
         }
       }

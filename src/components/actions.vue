@@ -73,10 +73,9 @@ export default {
 }
 .actions {
   text-align: right;
-  // margin-top: 12px;
   img {
     margin-left: 8px;
-    width: 20px;
+    width: 1.2rem;
     cursor: pointer;
   }
 }

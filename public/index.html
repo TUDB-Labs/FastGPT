@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0;user-scalable=no;">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title>
     中科知道 | AIGC
@@ -12,6 +12,32 @@
   <style>
     .popover-body {
       padding: 12px !important;
+    }
+
+    html {
+      font-size: 12px;
+    }
+
+    @media (min-width: 375px) {
+      html {
+        /* 375px作为16px的基准,414px宽度时正好对应18px的根字号大小 */
+        font-size: calc(12px + 2 * (100vw - 375px) / 39);
+      }
+    }
+
+    /* // 如果设备是414px， 100vw == 414px；根字号为18px */
+    @media (min-width: 414px) {
+      html {
+        /* 414px作为18px的基准,根字号大小累加增加4px （18px - 22px） */
+        font-size: calc(13px + 4 * (100vw - 414px) / 586);
+      }
+    }
+
+    @media (min-width: 1000px) {
+      html {
+        /* 屏幕宽度从1000px往后每增加100px，根字号大小就增加0.5px */
+        font-size: calc(15px + 5 * (100vw - 1000px) / 1000);
+      }
     }
   </style>
 </head>
@@ -23,6 +49,17 @@
   </noscript>
   <div id="app"></div>
   <!-- built files will be auto injected -->
+  <script>
+    document.addEventListener('touchstart', function (event) {
+      if (event.touches.length > 1) {
+        event.preventDefault();
+      }
+    }, { passive: false });
+
+    document.addEventListener('gesturestart', function (event) {
+      event.preventDefault();
+    });
+  </script>
 </body>
 
 </html>

@@ -115,7 +115,7 @@ export default {
 }
 /deep/.pop-content {
   display: flex;
-  font-size: 16px;
+  font-size: 1.33rem;
   img {
     margin-right: 6px;
     width: 20px;
@@ -137,7 +137,7 @@ body,
   color: #fff !important;
   border-radius: 8px;
   padding: 6px 12px;
-  font-size: 18px;
+  font-size: 1.2rem;
   padding: 6px 24px;
   font-weight: 400;
 

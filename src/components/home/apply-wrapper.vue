@@ -1,12 +1,12 @@
 <template>
   <div class="main-middle">
     <div class="middle-title">
-      <h6>
+      <p class="one">
         <strong>AIGC私有化部署已应用于个企业</strong>
-      </h6>
-      <h4>
+      </p>
+      <p>
         <strong>成为优质企业信赖之选</strong>
-      </h4>
+      </p>
     </div>
     <div class="web middle-content content-width">
       <div
@@ -170,12 +170,13 @@ export default {
   padding-bottom: 24px;
   .middle-title {
     height: 220px;
-    font-size: 40px;
+    font-size: 2rem;
     font-family: PingFangSC-Semibold;
     text-align: center;
     margin: 0 auto;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     letter-spacing: 4px;
   }
@@ -218,7 +219,7 @@ export default {
         justify-content: center;
         align-items: center;
         color: #fff;
-        font-size: 16px;
+        font-size: 1rem;
         .right_li {
           margin: 0 6px;
           .image {
@@ -252,6 +253,9 @@ export default {
       display: block;
       height: 150px;
       padding-top: 50px;
+      .one {
+        font-size: 1rem;
+      }
     }
     .phone.middle-content {
       display: block !important;
@@ -275,7 +279,7 @@ export default {
           background: #0f2658;
           border-radius: 0 0 30px 30px;
           margin: 0 5%;
-          font-size: 13px;
+          // font-size: 13px;
           font-weight: bold;
           .right_li {
             img {

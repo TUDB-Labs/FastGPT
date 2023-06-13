@@ -119,16 +119,44 @@ export default {
       ],
       xhr: null,
       answerStatus: "", // stop ing
-      answerCount: localStorage.getItem("answerCount")
-        ? Number(localStorage.getItem("answerCount"))
-        : 0,
+      answerCountInfo: localStorage.getItem("answerCountInfo")
+        ? JSON.parse(localStorage.getItem("answerCountInfo"))
+        : {
+            date: new Date().toLocaleDateString(),
+            num: 0,
+          },
     };
   },
-  created() {},
+  created() {
+    this.getCountInfo();
+  },
   mounted() {},
   watch: {},
   computed: {},
   methods: {
+    getCountInfo() {
+      const str = localStorage.getItem("answerCountInfo");
+      const today = new Date().toLocaleDateString();
+      if (str) {
+        const answerCountInfo = JSON.parse(str);
+        // 如果已经访问过切是今天就不需要重置
+        if (today === answerCountInfo.date) {
+          this.answerCountInfo = answerCountInfo;
+          return;
+        }
+      }
+      this.answerCountInfo = {
+        date: today,
+        num: 0,
+      };
+      this.setCountInfo();
+    },
+    setCountInfo() {
+      localStorage.setItem(
+        "answerCountInfo",
+        JSON.stringify(this.answerCountInfo)
+      );
+    },
     // 通过sse监听服务端返回的内容
     async getQuestion() {
       const url = `https://legal.sco.tudb.work/api/chat?question=${this.searchValue}&userId=${uuid}`;
@@ -139,18 +167,18 @@ export default {
       const curChat = this.chatList.slice(-1)[0];
       const xhr = new XMLHttpRequest();
       this.xhr = xhr;
-      this.answerCount += 1;
-      localStorage.setItem("answerCount", this.answerCount);
+      this.answerCountInfo.num += 1;
+      this.setCountInfo();
       xhr.open("GET", url);
       xhr.send();
       xhr.addEventListener("progress", () => {
         let str = xhr.responseText;
         // 发现EOF，就结束链接
+        console.log(str);
         if (str.includes("EOF")) {
           const msgId = xhr.getResponseHeader("x-msgid");
           curChat.msgId = msgId;
           str = str.replace("EOF", "");
-          xhr.abort();
           this.isQuestionIng = false;
           this.answerStatus = "";
         }
@@ -158,6 +186,7 @@ export default {
         curChat.question = str;
         this.chatList.splice(-1, 1, curChat);
         this.scrollBottom();
+        console.log(this.isQuestionIng);
       });
       xhr.addEventListener("error", (error) => {
         console.log(error);
@@ -190,7 +219,7 @@ export default {
     },
     onSend() {
       // 判断是否超过提问次数
-      if (this.answerCount === maxCount)
+      if (this.answerCountInfo.num === maxCount)
         return showToast(this, {
           content: "您今日的提问次数已达上限20次",
           type: "danger",
@@ -205,9 +234,6 @@ export default {
       });
       this.scrollBottom();
       this.getQuestion();
-    },
-    getAnswerCount() {
-      // const answerCount = localStorage.getItem("answerCount") || 0;
     },
     onLike() {
       likeLaw({
@@ -228,13 +254,13 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   h4 {
-    font-size: 32px;
+    font-size: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 12px 0 12px;
     img {
-      width: 56px;
+      width: 3.2rem;
       margin-right: 12px;
     }
   }
@@ -263,8 +289,8 @@ export default {
     }
     .chat-list {
       // flex: 1;
-      max-height: 500px;
-      min-height: calc(100vh - 472px);
+      height: 300px;
+      height: 300px;
       overflow-y: auto;
       padding: 12px;
       margin-top: 24px;
@@ -286,7 +312,7 @@ export default {
             height: 50px;
             font-weight: bold;
             color: #ffffff;
-            font-size: 24px;
+            font-size: 1.9rem;
             background: #f5b228;
             border-radius: 4px;
             line-height: 50px;
@@ -314,7 +340,7 @@ export default {
             border-right: 10px solid #fff;
             position: absolute;
             left: -8px;
-            top: 16px;
+            top: 1rem;
             box-shadow: 0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
               0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
               0 0 20px -8px #74eaff;
@@ -325,7 +351,7 @@ export default {
             .action-wrapper {
               position: absolute;
               right: 6px;
-              bottom: 6px;
+              bottom: 3px;
             }
           }
         }
@@ -341,7 +367,7 @@ export default {
             border-left: 10px solid #e0dde6;
             position: absolute;
             right: -8px;
-            top: 16px;
+            top: 1rem;
             box-shadow: 0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
               0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
               0 0 20px -8px #74eaff;
@@ -349,62 +375,60 @@ export default {
         }
       }
       .chat-item:not(:first-child) {
-        margin-top: 20px;
+        margin-top: 1.1rem;
       }
     }
     .submit-wrapper {
       position: relative;
-      height: 50px;
+      height: 3rem;
       // border: 1px solid gray;
-      box-shadow: 0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
-        0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
-        0 0 20px -12px #80808061;
       overflow: hidden;
       background: #ffffff;
       border-radius: 5px;
       margin-top: 25px;
       input {
-        height: 50px;
+        height: 3rem;
         border: none;
         width: 100%;
         background: transparent;
         color: #000;
-        padding: 0 16px;
+        padding: 0 1rem;
         outline: none;
+        box-shadow: 0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
+          0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
+          0 0 20px -12px #80808061;
       }
       input::placeholder {
         color: #666;
       }
       .send-img {
         position: absolute;
-        width: 27px;
-        right: 15px;
-        top: 13px;
+        width: 1.5rem;
+        right: 0.9rem;
+        top: 0.7rem;
         cursor: pointer;
       }
       .send-btn {
         color: #fff;
         position: absolute;
-        width: 27px;
-        height: 27px;
-        right: 15px;
-        top: 17px;
+        width: 3rem;
+        height: 3rem;
+        right: 0.5rem;
+        top: 0;
         cursor: not-allowed;
         .loading {
           display: inline-block;
           position: relative;
-          width: 27px;
-          height: 27px;
-          top: -3px;
+          width: 3rem;
+          height: 3rem;
           span {
             position: absolute;
-            top: 0;
+            top: 1.25rem;
             background-color: #000;
-            width: 8px;
-            height: 8px;
+            width: 0.5rem;
+            height: 0.5rem;
             border-radius: 50%;
             animation: loading 1.2s infinite ease-in-out;
-            margin-top: 8px;
           }
           span:nth-child(1) {
             left: 0;
@@ -437,8 +461,8 @@ export default {
     }
     .tips {
       color: #717171;
-      font-size: 14px;
-      padding: 26px 0;
+      font-size: 13px;
+      padding: 26px 1rem;
     }
     .no-message {
       position: absolute;
@@ -446,7 +470,7 @@ export default {
       left: 50%;
       width: 100%;
       transform: translate(-50%, -50%);
-      font-size: 32px;
+      font-size: 1.4rem;
       font-weight: bold;
     }
   }
@@ -459,13 +483,27 @@ export default {
       }
       .chat-list {
         // min-height: 300px;
-        .content {
-          font-size: 13px;
-          line-height: 20px !important;
+        padding: 0;
+        .chat-item {
+          .header-img-wrapper {
+            width: 3rem;
+            height: 3rem;
+            .header-img {
+              width: 3rem;
+              height: 3rem;
+            }
+            .self {
+              width: 3rem;
+              height: 3rem;
+              line-height: 3rem;
+            }
+          }
+          .content {
+            margin: 0 1.3rem;
+            font-size: 13px;
+            line-height: 20px !important;
+          }
         }
-      }
-      .no-message {
-        font-size: 24px;
       }
     }
   }

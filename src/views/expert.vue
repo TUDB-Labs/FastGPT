@@ -118,7 +118,7 @@ export default {
     }
   }
   .content {
-    padding: 50px 0 100px;
+    padding: 3rem 0 6rem;
     .form {
       width: 60%;
       margin: 0 auto;
@@ -137,6 +137,7 @@ export default {
           color: #4f4f4f;
           img {
             margin-right: 6px;
+            width: 1.2rem;
           }
         }
         input {
@@ -182,6 +183,26 @@ export default {
   }
   button {
     width: 120px;
+  }
+}
+
+@media (max-width: 767px) {
+  .wrapper {
+    h1 {
+      font-size: 2rem;
+      background-position-x: 40%;
+      background-size: 100% 100%;
+      background-size: cover;
+      width: 100% !important;
+    }
+    .content {
+      .form {
+        width: 90%;
+        .form-item {
+          flex-direction: column;
+        }
+      }
+    }
   }
 }
 </style>

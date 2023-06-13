@@ -60,12 +60,12 @@ export default {
 
 <style lang="less" scoped>
 header {
-  height: 62px;
+  height: 5rem;
   color: #000;
   text-align: center;
 }
 .flex-row {
-  height: 62px;
+  height: 5rem;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -82,8 +82,7 @@ header {
 button.fllow {
   background: rgb(26 41 82);
   border-color: rgb(26 41 82);
-  height: 36px;
-  font-size: 16px;
+  font-size: 1rem;
   padding: 6px 12px;
 }
 

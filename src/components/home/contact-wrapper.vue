@@ -116,7 +116,7 @@ export default {
       }
     }
     .imgDesc {
-      font-size: 36px;
+      font-size: 2.1rem;
       font-family: PingFangSC-Semibold;
       text-align: right;
       span {
@@ -203,7 +203,7 @@ export default {
       }
       .imgDesc {
         margin-top: 6px;
-        font-size: 24px;
+        font-size: 1.8rem;
         text-align: center;
       }
     }
@@ -216,7 +216,7 @@ export default {
     .submit-btn {
       text-align: center !important;
       button {
-        font-size: 16px;
+        font-size: 1.2rem;
       }
     }
   }

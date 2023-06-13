@@ -1,20 +1,20 @@
 <template>
   <div class="banner-wrapper content-width">
     <div class="web banner-content">
-      <p class="" style="font-size: 36px; line-height: 40px">
+      <p class="" style="font-size: 2.2rem; line-height: 40px">
         <strong>AIGC<br />企业私有化部署方案</strong>
       </p>
       <p style="margin: 24px 0 60px"><strong>高安全，低成本，可定制</strong></p>
       <b-button @click="startBtn">免费1V1咨询</b-button>
     </div>
     <div class="phone banner-content">
-      <h5 class="" style="">
+      <h3 class="" style="">
         <span style="font-style: italic">中科知道</span>
 
         <strong
           ><span
             style="
-              font-size: 14px;
+              font-size: 1.3rem;
               margin: 0 8px;
               position: relative;
               top: -4px;
@@ -22,12 +22,12 @@
             >|</span
           >AIGC</strong
         >
-      </h5>
+      </h3>
       <!-- <img src="@/assets/images/zd_logo.png" class="logo" alt="logo" /> -->
-      <h4 class="">
+      <h4 class="" style="font-size: 2.3rem">
         <strong>AIGC企业私有化<br />部署方案</strong>
       </h4>
-      <h5 class="">高安全，低成本，可定制</h5>
+      <h4 class="">高安全，低成本，可定制</h4>
       <b-button @click="startBtn"><strong>免费1V1咨询</strong></b-button>
     </div>
   </div>
@@ -71,22 +71,7 @@ export default {
     padding: 60px 40px;
     text-align: left;
     button {
-      font-size: 24px;
       height: 50px;
-    }
-    .text-wrapper_1 {
-      display: inline-block;
-      height: 48px;
-      margin-top: 60px;
-      width: 120px;
-      color: #fff;
-      font-size: 18px;
-      font-family: PingFangSC-Medium;
-      font-weight: 500;
-      text-align: center;
-      line-height: 48px;
-      background-color: #396fff;
-      border-radius: 6px;
     }
     a {
       color: #1890ff;
@@ -127,13 +112,6 @@ export default {
       .logo {
         margin: 30px 0;
       }
-      .text_1 {
-        font-size: 24px;
-        margin-bottom: 0;
-        br {
-          display: none;
-        }
-      }
       h4 {
         color: #fff;
         margin: 24px 0;
@@ -142,7 +120,7 @@ export default {
         position: absolute;
         width: 273px;
         bottom: 24px;
-        font-size: 20px;
+        font-size: 1.3rem;
         height: 42px;
         left: 50%;
         transform: translateX(-50%);

@@ -85,13 +85,13 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   h4 {
-    font-size: 32px;
+    font-size: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 12px 0;
     img {
-      width: 56px;
+      width: 3.2rem;
       margin-right: 12px;
     }
   }
@@ -100,20 +100,17 @@ export default {
     background: #f0f0f0;
     .main-content {
       margin: 0 auto;
-      padding: 24px 0;
+      padding: 1.5rem 0;
       .submit-wrapper {
-        height: 50px;
+        height: 3rem;
         // border: 1px solid gray;
-        box-shadow: 0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
-          0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
-          0 0 20px -12px #80808061;
         overflow: hidden;
         background: #ffffff;
         border-radius: 5px;
-        margin-top: 25px;
+        margin-top: 1.5rem;
         display: flex;
         input {
-          height: 50px;
+          height: 3rem;
           border: none;
           width: 100%;
           background: transparent;
@@ -121,21 +118,24 @@ export default {
           padding: 0 16px;
           outline: none;
           flex: 1;
+          box-shadow: 0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
+            0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
+            0 0 20px -12px #80808061;
         }
         input::placeholder {
           color: #666;
         }
         .send-img {
-          width: 50px;
+          width: 3rem;
           cursor: pointer;
         }
       }
       .recommend-wrapper {
-        margin-top: 40px;
+        margin-top: 2.2rem;
         h5 {
           display: flex;
           align-items: center;
-          font-size: 24px;
+          font-size: 1.7rem;
           margin-bottom: 0;
         }
         .refresh {
@@ -158,13 +158,15 @@ export default {
           justify-content: space-between;
           .recommend-item {
             width: 49%;
-            padding: 12px;
+            padding: 0.8rem 0.6rem;
             background: #f0f0f0;
             border: 1px solid #bdbdbd;
             border-radius: 5px;
             color: #000;
-            margin-top: 20px;
+            margin-top: 1.3rem;
             cursor: pointer;
+            text-align: left;
+            line-height: 1.2rem;
           }
         }
         .result-wrap {
@@ -186,7 +188,7 @@ export default {
           // position: absolute;
           text-align: right;
           button {
-            margin: 40px 0 12px;
+            margin: 2.4rem 0 12px;
             padding: 6px 24px;
             line-height: 12px;
           }
@@ -209,7 +211,7 @@ export default {
           .recommend-list {
             .recommend-item {
               width: 100% !important;
-              line-height: 20px;
+              // line-height: 20px;
             }
           }
           .result-wrap {
