@@ -1,7 +1,16 @@
 import * as interceptor from './interceptor.js'
 
-const baseUrl = 'http://aios.sco.tudb.work/api/aiso'
-const lawBaseUrl = 'https://legal.sco.tudb.work'
+// 官网基础接口 pv
+let baseUrl = ''
+// 法律咨詢
+let lawBaseUrl = 'https://legal.sco.tudb.work'
+
+if (process.env.NODE_ENV === 'development') {
+  // 官网基础接口 pv
+  baseUrl = 'http://aios.sco.tudb.work/api/aiso'
+  // 法律咨詢
+  // lawBaseUrl = 'https://legal.sco.tudb.work'
+}
 
 export const getIp = () => {
   const url = "https://api.ipify.org?format=json";
