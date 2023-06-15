@@ -13,7 +13,7 @@
           <input
             type="text"
             v-model="formData.phoneNumber"
-            placeholder="请输入您的电话或邮箱 (必填)"
+            placeholder="请输入您的电话或邮箱(必填)"
           />
         </p>
         <p class="form-item">

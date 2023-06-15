@@ -20,7 +20,7 @@
         <div class="input-wrapper">
           <input
             v-model="formData.phoneNumber"
-            placeholder="请输入您的电话或邮箱 (必填)"
+            placeholder="请输入您的电话或邮箱(必填)"
             type="text"
           />
         </div>

@@ -23,7 +23,7 @@
         </div>
         <div class="count-wrapper">
           <img
-            src="https://cdn.tudb.work/aios/web/images/delete.png"
+            src="@/assets/images/delete.png"
             alt="clear"
             @click="searchValue = ''"
           />

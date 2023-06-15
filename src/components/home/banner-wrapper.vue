@@ -4,7 +4,9 @@
       <p class="" style="font-size: 2.2rem; line-height: 40px">
         <strong>AIGC企业私有化部署方案</strong>
       </p>
-      <p style="margin: 24px 0 60px"><strong>高安全，低成本，可定制</strong></p>
+      <p style="margin: 1.5rem 0 6rem">
+        <strong>高安全，低成本，可定制</strong>
+      </p>
       <b-button @click="startBtn">免费1V1咨询</b-button>
     </div>
     <div class="phone banner-content">
@@ -68,7 +70,7 @@ export default {
     overflow: hidden;
     background-size: 100% 100%;
     border-radius: 20px;
-    padding: 60px 40px;
+    padding: 5rem 40px 3rem;
     text-align: left;
     button {
       height: 50px;

@@ -131,7 +131,7 @@ export default {
         {
           img: "https://cdn.tudb.work/aios/web/images/demo3.png",
           title: "虚拟数字人",
-          desc: "为企业/院校/个人提供虚拟人技术解决方案，并将其应用于多种场景，如：企业宣传，知识讲解，直播间互动等。",
+          desc: "为企业/院校/个人提供虚拟人技术解决方案，并将其应用于多种场景，如：企业宣传，知识讲解，直播间互动等",
           demoName: "",
           hopeCon: "敬请期待!",
           visible: false,

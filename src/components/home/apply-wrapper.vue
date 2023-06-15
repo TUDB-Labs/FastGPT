@@ -2,7 +2,7 @@
   <div class="main-middle">
     <div class="middle-title">
       <p class="one">
-        <strong>AIGC私有化部署已应用于个企业</strong>
+        <strong>AIGC私有化部署已应用于多个企业</strong>
       </p>
       <p>
         <strong>成为优质企业信赖之选</strong>
@@ -115,7 +115,7 @@ export default {
         {
           leftImg: "https://cdn.tudb.work/aios/web/images/data.png",
           title: "数据分析",
-          desc: "保证企业数据全生命周期安全性，支持个性化数据分析，让企业对数据应用更灵活，更自在，更信任。",
+          desc: "保证企业数据全生命周期安全性，支持个性化数据分析，让企业对数据应用更灵活，更自主，更信任",
           rightList: [
             {
               img: "https://cdn.tudb.work/aios/web/images/data_01.png",
@@ -130,7 +130,7 @@ export default {
         {
           leftImg: "https://cdn.tudb.work/aios/web/images/work.png",
           title: "办公助手",
-          desc: "从海量文本中，归纳核心内容，提取结构化信息，帮助企业高效挖掘文本价值，构建个性化知识库。",
+          desc: "从海量文本中，归纳核心内容，提取结构化信息，帮助企业高效挖掘文本价值，构建个性化知识库",
           rightList: [
             {
               img: "https://cdn.tudb.work/aios/web/images/work_01.png",
