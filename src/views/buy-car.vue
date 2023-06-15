@@ -42,7 +42,7 @@
               class="recommend-item"
               @click="onSelectRecommend(item)"
             >
-              {{ item.name }} 北京市2022年上半年，销量前10的汽车品牌是什么?
+              {{ item.content }}
             </div>
           </div>
           <p class="sql"><b-button>SQL</b-button></p>
@@ -68,7 +68,12 @@ export default {
   data() {
     return {
       searchValue: "",
-      recommendList: [{}, {}, {}, {}],
+      recommendList: [
+        { content: "今年新上市的奔驰SUV有哪些？" },
+        { content: "续航大于700公里的电动车有哪些？" },
+        { content: "2023年上市的20万-30万的四驱车型有哪些？" },
+        { content: "查询2023年上市的长度大于5米的电动车" },
+      ],
       resultContent: "",
     };
   },
