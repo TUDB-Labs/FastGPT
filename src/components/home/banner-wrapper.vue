@@ -2,7 +2,7 @@
   <div class="banner-wrapper content-width">
     <div class="web banner-content">
       <p class="" style="font-size: 2.2rem; line-height: 40px">
-        <strong>AIGC<br />企业私有化部署方案</strong>
+        <strong>AIGC企业私有化部署方案</strong>
       </p>
       <p style="margin: 24px 0 60px"><strong>高安全，低成本，可定制</strong></p>
       <b-button @click="startBtn">免费1V1咨询</b-button>

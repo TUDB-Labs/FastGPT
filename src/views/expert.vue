@@ -106,10 +106,10 @@ export default {
   h1 {
     background: url(../assets/images/zjzx.png);
     background-size: 100% 100%;
-    height: 400px;
+    height: 12rem;
     color: #fff;
-    margin: 24px auto 0;
-    border-radius: 24px;
+    margin: 0 auto 0;
+    border-radius: 16px;
     position: relative;
     strong {
       position: absolute;
@@ -118,7 +118,7 @@ export default {
     }
   }
   .content {
-    padding: 3rem 0 6rem;
+    padding: 3rem 0 4rem;
     .form {
       width: 60%;
       margin: 0 auto;
@@ -160,11 +160,11 @@ export default {
       .percent {
         position: absolute;
         right: 0;
-        bottom: -30px;
+        bottom: -1.4rem;
       }
     }
     .action {
-      margin-top: 50px;
+      margin-top: 3rem;
       .back {
         margin-left: 24px;
         background: transparent;
@@ -194,6 +194,7 @@ export default {
       background-size: 100% 100%;
       background-size: cover;
       width: 100% !important;
+      border-radius: 0;
     }
     .content {
       .form {

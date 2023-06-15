@@ -1,5 +1,5 @@
 <template>
-  <div class="main-middle01 content-width">
+  <div class="main-middle01">
     <h4 class="middle01-title"><strong>我们的优势</strong></h4>
     <div class="web middle01-content">
       <div
@@ -69,35 +69,35 @@ export default {
           lineImg: require("../../assets/images/advant1_02.png"),
           rightImg: require("../../assets/images/advant1_03.png"),
           title: "完善的定制化模型解决方案",
-          desc: "开源大模型数量众多，各模型的适用场景，配置要求及模型缺陷差异很大，中科知道已通过近一年的测试，形成了完善的定制化模型解决方案。",
+          desc: "开源大模型数量众多，各模型的适用场景，配置要求及模型缺陷差异很大，中科知道通过近一年的测试，形成了完善的定制化模型解决方案",
         },
         {
           leftImg: require("../../assets/images/advant2_01.png"),
           lineImg: require("../../assets/images/advant2_02.png"),
           rightImg: require("../../assets/images/advant2_03.png"),
-          title: "知识蒸馏降低训练成本",
-          desc: "通过通用大模型知识蒸馏，收集海量对话语料，为客户有效降低训练成本，中科知道定制化模型解决方案可达到ChatGPT 90%以上的能力。",
+          title: "与知识图谱结合，有效提升模型可控性",
+          desc: "将垂直领域知识图谱与大模型技术相结合，有效保留大模型能力，降低概率模型带来的不确定性，实现了专业领域中AIGC的真正商业化",
         },
         {
           leftImg: require("../../assets/images/advant3_01.png"),
           lineImg: require("../../assets/images/advant3_02.png"),
           rightImg: require("../../assets/images/advant3_03.png"),
-          title: "自研AIOS技术有效降低配置成本",
-          desc: "通过自研AIOS技术，使用较低配置的显卡来解决模型训练算力不足的问题，有效降低成本，中科知道的解决方案较市场可参考方案硬件成本低75%以上。",
+          title: "知识蒸馏降低训练成本",
+          desc: "通过通用大模型知识蒸馏，收集海量对话语料，为客户有效降低模型训练成本，中科知道定制化模型在细分领域准确率可达到90%",
         },
         {
           leftImg: require("../../assets/images/advant4_01.png"),
           lineImg: require("../../assets/images/advant4_02.png"),
           rightImg: require("../../assets/images/advant4_03.png"),
-          title: "有效控制大模型「胡说八道」",
-          desc: "长期自研的图数据库技术与大模型技术相结合，有效保留大模型生成能力，遏制「胡说八道」的情形，实现了专业领域中AIGC的真正商业化。",
+          title: "自研AIOS技术有效降低配置成本",
+          desc: "通过自研AIOS技术，使用较低配置的显卡来解决算力不足的问题，有效降低中小企业大模型私有化部署硬件成本60%-80%",
         },
         {
           leftImg: require("../../assets/images/advant5_01.png"),
           lineImg: require("../../assets/images/advant5_02.png"),
           rightImg: require("../../assets/images/advant5_03.png"),
-          title: "产品已得到行业真实验证",
-          desc: "提供企业私有化部署方案，确保客户数据安全，已将大模型技术应用于烟草、大宗商品、医美等领域，产品已得到客户验证，已形成熟的中文训练大模型私有化部署方案。",
+          title: "拥有领域顶尖技术专家",
+          desc: "国际化的大模型专家团队与国内经验丰富的商业化运营团队携手推进大模型私有化部署，充分保障方案的商业化能力",
         },
       ],
     };
@@ -120,6 +120,7 @@ export default {
   // height: 1100px;
   margin: 40px auto 0;
   background-color: #f3f3f3;
+  padding: 0 15% 16px;
   .middle01-title {
     height: 130px;
     font-size: 2rem;
@@ -152,8 +153,8 @@ export default {
         width: 15%;
       }
       .middle01_r {
-        width: 74%;
-        padding: 24px 0;
+        // width: 74%;
+        padding: 24px 1.5rem;
         // height: 100%;
         background-color: #fff;
         border-radius: 20px;
@@ -163,17 +164,21 @@ export default {
         text-align: left;
         transition: all 0.5s;
         .left_img {
-          width: 12%;
+          // width: 12%;
           border-radius: 50%;
           img {
             display: block;
-            width: 100px;
-            height: 100px;
+            width: 5rem;
+            height: 5rem;
             border-radius: 50%;
           }
         }
         .left_con {
-          width: 65%;
+          // width: 65%;
+          margin-left: 1rem;
+          h4 {
+            margin-bottom: 0.8rem;
+          }
         }
       }
     }
@@ -200,7 +205,7 @@ export default {
     display: none !important;
   }
   .main-middle01 {
-    width: 100% !important;
+    padding: 0 0% 16px;
     .middle01-title {
       height: 90px;
     }

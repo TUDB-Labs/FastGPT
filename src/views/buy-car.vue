@@ -20,6 +20,14 @@
             @click="onSearch"
           />
         </div>
+        <div class="count-wrapper">
+          <img
+            src="@/assets/images/delete.png"
+            alt="clear"
+            @click="searchValue = ''"
+          />
+          {{ searchValue.length }} / 100
+        </div>
         <div class="recommend-wrapper">
           <h5>
             <strong>推荐问题</strong>
@@ -61,8 +69,7 @@ export default {
     return {
       searchValue: "",
       recommendList: [{}, {}, {}, {}],
-      resultContent:
-        "本公司不对服务内容与结果的真实性，准确性进行陈述与保证，相关内容亦不能替代特定领域专家意见",
+      resultContent: "",
     };
   },
   created() {},
@@ -89,7 +96,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 0;
+    padding: 0 0 12px;
     img {
       width: 3.2rem;
       margin-right: 12px;
@@ -130,8 +137,18 @@ export default {
           cursor: pointer;
         }
       }
+      .count-wrapper {
+        align-items: center;
+        justify-content: flex-end;
+        display: flex;
+        font-size: 14px;
+        margin-top: 6px;
+        img {
+          margin-right: 6px;
+        }
+      }
       .recommend-wrapper {
-        margin-top: 2.2rem;
+        margin-top: 2rem;
         h5 {
           display: flex;
           align-items: center;
@@ -188,8 +205,8 @@ export default {
           // position: absolute;
           text-align: right;
           button {
-            margin: 2.4rem 0 12px;
-            padding: 6px 24px;
+            margin: 2.4rem 0 0.5rem;
+            padding: 6px 12px;
             line-height: 12px;
           }
         }
@@ -205,6 +222,9 @@ export default {
 
 @media (max-width: 767px) {
   .wrapper {
+    h4 {
+      padding: 12px 0;
+    }
     main {
       .main-content {
         .recommend-wrapper {

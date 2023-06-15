@@ -17,8 +17,8 @@
           <img src="@/assets/images/phone-2.png" alt="微信公众号" />
           <div>
             <p style=""><strong>联系销售</strong></p>
-            <p @click="gotel('010-87968357')">010-87968357</p>
-            <p @click="gotel('010-69835689')">010-69835689</p>
+            <p @click="gotel('010-64998301')">010-64998301</p>
+            <!-- <p @click="gotel('010-69835689')">010-69835689</p> -->
           </div>
         </div>
       </b-popover>
@@ -97,7 +97,7 @@ export default {
   position: fixed;
   top: 75%;
   right: 12px;
-  z-index: 9999;
+  z-index: 1000;
   .item {
     width: 45px;
     height: 45px;
@@ -118,8 +118,9 @@ export default {
   font-size: 1.33rem;
   img {
     margin-right: 6px;
-    width: 20px;
-    height: 20px;
+    width: 1.9rem;
+    height: 1.9rem;
+    padding-top: 5px;
   }
 }
 body,
@@ -137,8 +138,8 @@ body,
   color: #fff !important;
   border-radius: 8px;
   padding: 6px 12px;
-  font-size: 1.2rem;
-  padding: 6px 24px;
+  font-size: 1rem;
+  // padding: 6px 24px;
   font-weight: 400;
 
   &:hover {

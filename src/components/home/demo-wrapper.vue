@@ -1,7 +1,7 @@
 <template>
   <div class="demo-wrapper content-width">
     <div class="main-tt-title">
-      <strong><span>AIGC</span> &nbsp;&nbsp; DEMO体验</strong>
+      <strong><span>AIGC</span> &nbsp;DEMO体验</strong>
     </div>
     <div class="phone main-tt-content">
       <b-carousel
@@ -71,11 +71,21 @@
         </div>
       </div>
     </div>
-    <b-modal ref="myModal" size="xl" centered hide-footer title="虚拟数字人">
+    <b-modal
+      ref="myModal"
+      size="xl"
+      id="modal-scoped"
+      centered
+      hide-header
+      hide-footer
+      title=""
+      class="fill-screen"
+    >
       <video
         src="@/assets/videos/mda-pev2xxh4zfm95tx7.mp4"
         autoplay
         muted
+        controls
         loop
         style="width: 100%"
       ></video>
@@ -103,7 +113,7 @@ export default {
         {
           img: require("../../assets/images/demo1.png"),
           title: "法律咨询",
-          desc: "根据您的具体情况，提供专业法律咨询服务，回答企业和个人都关心的法律问题。",
+          desc: "根据您的具体情况，提供专业法律咨询服务，回答企业和个人都关心的法律问题",
           demoName: "",
           hopeCon: "敬请期待!",
           visible: false,
@@ -112,7 +122,7 @@ export default {
         {
           img: require("../../assets/images/demo2.png"),
           title: "购车攻略",
-          desc: "帮助您全面了解不同车型的价格，配置，优缺点等，为您的购车体验保驾护航。",
+          desc: "帮助您全面了解不同车型的价格，配置，优缺点等，为您的购车体验保驾护航",
           demoName: "",
           hopeCon: "敬请期待!",
           visible: false,
@@ -162,7 +172,7 @@ export default {
   margin: 0 auto;
   .main-tt-title {
     width: 100%;
-    height: 80px;
+    height: 8rem;
     color: #000;
     font-size: 2rem;
     font-family: PingFangSC-Semibold;

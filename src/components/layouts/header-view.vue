@@ -60,12 +60,12 @@ export default {
 
 <style lang="less" scoped>
 header {
-  height: 5rem;
+  height: 4rem;
   color: #000;
   text-align: center;
 }
 .flex-row {
-  height: 5rem;
+  height: 4rem;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;

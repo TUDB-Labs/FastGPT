@@ -6,6 +6,16 @@
     <main class="">
       <div class="main-content">
         <div ref="chatList" class="chat-list">
+          <div class="chat-item question first">
+            <div class="header-img-wrapper">
+              <img src="@/assets/images/jqr.png" alt="" class="header-img" />
+            </div>
+            <div class="content">
+              <div>您好，我是LegalGPT请问有什么可以帮助到您？</div>
+              <div class="indicator"></div>
+            </div>
+            <div class="header-img-wrapper"></div>
+          </div>
           <template v-for="(item, index) in chatList">
             <!-- answer -->
             <div :key="'answer' + index" class="chat-item answer">
@@ -37,10 +47,10 @@
               <div class="header-img-wrapper"></div>
             </div>
           </template>
-          <div v-if="!chatList.length" class="no-message">
+          <!-- <div v-if="!chatList.length" class="no-message">
             您好，我是LegalGPT
             <br />请问有什么可以帮助到您？
-          </div>
+          </div> -->
         </div>
         <p
           v-if="answerStatus === 'ing'"
@@ -186,7 +196,7 @@ export default {
         curChat.question = str;
         this.chatList.splice(-1, 1, curChat);
         this.scrollBottom();
-        console.log(this.isQuestionIng);
+        console.log(this.chatList);
       });
       xhr.addEventListener("error", (error) => {
         console.log(error);
@@ -195,7 +205,7 @@ export default {
       });
     },
     stopQuestion() {
-      this.answerStatus = "";
+      this.answerStatus = "stop";
       this.xhr.abort();
       this.isQuestionIng = false;
     },
@@ -258,7 +268,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 0 12px;
+    padding: 0 0 12px;
     img {
       width: 3.2rem;
       margin-right: 12px;
@@ -269,7 +279,7 @@ export default {
     .main-content {
       margin: 0 auto;
       // height: calc(100vh - 387px);
-      width: 50%;
+      width: 70%;
       display: flex;
       flex-direction: column;
       .stop-wrapper {
@@ -289,12 +299,16 @@ export default {
     }
     .chat-list {
       // flex: 1;
-      height: 300px;
-      height: 300px;
+      height: 450px;
       overflow-y: auto;
       padding: 12px;
       margin-top: 24px;
       position: relative;
+      .first {
+        .content {
+          padding-bottom: 12px !important;
+        }
+      }
       .chat-item {
         display: flex;
         position: relative;
@@ -347,7 +361,10 @@ export default {
           }
           .content {
             position: relative;
-            padding-bottom: 25px !important;
+            // padding-bottom: 25px !important;
+            &:not(:first-child) {
+              padding-bottom: 25px !important;
+            }
             .action-wrapper {
               position: absolute;
               right: 6px;
@@ -477,6 +494,9 @@ export default {
 }
 @media (max-width: 767px) {
   .wrapper {
+    h4 {
+      padding: 12px 0 12px;
+    }
     main {
       .main-content {
         width: 90%;

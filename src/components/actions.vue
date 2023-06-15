@@ -1,6 +1,6 @@
 <template>
   <p class="actions">
-    <img src="@/assets/images/copy.png" alt="copy" @click="onCopy" />
+    <!-- <img src="@/assets/images/copy.png" alt="copy" @click="onCopy" /> -->
     <img
       class=""
       :class="[showLikeAnimat ? 'like-button' : null]"
@@ -9,9 +9,9 @@
       @click="onLike"
     />
     <img
-      src="@/assets/images/no-like.png"
-      :class="[showNoLikeAnimat ? 'no-like-button' : null]"
-      alt="no-like"
+      src="@/assets/images/diss.png"
+      :class="[showNoLikeAnimat ? 'diss-button' : null]"
+      alt="diss"
       @click="onNoLike"
     />
   </p>
@@ -97,7 +97,7 @@ export default {
   animation-duration: 1s;
   animation-timing-function: ease-out;
 }
-.no-like-button {
+.diss-button {
   animation-name: like;
   animation-duration: 1s;
   animation-timing-function: ease-out;

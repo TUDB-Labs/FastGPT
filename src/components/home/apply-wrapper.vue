@@ -60,9 +60,9 @@
             <img :src="item.leftImg" :alt="item.title" />
           </div>
           <div class="left_con">
-            <h6>
+            <h4>
               <strong>{{ item.title }}</strong>
-            </h6>
+            </h4>
             <p class="text_desc">{{ item.desc }}</p>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default {
         {
           leftImg: require("../../assets/images/ai.png"),
           title: "智能客服",
-          desc: "AIGC私有化部署，让企业更好的利用内部数据和知识库，提高智能客服的回答质量和满意度。",
+          desc: "AIGC私有化部署，让企业更好的利用内部数据和知识库，提高智能客服的回答质量和满意度",
           rightList: [
             {
               img: require("../../assets/images/ai_01.png"),
@@ -171,7 +171,6 @@ export default {
   .middle-title {
     height: 220px;
     font-size: 2rem;
-    font-family: PingFangSC-Semibold;
     text-align: center;
     margin: 0 auto;
     display: flex;
@@ -254,7 +253,7 @@ export default {
       height: 150px;
       padding-top: 50px;
       .one {
-        font-size: 1rem;
+        font-size: 1.2rem;
       }
     }
     .phone.middle-content {
@@ -272,6 +271,10 @@ export default {
             img {
               width: 50px;
             }
+          }
+          h4 {
+            font-size: 1.4rem;
+            // font-size: 2rem !important;
           }
         }
         .middle_right {
