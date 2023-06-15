@@ -2,11 +2,14 @@
   <footer>
     <div class="content content-width">
       <div class="logo">
-        <img src="@/assets/images/zd_logo.png" alt="logo" />
+        <img
+          src="https://cdn.tudb.work/aios/web/images/zd_logo.png"
+          alt="logo"
+        />
       </div>
       <div class="weixin">
         <img
-          src="@/assets/images/new_code.png"
+          src="https://cdn.tudb.work/aios/web/images/new_code.png"
           style="width: 10rem; height: 10rem"
           alt="微信公众号"
         />

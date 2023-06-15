@@ -7,14 +7,23 @@
     <FooterView />
     <div v-if="isShowGoTop" class="go-top">
       <div id="popover-target-top" class="item">
-        <img src="@/assets/images/phone-1.png" alt="phone1" />
+        <img
+          src="https://cdn.tudb.work/aios/web/images/phone-1.png"
+          alt="phone1"
+        />
       </div>
       <div class="item" @click="goTop">
-        <img src="@/assets/images/go-top.png" alt="go-top" />
+        <img
+          src="https://cdn.tudb.work/aios/web/images/go-top.png"
+          alt="go-top"
+        />
       </div>
       <b-popover target="popover-target-top" triggers="hover" placement="left">
         <div class="pop-content">
-          <img src="@/assets/images/phone-2.png" alt="微信公众号" />
+          <img
+            src="https://cdn.tudb.work/aios/web/images/phone-2.png"
+            alt="微信公众号"
+          />
           <div>
             <p style=""><strong>联系销售</strong></p>
             <p @click="gotel('010-64998301')">010-64998301</p>

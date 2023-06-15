@@ -82,7 +82,7 @@
       class="fill-screen"
     >
       <video
-        src="@/assets/videos/mda-pev2xxh4zfm95tx7.mp4"
+        src="https://cdn.tudb.work/aios/web/images/virtual-demo.mp4"
         autoplay
         muted
         controls
@@ -111,7 +111,7 @@ export default {
       //demo
       demoList: [
         {
-          img: require("../../assets/images/demo1.png"),
+          img: "https://cdn.tudb.work/aios/web/images/demo1.png",
           title: "法律咨询",
           desc: "根据您的具体情况，提供专业法律咨询服务，回答企业和个人都关心的法律问题",
           demoName: "",
@@ -120,7 +120,7 @@ export default {
           path: "law",
         },
         {
-          img: require("../../assets/images/demo2.png"),
+          img: "https://cdn.tudb.work/aios/web/images/demo2.png",
           title: "购车攻略",
           desc: "帮助您全面了解不同车型的价格，配置，优缺点等，为您的购车体验保驾护航",
           demoName: "",
@@ -129,7 +129,7 @@ export default {
           path: "buy-car",
         },
         {
-          img: require("../../assets/images/demo3.png"),
+          img: "https://cdn.tudb.work/aios/web/images/demo3.png",
           title: "虚拟数字人",
           desc: "为企业/院校/个人提供虚拟人技术解决方案，并将其应用于多种场景，如：企业宣传，知识讲解，直播间互动等。",
           demoName: "",

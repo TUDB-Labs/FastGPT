@@ -23,7 +23,7 @@
           >AIGC</strong
         >
       </h3>
-      <!-- <img src="@/assets/images/zd_logo.png" class="logo" alt="logo" /> -->
+      <!-- <img src="https://cdn.tudb.work/aios/web/images/zd_logo.png" class="logo" alt="logo" /> -->
       <h4 class="" style="font-size: 2.3rem">
         <strong>AIGC企业私有化<br />部署方案</strong>
       </h4>
@@ -62,7 +62,7 @@ export default {
   margin: 0 auto;
   color: #fff;
   .banner-content {
-    background: url(../../assets/images/banner.png) no-repeat;
+    background: url(https://cdn.tudb.work/aios/web/images/banner.png) no-repeat;
     position: relative;
     height: 400px;
     overflow: hidden;
@@ -101,7 +101,8 @@ export default {
   .banner-wrapper {
     width: 100% !important;
     .phone.banner-content {
-      background: url(../../assets/images/phone-banner.png) no-repeat;
+      background: url(https://cdn.tudb.work/aios/web/images/phone-banner.png)
+        no-repeat;
       background-size: 100% 100%;
       display: block;
       padding: 24px 0 0;

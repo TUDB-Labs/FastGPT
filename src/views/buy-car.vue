@@ -1,7 +1,8 @@
 <template>
   <div class="wrapper">
     <h4>
-      <img src="@/assets/images/demo2.png" alt="" /> <strong>购车咨询</strong>
+      <img src="https://cdn.tudb.work/aios/web/images/demo2.png" alt="" />
+      <strong>购车咨询</strong>
     </h4>
     <main>
       <div class="main-content content-width">
@@ -14,7 +15,7 @@
             @keydown="onKeydown"
           />
           <img
-            src="@/assets/images/send-btn.png"
+            src="https://cdn.tudb.work/aios/web/images/send-btn.png"
             alt="send-img"
             class="send-img"
             @click="onSearch"
@@ -22,7 +23,7 @@
         </div>
         <div class="count-wrapper">
           <img
-            src="@/assets/images/delete.png"
+            src="https://cdn.tudb.work/aios/web/images/delete.png"
             alt="clear"
             @click="searchValue = ''"
           />
@@ -32,7 +33,10 @@
           <h5>
             <strong>推荐问题</strong>
             <span class="refresh" @click="onRefresh"
-              >换一批<img src="@/assets/images/change.png" alt="" />
+              >换一批<img
+                src="https://cdn.tudb.work/aios/web/images/change.png"
+                alt=""
+              />
             </span>
           </h5>
           <div class="recommend-list">

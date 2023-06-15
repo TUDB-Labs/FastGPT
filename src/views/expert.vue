@@ -7,7 +7,7 @@
       <div class="form">
         <p class="form-item">
           <span class="label">
-            <img src="@/assets/images/phone.png" alt="" />
+            <img src="https://cdn.tudb.work/aios/web/images/phone.png" alt="" />
             联系方式</span
           >
           <input
@@ -18,7 +18,10 @@
         </p>
         <p class="form-item">
           <span class="label">
-            <img src="@/assets/images/message.png" alt="" />咨询内容</span
+            <img
+              src="https://cdn.tudb.work/aios/web/images/message.png"
+              alt=""
+            />咨询内容</span
           >
           <textarea
             v-model="formData.problem"
@@ -104,7 +107,7 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   h1 {
-    background: url(../assets/images/zjzx.png);
+    background: url(https://cdn.tudb.work/aios/web/images/zjzx.png);
     background-size: 100% 100%;
     height: 12rem;
     color: #fff;

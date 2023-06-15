@@ -94,54 +94,54 @@ export default {
       // 应用
       applyList: [
         {
-          leftImg: require("../../assets/images/ai.png"),
+          leftImg: "https://cdn.tudb.work/aios/web/images/ai.png",
           title: "智能客服",
           desc: "AIGC私有化部署，让企业更好的利用内部数据和知识库，提高智能客服的回答质量和满意度",
           rightList: [
             {
-              img: require("../../assets/images/ai_01.png"),
+              img: "https://cdn.tudb.work/aios/web/images/ai_01.png",
               title: "硬件公司",
             },
             {
-              img: require("../../assets/images/ai_02.png"),
+              img: "https://cdn.tudb.work/aios/web/images/ai_02.png",
               title: "出海游戏",
             },
             {
-              img: require("../../assets/images/ai_03.png"),
+              img: "https://cdn.tudb.work/aios/web/images/ai_03.png",
               title: "牙医门诊",
             },
           ],
         },
         {
-          leftImg: require("../../assets/images/data.png"),
+          leftImg: "https://cdn.tudb.work/aios/web/images/data.png",
           title: "数据分析",
           desc: "保证企业数据全生命周期安全性，支持个性化数据分析，让企业对数据应用更灵活，更自在，更信任。",
           rightList: [
             {
-              img: require("../../assets/images/data_01.png"),
+              img: "https://cdn.tudb.work/aios/web/images/data_01.png",
               title: "汽车企业",
             },
             {
-              img: require("../../assets/images/data_02.png"),
+              img: "https://cdn.tudb.work/aios/web/images/data_02.png",
               title: "烟草企业",
             },
           ],
         },
         {
-          leftImg: require("../../assets/images/work.png"),
+          leftImg: "https://cdn.tudb.work/aios/web/images/work.png",
           title: "办公助手",
           desc: "从海量文本中，归纳核心内容，提取结构化信息，帮助企业高效挖掘文本价值，构建个性化知识库。",
           rightList: [
             {
-              img: require("../../assets/images/work_01.png"),
+              img: "https://cdn.tudb.work/aios/web/images/work_01.png",
               title: "学术机构",
             },
             {
-              img: require("../../assets/images/work_02.png"),
+              img: "https://cdn.tudb.work/aios/web/images/work_02.png",
               title: "政务机构",
             },
             {
-              img: require("../../assets/images/work_03.png"),
+              img: "https://cdn.tudb.work/aios/web/images/work_03.png",
               title: "律师事务所",
             },
           ],
@@ -186,7 +186,7 @@ export default {
       width: 100%;
       height: 220px;
       margin-bottom: 20px;
-      background-image: url(../../assets/images/applyBj.png);
+      background-image: url(https://cdn.tudb.work/aios/web/images/applyBj.png);
       background-size: 100% 100%;
       overflow: hidden;
       border-radius: 12px;

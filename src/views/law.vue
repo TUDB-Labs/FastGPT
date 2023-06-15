@@ -1,14 +1,19 @@
 <template>
   <div class="wrapper">
     <h4>
-      <img src="@/assets/images/demo1.png" alt="" /> <strong>法律咨询</strong>
+      <img src="https://cdn.tudb.work/aios/web/images/demo1.png" alt="" />
+      <strong>法律咨询</strong>
     </h4>
     <main class="">
       <div class="main-content">
         <div ref="chatList" class="chat-list">
           <div class="chat-item question first">
             <div class="header-img-wrapper">
-              <img src="@/assets/images/jqr.png" alt="" class="header-img" />
+              <img
+                src="https://cdn.tudb.work/aios/web/images/jqr.png"
+                alt=""
+                class="header-img"
+              />
             </div>
             <div class="content">
               <div>您好，我是LegalGPT请问有什么可以帮助到您？</div>
@@ -31,7 +36,11 @@
             </div>
             <div :key="'question' + index" class="chat-item question">
               <div class="header-img-wrapper">
-                <img src="@/assets/images/jqr.png" alt="" class="header-img" />
+                <img
+                  src="https://cdn.tudb.work/aios/web/images/jqr.png"
+                  alt=""
+                  class="header-img"
+                />
               </div>
               <div class="content">
                 <div v-html="item.question" />
@@ -82,7 +91,7 @@
           </div>
           <img
             v-else
-            src="@/assets/images/send-img.png"
+            src="https://cdn.tudb.work/aios/web/images/send-img.png"
             alt="send-img"
             class="send-img"
             @click="onSend"

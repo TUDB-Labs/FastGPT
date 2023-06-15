@@ -2,7 +2,10 @@
   <div class="main-bottom content-width">
     <div class="main-bottom-left">
       <div class="image">
-        <img src="@/assets/images/star.png" alt="专家团队" />
+        <img
+          src="https://cdn.tudb.work/aios/web/images/star.png"
+          alt="专家团队"
+        />
       </div>
       <div class="imgDesc">
         <strong
@@ -36,7 +39,10 @@
       </div>
     </div>
     <div class="zd_code">
-      <img src="@/assets/images/code2.png" alt="公众号二维码" />
+      <img
+        src="https://cdn.tudb.work/aios/web/images/code2.png"
+        alt="公众号二维码"
+      />
     </div>
   </div>
 </template>

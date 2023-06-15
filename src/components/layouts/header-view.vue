@@ -2,9 +2,12 @@
   <header>
     <div class="web flex-row content-width">
       <div class="logo">
-        <img src="@/assets/images/zd_logo.png" alt="logo" />
+        <img
+          src="https://cdn.tudb.work/aios/web/images/zd_logo.png"
+          alt="logo"
+        />
       </div>
-      <!-- <img id="popover-target-1" src="@/assets/images/weixin01.png" alt="" /> -->
+      <!-- <img id="popover-target-1" src="https://cdn.tudb.work/aios/web/images/weixin01.png" alt="" /> -->
       <b-button
         v-if="['/law', '/buy-car'].includes(curPath)"
         @click="goGuidance"
@@ -13,18 +16,22 @@
       </b-button>
       <b-button v-else id="popover-target-1" class="fllow" style="">
         <span class="" style="margin-right: 3px">关注我们</span>
-        <img id="popover-target-1" src="@/assets/images/weixin1.png" alt="" />
+        <img
+          id="popover-target-1"
+          src="https://cdn.tudb.work/aios/web/images/weixin1.png"
+          alt=""
+        />
       </b-button>
       <b-popover target="popover-target-1" triggers="hover" placement="bottom">
         <img
-          src="@/assets/images/code2.png"
+          src="https://cdn.tudb.work/aios/web/images/code2.png"
           style="width: 155px; height: 196px"
           alt="微信公众号"
         />
       </b-popover>
     </div>
     <div class="phone flex-row content-width">
-      <img src="@/assets/images/zd_logo.png" alt="logo" />
+      <img src="https://cdn.tudb.work/aios/web/images/zd_logo.png" alt="logo" />
     </div>
   </header>
 </template>

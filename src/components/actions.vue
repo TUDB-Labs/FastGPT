@@ -1,15 +1,15 @@
 <template>
   <p class="actions">
-    <!-- <img src="@/assets/images/copy.png" alt="copy" @click="onCopy" /> -->
+    <!-- <img src="https://cdn.tudb.work/aios/web/images/copy.png" alt="copy" @click="onCopy" /> -->
     <img
       class=""
       :class="[showLikeAnimat ? 'like-button' : null]"
-      src="@/assets/images/like.png"
+      src="https://cdn.tudb.work/aios/web/images/like.png"
       alt="like"
       @click="onLike"
     />
     <img
-      src="@/assets/images/diss.png"
+      src="https://cdn.tudb.work/aios/web/images/diss.png"
       :class="[showNoLikeAnimat ? 'diss-button' : null]"
       alt="diss"
       @click="onNoLike"
