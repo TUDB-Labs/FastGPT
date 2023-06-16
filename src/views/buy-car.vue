@@ -14,15 +14,14 @@
             maxlength="100"
             @keydown="onKeydown"
           />
-          <div class="send-btn" v-if="loading">
+          <!-- <div class="send-btn" v-if="loading">
             <div class="loading">
               <span></span>
               <span></span>
               <span></span>
             </div>
-          </div>
+          </div> -->
           <img
-            v-else
             src="https://cdn.tudb.work/aios/web/images/send-btn.png"
             alt="send-img"
             class="send-img"
@@ -68,6 +67,13 @@
             >
           </p>
           <div class="result-wrap">
+            <b-spinner
+              v-if="loading"
+              variant="primary"
+              label="Busy"
+              class="spinner"
+              style="margin-top: 5rem"
+            />
             <template v-if="curType === 'result'">
               <b-table
                 v-show="resultObj.id && resultObj.sql"
@@ -389,6 +395,11 @@ export default {
             overflow: auto;
             text-align: left;
             padding: 12px;
+          }
+          .spinner {
+            position: absolute;
+            left: 49%;
+            top: 20%;
           }
         }
         .sql {
