@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="web flex-row content-width">
-      <div class="logo">
+      <div class="logo" @click="() => $router.push('/')">
         <img
           src="https://cdn.tudb.work/aios/web/images/zd_logo.png"
           alt="logo"
@@ -83,6 +83,7 @@ header {
   height: 30px;
 }
 .logo img {
+  width: 170px;
   // width: 100%;
   // height: 100%;
 }

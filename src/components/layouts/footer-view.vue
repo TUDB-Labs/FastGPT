@@ -5,6 +5,7 @@
         <img
           src="https://cdn.tudb.work/aios/web/images/zd_logo.png"
           alt="logo"
+          @click="() => $router.push('/')"
         />
       </div>
       <div class="weixin">
@@ -54,6 +55,11 @@ footer {
   background-color: #e1dee6;
   color: #16284f;
   padding: 36px 0;
+  .logo {
+    img {
+      width: 170px;
+    }
+  }
   .content {
     margin: 0 auto;
     height: 100%;

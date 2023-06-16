@@ -4,6 +4,8 @@ import * as interceptor from './interceptor.js'
 let baseUrl = 'http://aios.sco.tudb.work/api/aiso'
 // 法律咨詢
 let lawBaseUrl = 'https://legal.sco.tudb.work'
+// 买车咨询
+let buyCarBaseUrl = 'https://car.sco.tudb.work'
 
 if (process.env.NODE_ENV === 'development') {
   // 官网基础接口 pv
@@ -41,4 +43,14 @@ export const likeLaw = ({msgId, userId}) => {
 export const dissLaw = ({msgId, userId}) => {
   const url = lawBaseUrl + `/api/diss?msgId=${msgId}&userId=${userId}`;
   return interceptor.post(url, null, 'application/x-www-form-urlencoded')
+}
+
+export const getBuyCar = (data) => {
+  const url = buyCarBaseUrl + `/texttosql/completions`;
+  return interceptor.post(url, data)
+}
+
+export const carLikeOrDiss = ({record, id}) => {
+  const url = buyCarBaseUrl + `/upvote?id=${id}&record=${record}`;
+  return interceptor.get(url)
 }

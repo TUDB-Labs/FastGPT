@@ -12,7 +12,7 @@
           >
           <input
             type="text"
-            v-model="formData.phoneNumber"
+            v-model.trim="formData.phoneNumber"
             placeholder="请输入您的电话或邮箱(必填)"
           />
         </p>
@@ -24,7 +24,7 @@
             />咨询内容</span
           >
           <textarea
-            v-model="formData.problem"
+            v-model.trim="formData.problem"
             :rows="5"
             maxlength="200"
             placeholder="请输入您想了解的内容(选填)"
@@ -74,25 +74,18 @@ export default {
         });
       } else {
         insertSolution(this.formData)
-          .then((res) => {
-            if (res.data.code == 200) {
-              showToast(this, {
-                content: "已提交，我们会及时联系您",
-              });
-              //按钮点击记录
-              let params = {
-                clickedItem: "提交",
-                clickedCookie: this.$cookies.get("token"),
-              };
-              insertClickrecord(params)
-                .then(() => {})
-                .catch(() => {});
-            } else {
-              showToast(this, {
-                content: res.message,
-                type: "danger",
-              });
-            }
+          .then(() => {
+            showToast(this, {
+              content: "已提交，我们会及时联系您",
+            });
+            //按钮点击记录
+            let params = {
+              clickedItem: "提交",
+              clickedCookie: this.$cookies.get("token"),
+            };
+            insertClickrecord(params)
+              .then(() => {})
+              .catch(() => {});
           })
           .catch(() => {});
       }

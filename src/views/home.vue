@@ -63,7 +63,6 @@ export default {
       .then((res) => {
         this.ipAddress = res.ip;
         if (this.ipAddress) this.webSubmit();
-        console.log(this.ipAddress);
       })
       .catch(() => {});
   },

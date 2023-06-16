@@ -1,24 +1,22 @@
 // 定义一个封装了 fetch 的请求方法
+import axios from 'axios'
+
 function request(url, method, data, contentType) {
-  let options = {
-    method: method,
-    headers: {
-      'Content-Type': contentType || 'application/json'
-    }
-  };
-  if (data) {
-    options.body = JSON.stringify(data);
-  }
-  return fetch(url, options)
-    .then(response => {
-      if (!response.ok) {
-        throw Error(response.statusText);
+    const options = {
+      method: method,
+      url: url,
+      headers: {
+         'Content-Type': contentType || 'application/json'
       }
-      return response ? response.json() : null;
+    }
+    if (method === 'get') {
+      options.params = data
+    } else {
+      options.data = data
+    }
+    return axios(options).then(response => {
+      return response.data
     })
-    .catch(error => {
-      console.error('Request failed', error);
-    });
 }
 
 // GET 请求函数

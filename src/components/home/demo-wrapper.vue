@@ -271,7 +271,11 @@ export default {
         .main-card {
           h4 {
           }
+          .image img {
+            width: 9rem !important;
+          }
           button {
+            width: 14rem !important;
           }
         }
       }

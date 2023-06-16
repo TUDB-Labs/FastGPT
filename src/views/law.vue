@@ -16,7 +16,7 @@
               />
             </div>
             <div class="content">
-              <div>您好，我是LegalGPT请问有什么可以帮助到您？</div>
+              <div>您好，请问有什么法律问题可以帮助到您？</div>
               <div class="indicator"></div>
             </div>
             <div class="header-img-wrapper"></div>
@@ -46,6 +46,7 @@
                 <div v-html="item.question" />
                 <Actions
                   v-if="item.msgId"
+                  :attitude="item.attitude"
                   :content="item.question"
                   class="action-wrapper"
                   @like="onLike(item)"
@@ -191,12 +192,13 @@ export default {
       xhr.open("GET", url);
       xhr.send();
       xhr.addEventListener("progress", () => {
-        let str = xhr.responseText;
-        // 发现EOF，就结束链接
-        console.log(str);
-        if (str.includes("EOF")) {
+        if (!curChat.msgId) {
           const msgId = xhr.getResponseHeader("x-msgid");
           curChat.msgId = msgId;
+        }
+        let str = xhr.responseText;
+        // 发现EOF，就结束链接
+        if (str.includes("EOF")) {
           str = str.replace("EOF", "");
           this.isQuestionIng = false;
           this.answerStatus = "";
@@ -250,21 +252,26 @@ export default {
       this.isQuestionIng = true;
       this.chatList.push({
         answer: this.searchValue,
+        attitude: 0,
       });
       this.scrollBottom();
       this.getQuestion();
     },
-    onLike() {
+    onLike(item) {
       likeLaw({
-        msgId: "YevMlIgBBskDWLwj4t7J",
+        msgId: item.msgId,
         userId: uuid,
-      }).then(() => {});
+      }).then(() => {
+        item.attitude = 1;
+      });
     },
-    onDiss() {
+    onDiss(item) {
       dissLaw({
-        msgId: "YevMlIgBBskDWLwj4t7J",
+        msgId: item.msgId,
         userId: uuid,
-      }).then(() => {});
+      }).then(() => {
+        item.attitude = -1;
+      });
     },
   },
 };

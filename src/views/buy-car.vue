@@ -14,7 +14,15 @@
             maxlength="100"
             @keydown="onKeydown"
           />
+          <div class="send-btn" v-if="loading">
+            <div class="loading">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
           <img
+            v-else
             src="https://cdn.tudb.work/aios/web/images/send-btn.png"
             alt="send-img"
             class="send-img"
@@ -27,7 +35,7 @@
             alt="clear"
             @click="searchValue = ''"
           />
-          {{ searchValue.length }} / 100
+          <span>{{ searchValue.length }} / 100</span>
         </div>
         <div class="recommend-wrapper">
           <h5>
@@ -41,7 +49,9 @@
           </h5>
           <div class="recommend-list">
             <div
-              v-for="(item, index) in recommendList"
+              v-for="(item, index) in recommendList.filter(
+                (recommend) => recommend.index === curRecommendIndex
+              )"
               :key="index"
               class="recommend-item"
               @click="onSelectRecommend(item)"
@@ -49,11 +59,45 @@
               {{ item.content }}
             </div>
           </div>
-          <p class="sql"><b-button>SQL</b-button></p>
+          <p class="sql">
+            <b-button v-if="curType === 'result'" @click="showSql"
+              >SQL</b-button
+            >
+            <b-button v-if="curType === 'sql'" @click="showResult"
+              >结果</b-button
+            >
+          </p>
           <div class="result-wrap">
-            <div class="result-content">{{ resultContent }}</div>
+            <template v-if="curType === 'result'">
+              <b-table
+                v-show="resultObj.id && resultObj.sql"
+                sticky-header
+                responsive
+                bordered
+                :fields="fields"
+                :items="resultObj.result"
+              />
+              <div v-show="!resultObj.id && resultObj.sql">
+                <!-- 暂无结果内容，请输入您想了解的购车信息进行查询" -->
+                您的问题不准确或者含有歧义，请简洁描述下想要查询的车型。
+              </div>
+            </template>
+            <div
+              v-if="curType === 'sql'"
+              style="text-align: left; margin: 1rem"
+            >
+              {{
+                resultObj.sql || "暂无sql内容，请输入您想了解的购车信息进行查询"
+              }}
+            </div>
+            <!-- <div class="result-content">{{ resultContent }}</div> -->
           </div>
-          <Actions />
+          <Actions
+            v-if="resultObj.id"
+            :attitude="resultObj.attitude"
+            @like="upvote(1)"
+            @diss="upvote(-1)"
+          />
         </div>
         <div class="tips">
           本公司不对服务内容与结果的真实性，准确性进行陈述与保证，相关内容亦不能替代特定领域专家意见
@@ -64,6 +108,8 @@
 </template>
 
 <script>
+import showToast from "@/utils/toast.js";
+import { getBuyCar, carLikeOrDiss } from "@/api/request.js"; // carLikeOrDiss
 import Actions from "../components/actions.vue";
 export default {
   name: "buy-car",
@@ -72,13 +118,30 @@ export default {
   data() {
     return {
       searchValue: "",
+      curRecommendIndex: 1,
       recommendList: [
-        { content: "今年新上市的奔驰SUV有哪些？" },
-        { content: "续航大于700公里的电动车有哪些？" },
-        { content: "2023年上市的20万-30万的四驱车型有哪些？" },
-        { content: "查询2023年上市的长度大于5米的电动车" },
+        { content: "今年新上市的奔驰SUV有哪些？", index: 1 },
+        { content: "续航大于700公里的电动车有哪些？", index: 1 },
+        { content: "2023年上市的20万-30万的四驱车型有哪些？", index: 1 },
+        { content: "查询2023年上市的长度大于5米的电动车", index: 1 },
+        { content: "今年上市的7座电动车有哪些？", index: 2 },
+        { content: "最近两年上市的排量超过6L的车有哪些？", index: 2 },
+        {
+          content: "2020年以来，宝马推出过哪些型号的三缸发动机的车？",
+          index: 2,
+        },
+        { content: "今年新上市的奥迪Q3有哪些车型？", index: 2 },
       ],
+      fields: [],
+      resultObj: {
+        id: "",
+        result: [],
+        attitude: 0,
+      },
+      tableData: [],
       resultContent: "",
+      curType: "result", // sql
+      loading: false,
     };
   },
   created() {},
@@ -86,14 +149,74 @@ export default {
   watch: {},
   computed: {},
   methods: {
-    onSearch() {},
+    onSearch() {
+      if (this.loading) return;
+      if (!this.searchValue)
+        return showToast(this, {
+          content: "请输入你想了解的购车信息",
+          type: "warning",
+        });
+      this.loading = true;
+      this.curType = "result";
+      getBuyCar({ prompt: this.searchValue })
+        .then((res) => {
+          if (!res.flag)
+            return showToast(this, {
+              content: res.message,
+              type: "danger",
+            });
+          const { result, id, sql } = res.data;
+          this.resultObj = { result, id, sql, attitude: 0 };
+          if (result && result.length) {
+            const obj = result[0];
+            delete obj.id;
+            this.fields = Object.keys(obj);
+          } else {
+            this.fields = [];
+          }
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     onKeydown() {},
     onSelectRecommend(item) {
-      console.log(item);
-      this.searchValue = "北京市2022年上半年，销量前10的汽车品牌是什么?";
+      if (this.loading) return;
+      this.searchValue = item.content;
       this.onSearch();
     },
-    onRefresh() {},
+    onRefresh() {
+      if (this.curRecommendIndex === 1) {
+        return (this.curRecommendIndex = 2);
+      }
+      if (this.curRecommendIndex === 2) {
+        return (this.curRecommendIndex = 1);
+      }
+      console.log(this.curRecommendIndex);
+    },
+    upvote(record) {
+      const { id, attitude } = this.resultObj;
+      if (attitude === record) return;
+      carLikeOrDiss({
+        record: record,
+        id: id,
+      }).then((res) => {
+        if (res.status === "success") {
+          this.resultObj.attitude = record;
+        } else {
+          showToast(this, {
+            content: record === 1 ? "点赞失败" : "踩失败",
+            type: "danger",
+          });
+        }
+      });
+    },
+    showSql() {
+      this.curType = "sql";
+    },
+    showResult() {
+      this.curType = "result";
+    },
   },
 };
 </script>
@@ -145,15 +268,72 @@ export default {
           width: 3rem;
           cursor: pointer;
         }
+
+        .send-btn {
+          color: #fff;
+          // position: absolute;
+          width: 3rem;
+          height: 3rem;
+          // right: 0.5rem;
+          // top: 0;
+          cursor: not-allowed;
+          background: #254cd8;
+          .loading {
+            display: inline-block;
+            position: relative;
+            width: 3rem;
+            height: 3rem;
+            span {
+              position: absolute;
+              top: 1.25rem;
+              background-color: #fff;
+              width: 0.5rem;
+              height: 0.5rem;
+              border-radius: 50%;
+              animation: loading 1.2s infinite ease-in-out;
+            }
+            span:nth-child(1) {
+              left: 6px;
+              animation-delay: -0.24s;
+            }
+            span:nth-child(2) {
+              left: 18px;
+              animation-delay: -0.12s;
+            }
+            span:nth-child(3) {
+              left: 30px;
+              animation-delay: 0;
+            }
+
+            @keyframes loading {
+              0% {
+                transform: scale(0);
+              }
+
+              50% {
+                transform: scale(1);
+              }
+
+              100% {
+                transform: scale(0);
+              }
+            }
+          }
+        }
       }
       .count-wrapper {
         align-items: center;
         justify-content: flex-end;
         display: flex;
         font-size: 14px;
-        margin-top: 6px;
+        margin-top: 4px;
         img {
           margin-right: 6px;
+          cursor: pointer;
+        }
+        span {
+          width: 60px;
+          margin-top: 2px;
         }
       }
       .recommend-wrapper {
@@ -193,6 +373,9 @@ export default {
             cursor: pointer;
             text-align: left;
             line-height: 1.2rem;
+            &:hover {
+              background: #d6d8db;
+            }
           }
         }
         .result-wrap {
@@ -250,5 +433,11 @@ export default {
       }
     }
   }
+}
+/deep/ .table thead th {
+  white-space: nowrap;
+}
+/deep/.b-table-sticky-header.table-responsive {
+  max-height: 100%;
 }
 </style>

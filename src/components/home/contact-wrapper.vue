@@ -19,14 +19,14 @@
       <div class="main-bottom-form">
         <div class="input-wrapper">
           <input
-            v-model="formData.phoneNumber"
+            v-model.trim="formData.phoneNumber"
             placeholder="请输入您的电话或邮箱(必填)"
             type="text"
           />
         </div>
         <div class="textarea-wrapper">
           <textarea
-            v-model="formData.problem"
+            v-model.trim="formData.problem"
             :rows="5"
             maxlength="200"
             placeholder="请输入您想了解的内容(选填)"
@@ -83,6 +83,7 @@ export default {
       } else {
         insertSolution(this.formData)
           .then((res) => {
+            this.formData = {};
             if (res.data.code == 200) {
               showToast(this, {
                 content: "已提交，我们会及时联系您",

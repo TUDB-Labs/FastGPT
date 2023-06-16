@@ -4,12 +4,20 @@
     <img
       class=""
       :class="[showLikeAnimat ? 'like-button' : null]"
-      src="https://cdn.tudb.work/aios/web/images/like.png"
+      :src="
+        attitude === 1
+          ? require('@/assets/images/like-active.png')
+          : require('@/assets/images/like.png')
+      "
       alt="like"
       @click="onLike"
     />
     <img
-      src="https://cdn.tudb.work/aios/web/images/diss.png"
+      :src="
+        attitude === -1
+          ? require('@/assets/images/diss-active.png')
+          : require('@/assets/images/diss.png')
+      "
       :class="[showNoLikeAnimat ? 'diss-button' : null]"
       alt="diss"
       @click="onNoLike"
@@ -24,6 +32,10 @@ export default {
     content: {
       type: String,
       default: "",
+    },
+    attitude: {
+      type: Number,
+      default: 0,
     },
   },
   components: {},
@@ -51,6 +63,7 @@ export default {
       document.body.removeChild(textarea);
     },
     onLike() {
+      if (this.attitude === 1) return;
       this.showLikeAnimat = true;
       this.$emit("like");
       setTimeout(() => {
@@ -58,6 +71,7 @@ export default {
       }, 1000);
     },
     onNoLike() {
+      if (this.attitude === -1) return;
       this.showNoLikeAnimat = true;
       this.$emit("diss");
       setTimeout(() => {
