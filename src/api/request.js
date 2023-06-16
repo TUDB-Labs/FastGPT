@@ -9,7 +9,7 @@ let buyCarBaseUrl = 'https://car.sco.tudb.work'
 
 if (process.env.NODE_ENV === 'development') {
   // 官网基础接口 pv
-  baseUrl = 'https://aios.sco.tudb.work/api/aiso'
+  // baseUrl = 'https://aios.sco.tudb.work'
   // 法律咨詢
   // lawBaseUrl = 'https://legal.sco.tudb.work'
 }
@@ -20,17 +20,17 @@ export const getIp = () => {
 }
 
 export const insertPvVu = (data) => {
-  const url = baseUrl + "/insertPvVu";
+  const url = baseUrl + "/api/aiso/insertPvVu";
   return interceptor.post(url, data)
 }
 
 export const insertSolution = (data) => {
-  const url = baseUrl + "/insertSolution";
+  const url = baseUrl + "/api/aiso/insertSolution";
   return interceptor.post(url, data)
 }
 
 export const insertClickrecord = (data) => {
-  const url = baseUrl + "/insertClickrecord";
+  const url = baseUrl + "/api/aiso/insertClickrecord";
   return interceptor.post(url, data)
 }
 
