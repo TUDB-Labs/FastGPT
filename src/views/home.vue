@@ -28,7 +28,7 @@ import DemoWrapper from "@/components/home/demo-wrapper.vue";
 import AdvantageWrapper from "../components/home/advantage-wrapper.vue";
 import ApplyWrapper from "../components/home/apply-wrapper.vue";
 import ContactWrapper from "../components/home/contact-wrapper.vue";
-import { getIp, insertPvVu, insertClickrecord } from "@/api/request.js";
+import { insertClickrecord } from "@/api/request.js";
 export default {
   components: {
     // FooterView,
@@ -51,31 +51,12 @@ export default {
       //demo弹窗
       dialogTableVisible: false,
       visible: false,
-      //pv/uv相关
-      ipAddress: "",
       platform: "web",
     };
   },
   created() {},
-  mounted() {
-    // 获取ip
-    getIp()
-      .then((res) => {
-        this.ipAddress = res.ip;
-        if (this.ipAddress) this.webSubmit();
-      })
-      .catch(() => {});
-  },
+  mounted() {},
   methods: {
-    // 整站记录
-    webSubmit() {
-      let params = {
-        recordPv: this.ipAddress,
-      };
-      insertPvVu(params)
-        .then(() => {})
-        .catch(() => {});
-    },
     // 敬请期待
     demoVisible() {
       //   this.dialogTableVisible = true;

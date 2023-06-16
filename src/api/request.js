@@ -1,7 +1,7 @@
 import * as interceptor from './interceptor.js'
 
 // 官网基础接口 pv
-let baseUrl = ''
+let baseUrl = 'https://aios.sco.tudb.work/api/aiso'
 // 法律咨詢
 let lawBaseUrl = 'https://legal.sco.tudb.work'
 // 买车咨询
@@ -9,7 +9,7 @@ let buyCarBaseUrl = 'https://car.sco.tudb.work'
 
 if (process.env.NODE_ENV === 'development') {
   // 官网基础接口 pv
-  // baseUrl = 'http://aios.sco.tudb.work/api/aiso'
+  baseUrl = 'https://aios.sco.tudb.work/api/aiso'
   // 法律咨詢
   // lawBaseUrl = 'https://legal.sco.tudb.work'
 }

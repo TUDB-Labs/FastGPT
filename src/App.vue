@@ -38,6 +38,7 @@
 <script>
 import HeaderView from "@/components/layouts/header-view.vue";
 import FooterView from "@/components/layouts/footer-view.vue";
+import { getIp, insertPvVu } from "@/api/request.js";
 export default {
   name: "App",
   components: { HeaderView, FooterView },
@@ -52,6 +53,7 @@ export default {
     window.onresize = () => {
       this.setPlatform(document.body.offsetWidth);
     };
+    this.webSubmit();
   },
   mounted() {
     window.onscroll = () => {
@@ -64,6 +66,24 @@ export default {
   },
   watch: {},
   methods: {
+    // 整站记录
+    //pv/uv相关
+    webSubmit() {
+      // 获取ip
+      getIp()
+        .then((res) => {
+          this.ipAddress = res.ip;
+          if (this.ipAddress) {
+            let params = {
+              recordPv: this.ipAddress,
+            };
+            insertPvVu(params)
+              .then(() => {})
+              .catch(() => {});
+          }
+        })
+        .catch(() => {});
+    },
     setPlatform(offsetWidth) {
       if (offsetWidth < 1100) {
         this.platform = "admin-phone";
