@@ -114,6 +114,7 @@
 </template>
 
 <script>
+const maxCount = 20;
 import showToast from "@/utils/toast.js";
 import { getBuyCar, carLikeOrDiss } from "@/api/request.js"; // carLikeOrDiss
 import Actions from "../components/actions.vue";
@@ -148,14 +149,51 @@ export default {
       resultContent: "",
       curType: "result", // sql
       loading: false,
+      buyCarCountInfo: localStorage.getItem("buyCarCountInfo")
+        ? JSON.parse(localStorage.getItem("buyCarCountInfo"))
+        : {
+            date: new Date().toLocaleDateString(),
+            num: 0,
+          },
     };
   },
-  created() {},
+  created() {
+    this.getCountInfo();
+  },
   mounted() {},
   watch: {},
   computed: {},
   methods: {
+    getCountInfo() {
+      const str = localStorage.getItem("buyCarCountInfo");
+      const today = new Date().toLocaleDateString();
+      if (str) {
+        const buyCarCountInfo = JSON.parse(str);
+        // 如果已经访问过切是今天就不需要重置
+        if (today === buyCarCountInfo.date) {
+          this.buyCarCountInfo = buyCarCountInfo;
+          return;
+        }
+      }
+      this.buyCarCountInfo = {
+        date: today,
+        num: 0,
+      };
+      this.setCountInfo();
+    },
+    setCountInfo() {
+      localStorage.setItem(
+        "buyCarCountInfo",
+        JSON.stringify(this.buyCarCountInfo)
+      );
+    },
     onSearch() {
+      // 判断是否超过提问次数
+      if (this.buyCarCountInfo.num === maxCount)
+        return showToast(this, {
+          content: "您今日的提问次数已达上限20次",
+          type: "danger",
+        });
       if (this.loading) return;
       if (!this.searchValue)
         return showToast(this, {
@@ -164,6 +202,8 @@ export default {
         });
       this.loading = true;
       this.curType = "result";
+      this.buyCarCountInfo.num += 1;
+      this.setCountInfo();
       getBuyCar({ prompt: this.searchValue })
         .then((res) => {
           if (!res.flag)

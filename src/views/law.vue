@@ -118,7 +118,6 @@ if (!uuid) {
   uuid = uuidv4();
   localStorage.setItem("uuid", uuid);
 }
-console.log("uuid:", uuid);
 export default {
   name: "law",
   props: {},
@@ -179,7 +178,7 @@ export default {
     },
     // 通过sse监听服务端返回的内容
     async getQuestion() {
-      const url = `https://legal.sco.tudb.work/api/chat?question=${this.searchValue}&userId=${uuid}`;
+      const url = `${process.env.VUE_APP_LAW_SERVER}/api/chat?question=${this.searchValue}&userId=${uuid}`;
       // 输入框清空
       this.searchValue = "";
       this.answerStatus = "ing";
@@ -207,7 +206,6 @@ export default {
         curChat.question = str;
         this.chatList.splice(-1, 1, curChat);
         this.scrollBottom();
-        console.log(this.chatList);
       });
       xhr.addEventListener("error", (error) => {
         console.log(error);

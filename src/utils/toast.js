@@ -3,7 +3,7 @@ const showToast = (that, { title, content, type }) => {
     title: title || "提示消息",
     variant: type || "success",
     toaster: "b-toaster-top-center",
-    autoHideDelay: 2000,
+    autoHideDelay: 3000,
   });
 }
 

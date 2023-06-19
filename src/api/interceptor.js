@@ -1,12 +1,12 @@
 // 定义一个封装了 fetch 的请求方法
 import axios from 'axios'
 
-function request(url, method, data, contentType) {
+function request(url, method, data) {
     const options = {
       method: method,
       url: url,
       headers: {
-         'Content-Type': contentType || 'application/json'
+        //  'Content-Type': contentType || 'application/json'
       }
     }
     if (method === 'get') {

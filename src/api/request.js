@@ -1,21 +1,16 @@
 import * as interceptor from './interceptor.js'
 
-// 官网基础接口 pv
-let baseUrl = ''
-// 法律咨詢
-let lawBaseUrl = 'https://legal.sco.tudb.work'
-// 买车咨询
-let buyCarBaseUrl = 'https://car.sco.tudb.work'
 
-if (process.env.NODE_ENV === 'development') {
-  // 官网基础接口 pv
-  // baseUrl = 'https://aios.sco.tudb.work'
-  // 法律咨詢
-  // lawBaseUrl = 'https://legal.sco.tudb.work'
-}
+console.log(process.env)
+// 官网基础接口 pv
+let baseUrl = process.env.VUE_APP_WEBSITE_SERVER
+// 法律咨詢
+let lawBaseUrl = process.env.VUE_APP_LAW_SERVER
+// 买车咨询
+let buyCarBaseUrl = process.env.VUE_APP_BUYCAR_SERVER
 
 export const getIp = () => {
-  const url = "https://api.ipify.org?format=json";
+  const url = process.env.VUE_APP_IP_SERVER
   return interceptor.get(url)
 }
 
@@ -38,11 +33,11 @@ export const insertClickrecord = (data) => {
 // 喝倒彩
 export const likeLaw = ({msgId, userId}) => {
   const url = lawBaseUrl + `/api/like?msgId=${msgId}&userId=${userId}`;
-  return interceptor.post(url, null, 'application/x-www-form-urlencoded')
+  return interceptor.post(url)
 }
 export const dissLaw = ({msgId, userId}) => {
   const url = lawBaseUrl + `/api/diss?msgId=${msgId}&userId=${userId}`;
-  return interceptor.post(url, null, 'application/x-www-form-urlencoded')
+  return interceptor.post(url)
 }
 
 export const getBuyCar = (data) => {

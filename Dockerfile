@@ -5,7 +5,7 @@ RUN yarn config set registry https://registry.npm.taobao.org/   # 执行打包�
 
 RUN  yarn install
 
-RUN yarn build
+RUN yarn build:test
 
 FROM nginx:1.11.0-alpine   
 COPY --from=ybuild  /opt/dist /usr/share/nginx/html/    拷贝走打包好的文件到  新的docker

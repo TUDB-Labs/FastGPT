@@ -72,7 +72,7 @@ export default {
       // 获取ip
       getIp()
         .then((res) => {
-          this.ipAddress = res.ip;
+          this.ipAddress = res.trim().replace("\n", "");
           if (this.ipAddress) {
             let params = {
               recordPv: this.ipAddress,
