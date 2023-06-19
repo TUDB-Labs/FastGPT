@@ -1,7 +1,5 @@
 import * as interceptor from './interceptor.js'
 
-
-console.log(process.env)
 // 官网基础接口 pv
 let baseUrl = process.env.VUE_APP_WEBSITE_SERVER
 // 法律咨詢

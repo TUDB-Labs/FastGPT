@@ -4,13 +4,24 @@ module.exports = {
   devServer: {
     disableHostCheck: true,
     port: 9100,
-    allowedHosts: [
-      'fe3a2sy.nat.ipyingshe.com'
-    ],
     proxy: {
-      '/car-sql': {
-        target: 'https://text2sql.tudb.work',  // 后台接口域名
-        pathRewrite: { '^/car-sql': '' },
+      '/car': {
+        target: 'https://car.sco.tudb.work',  // 后台接口域名
+        pathRewrite: { '^/car': '' },
+        ws: false,        //如果要代理 websockets，配置这个参数
+        secure: false,  // 如果是https接口，需要配置这个参数
+        changeOrigin: true,  //是否跨域
+      },
+      '/legal': {
+        target: 'https://legal.sco.tudb.work',  // 后台接口域名
+        pathRewrite: { '^/legal': '' },
+        ws: false,        //如果要代理 websockets，配置这个参数
+        secure: false,  // 如果是https接口，需要配置这个参数
+        changeOrigin: true,  //是否跨域
+      },
+      '': {
+        target: 'https://aios.sco.tudb.work',  // 后台接口域名
+        // pathRewrite: { '^/car': '' },
         ws: false,        //如果要代理 websockets，配置这个参数
         secure: false,  // 如果是https接口，需要配置这个参数
         changeOrigin: true,  //是否跨域
