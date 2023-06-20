@@ -7,7 +7,7 @@ module.exports = {
   },
   productionSourceMap: false,
   // 在这里添加您的配置
-  publicPath: './',
+  publicPath: '/',
   devServer: {
     disableHostCheck: true,
     port: 9100,
