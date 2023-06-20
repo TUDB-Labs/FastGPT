@@ -7,23 +7,14 @@
     <FooterView />
     <div v-if="isShowGoTop" class="go-top">
       <div id="popover-target-top" class="item">
-        <img
-          src="https://cdn.tudb.work/aios/web/images/phone-1.png"
-          alt="phone1"
-        />
+        <img src="@/assets/images/telephone.png" class="phone" alt="phone1" />
       </div>
       <div class="item" @click="goTop">
-        <img
-          src="https://cdn.tudb.work/aios/web/images/go-top.png"
-          alt="go-top"
-        />
+        <img src="@/assets/images/cc-top.png" class="top" alt="go-top" />
       </div>
       <b-popover target="popover-target-top" triggers="hover" placement="left">
         <div class="pop-content">
-          <img
-            src="https://cdn.tudb.work/aios/web/images/phone-2.png"
-            alt="微信公众号"
-          />
+          <img src="@/assets/images/telephone.png" alt="微信公众号" />
           <div>
             <p style=""><strong>联系销售</strong></p>
             <p @click="gotel('010-64998301')">010-64998301</p>
@@ -130,15 +121,21 @@ export default {
   .item {
     width: 45px;
     height: 45px;
-    padding: 7.5px;
+    // padding: 7.5px;
     background: #ffffff;
     box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.22);
     border-radius: 50%;
     margin: 12px 0;
     // box-sizing: content-box;
-    img {
-      width: 30px;
-      height: 30px;
+    img.top {
+      width: 22px;
+      height: 22px;
+      margin-top: 12px;
+    }
+    img.phone {
+      width: 33px;
+      height: 33px;
+      margin-top: 6px;
     }
   }
 }
@@ -147,9 +144,8 @@ export default {
   font-size: 1.33rem;
   img {
     margin-right: 6px;
-    width: 1.9rem;
-    height: 1.9rem;
-    padding-top: 5px;
+    width: 3.3rem;
+    height: 3.3rem;
   }
 }
 body,

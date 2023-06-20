@@ -76,6 +76,7 @@
             />
             <template v-if="curType === 'result'">
               <b-table
+                v-if="false"
                 v-show="resultObj.id && resultObj.sql"
                 sticky-header
                 responsive
@@ -83,6 +84,22 @@
                 :fields="fields"
                 :items="resultObj.result"
               />
+              <el-table
+                v-show="resultObj.id && resultObj.sql"
+                height="100%"
+                stripe
+                border
+                :data="resultObj.result"
+              >
+                <el-table-column
+                  v-for="field in fields"
+                  :key="field"
+                  :prop="field"
+                  :label="field"
+                  sortable
+                  width="180"
+                />
+              </el-table>
               <div v-show="!resultObj.id && resultObj.sql">
                 <!-- 暂无结果内容，请输入您想了解的购车信息进行查询" -->
                 您的问题不准确或者含有歧义，请简洁描述下想要查询的车型。
@@ -217,6 +234,12 @@ export default {
             const obj = result[0];
             delete obj.id;
             this.fields = Object.keys(obj);
+            // .map((key) => {
+            //   return {
+            //     key,
+            //     sortable: true,
+            //   };
+            // });
           } else {
             this.fields = [];
           }
@@ -430,6 +453,7 @@ export default {
           border: 1px solid #254cd8;
           border-radius: 5px;
           position: relative;
+          overflow: hidden;
           .result-content {
             height: 100%;
             overflow: auto;
@@ -440,6 +464,7 @@ export default {
             position: absolute;
             left: 49%;
             top: 20%;
+            z-index: 1;
           }
         }
         .sql {
@@ -485,10 +510,61 @@ export default {
     }
   }
 }
+
 /deep/ .table thead th {
+  white-space: nowrap;
+}
+/deep/ .table tr td {
   white-space: nowrap;
 }
 /deep/.b-table-sticky-header.table-responsive {
   max-height: 100%;
+}
+
+/deep/.el-table {
+  font-size: 0.9rem;
+  // .sort-caret.ascending {
+  //   border-bottom-color: #606266;
+  // }
+  // .sort-caret.descending {
+  //   border-top-color: #606266;
+  // }
+
+  /*滚动条整体样式*/
+  .el-table__body-wrapper::-webkit-scrollbar {
+    width: 0.5rem;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 0.5rem;
+  }
+
+  .el-table__body-wrapper::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px #254cd8;
+    background: #254cd8;
+  }
+
+  .el-table__body-wrapper::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    box-shadow: inset 0 0 5px transparent;
+    border-radius: 10px;
+    background: #fff;
+  }
+  .cell {
+    // line-height: 1.2rem;
+  }
+  thead {
+    tr th {
+      background: #ebeef5;
+    }
+  }
+  .el-table__cell {
+    padding: 0.5rem 0;
+  }
+  th.el-table__cell {
+    & > .cell {
+      color: #212529;
+    }
+  }
 }
 </style>
