@@ -7,7 +7,7 @@ RUN  yarn install
 
 RUN yarn build
 
-FROM nginx:1.11.0-alpine   
+FROM nginx:1.11.13-alpine   
 COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=ybuild  /opt/dist /usr/share/nginx/html/
