@@ -19,7 +19,15 @@
         </p>
       </div>
       <div class="footer-info">
-        <div v-for="(item, index) in infoList" :key="index">{{ item }}</div>
+        <div v-for="(item, index) in infoList" :key="index">
+          <a
+            v-if="item.key === '备案'"
+            href="https://beian.miit.gov.cn"
+            target="_blank"
+            >{{ item.content }}</a
+          >
+          <span v-else>{{ item.content }}</span>
+        </div>
       </div>
     </div>
   </footer>
@@ -34,10 +42,23 @@ export default {
     return {
       //底部信息
       infoList: [
-        "关于中科知道",
-        "Copyright 2019-2023 中科知道（北京）科技有限公司 版权所有",
-        "京ICP备XXXX1111号-2 京公网安备 XXXX0000007777号 电子营业执照",
-        "地址：北京市大兴区经济开发区科苑路9号3号楼三层T024室",
+        {
+          content: "关于中科知道",
+          key: "",
+        },
+        {
+          content: "Copyright 2019-2023 中科知道（北京）科技有限公司 版权所有",
+          key: "",
+        },
+        {
+          content:
+            "京ICP备XXXX1111号-2 京公网安备 XXXX0000007777号 电子营业执照",
+          key: "备案",
+        },
+        {
+          content: "地址：北京市大兴区经济开发区科苑路9号3号楼三层T024室",
+          key: "",
+        },
       ],
     };
   },
@@ -71,6 +92,10 @@ footer {
       flex: 1;
       text-align: right;
       font-size: 13px;
+      a {
+        text-decoration: none;
+        color: #16284f;
+      }
     }
   }
 }
