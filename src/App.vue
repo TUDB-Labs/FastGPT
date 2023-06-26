@@ -5,24 +5,7 @@
     <router-view />
     <!-- 底部 -->
     <FooterView />
-    <div v-if="isShowGoTop" class="go-top">
-      <div id="popover-target-top" class="item">
-        <img src="@/assets/images/telephone.png" class="phone" alt="phone1" />
-      </div>
-      <div class="item" @click="goTop">
-        <img src="@/assets/images/cc-top.png" class="top" alt="go-top" />
-      </div>
-      <b-popover target="popover-target-top" triggers="hover" placement="left">
-        <div class="pop-content">
-          <img src="@/assets/images/telephone.png" alt="微信公众号" />
-          <div>
-            <p style=""><strong>联系销售</strong></p>
-            <p @click="gotel('010-64998301')">010-64998301</p>
-            <!-- <p @click="gotel('010-69835689')">010-69835689</p> -->
-          </div>
-        </div>
-      </b-popover>
-    </div>
+    <controls />
   </div>
 </template>
 
@@ -30,13 +13,13 @@
 import HeaderView from "@/components/layouts/header-view.vue";
 import FooterView from "@/components/layouts/footer-view.vue";
 import { getIp, insertPvVu } from "@/api/request.js";
+import Controls from "./components/controls.vue";
 export default {
   name: "App",
-  components: { HeaderView, FooterView },
+  components: { HeaderView, FooterView, Controls },
   data() {
     return {
       platform: "admin-web",
-      isShowGoTop: false,
     };
   },
   created() {
@@ -46,15 +29,8 @@ export default {
     };
     this.webSubmit();
   },
-  mounted() {
-    window.onscroll = () => {
-      this.isShowGoTop =
-        (document.body.scrollTop || document.documentElement.scrollTop) > 10;
-    };
-  },
-  beforeDestroy() {
-    window.onscroll = null;
-  },
+  mounted() {},
+  beforeDestroy() {},
   watch: {},
   methods: {
     // 整站记录
@@ -82,24 +58,6 @@ export default {
         this.platform = "admin-web";
       }
     },
-    goTop() {
-      var top = document.body.scrollTop || document.documentElement.scrollTop;
-      scrollTo(0, 0);
-      this.animateGoTop(top);
-    },
-    animateGoTop(top) {
-      window.requestAnimationFrame(() => {
-        top -= 100;
-        if (top <= 0) top = 0;
-        scrollTo(0, top);
-        if (top === 0) return;
-        this.animateGoTop(top);
-      });
-    },
-    gotel(phoneNumber) {
-      if (!/mobile/i.test(navigator.userAgent)) return;
-      window.location.href = "tel:" + phoneNumber;
-    },
   },
 };
 </script>
@@ -113,41 +71,6 @@ export default {
   color: #2c3e50;
 }
 
-.go-top {
-  position: fixed;
-  top: 75%;
-  right: 12px;
-  z-index: 1000;
-  .item {
-    width: 45px;
-    height: 45px;
-    // padding: 7.5px;
-    background: #ffffff;
-    box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.22);
-    border-radius: 50%;
-    margin: 12px 0;
-    // box-sizing: content-box;
-    img.top {
-      width: 22px;
-      height: 22px;
-      margin-top: 12px;
-    }
-    img.phone {
-      width: 33px;
-      height: 33px;
-      margin-top: 6px;
-    }
-  }
-}
-/deep/.pop-content {
-  display: flex;
-  font-size: 1.33rem;
-  img {
-    margin-right: 6px;
-    width: 3.3rem;
-    height: 3.3rem;
-  }
-}
 body,
 /deep/p {
   margin: 0;
@@ -157,10 +80,32 @@ body,
   color: #000;
 }
 // 通用按钮
-/deep/ button {
+/deep/ button.btn-secondary {
   background: #254cd8;
   border-color: #254cd8;
   color: #fff !important;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 1rem;
+  // padding: 6px 24px;
+  font-weight: 400;
+
+  &:hover {
+    background-color: #1e83ff;
+    border-color: transparent;
+  }
+
+  &:focus {
+    background-color: #254cd8;
+    border-color: transparent;
+    box-shadow: none;
+  }
+}
+
+/deep/ button.btn-outline-primary {
+  // background: #254cd8;
+  // border-color: #254cd8;
+  color: #254cd8 !important;
   border-radius: 8px;
   padding: 6px 12px;
   font-size: 1rem;

@@ -8,27 +8,34 @@
         />
       </div>
       <!-- <img id="popover-target-1" src="https://cdn.tudb.work/aios/web/images/weixin01.png" alt="" /> -->
-      <b-button
-        v-if="['/law', '/buy-car'].includes(curPath)"
-        @click="goGuidance"
-      >
-        <span class="" style="margin-right: 3px">立即咨询</span>
-      </b-button>
-      <b-button v-else id="popover-target-1" class="fllow" style="">
-        <span class="" style="margin-right: 3px">关注我们</span>
-        <img
-          id="popover-target-1"
-          src="https://cdn.tudb.work/aios/web/images/weixin1.png"
-          alt=""
-        />
-      </b-button>
-      <b-popover target="popover-target-1" triggers="hover" placement="bottom">
-        <img
-          src="https://cdn.tudb.work/aios/web/images/code2.png"
-          style="width: 155px; height: 196px"
-          alt="微信公众号"
-        />
-      </b-popover>
+      <div class="actions">
+        <b-button
+          v-if="['/law', '/buy-car'].includes(curPath)"
+          @click="goGuidance"
+        >
+          <span class="" style="margin-right: 3px">立即咨询</span>
+        </b-button>
+        <b-button v-else id="popover-target-1" class="fllow" style="">
+          <span class="" style="margin-right: 3px">关注我们</span>
+          <img
+            id="popover-target-1"
+            src="https://cdn.tudb.work/aios/web/images/weixin1.png"
+            alt=""
+          />
+        </b-button>
+        <b-popover
+          target="popover-target-1"
+          triggers="hover"
+          placement="bottom"
+        >
+          <img
+            src="https://cdn.tudb.work/aios/web/images/code2.png"
+            style="width: 155px; height: 196px"
+            alt="微信公众号"
+          />
+        </b-popover>
+        <!-- <b-button variant="outline-primary">Button</b-button> -->
+      </div>
     </div>
     <div class="phone flex-row content-width">
       <img src="https://cdn.tudb.work/aios/web/images/zd_logo.png" alt="logo" />

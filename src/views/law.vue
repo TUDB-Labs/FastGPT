@@ -43,7 +43,14 @@
                 />
               </div>
               <div class="content">
-                <div v-html="item.question" />
+                <!-- <div v-html="item.question" /> -->
+                <div>
+                  {{
+                    item.question
+                      .replace(/\\n{1,}/g, "\n")
+                      .replace(/\n{1,}/g, "\n")
+                  }}
+                </div>
                 <Actions
                   v-if="item.msgId"
                   :attitude="item.attitude"
@@ -251,6 +258,7 @@ export default {
       this.chatList.push({
         answer: this.searchValue,
         attitude: 0,
+        question: "",
       });
       this.scrollBottom();
       this.getQuestion();
@@ -358,6 +366,9 @@ export default {
           line-height: 26px;
           min-height: 26px;
           text-align: left;
+          > div {
+            white-space: pre-wrap;
+          }
         }
         &.question {
           .indicator {
