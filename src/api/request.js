@@ -27,6 +27,24 @@ export const insertClickrecord = (data) => {
   return interceptor.post(url, data)
 }
 
+// 获取验证码
+export const getVerCode = (data) => {
+  const url = baseUrl + `/api/sms/genRandom`;
+  return interceptor.post(url,data)
+}
+
+
+export const chatToRobot = (data) => {
+  const url = baseUrl + `/api/chat`;
+  return interceptor.post(url,data)
+}
+
+// 通验证码登录
+export const loginByCode = (data) => {
+  const url = baseUrl + `/api/sms/insertCheck`;
+  return interceptor.post(url,data)
+}
+
 // 点赞
 // 喝倒彩
 export const likeLaw = ({msgId, userId}) => {

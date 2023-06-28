@@ -4,6 +4,8 @@ const Home = () => import('@/views/home');
 const BuyCar = () => import('@/views/buy-car');
 const Law = () => import('@/views/law');
 const Expert = () => import('@/views/expert');
+const PdfUpload = () => import('@/views/pdf-upload');
+const PdfView = () => import('@/views/pdf-view');
 
 Vue.use(Router)
 
@@ -29,6 +31,16 @@ const router = new Router({
       path: '/expert',
       name: 'Expert',
       component: Expert
+    },
+    {
+      path: '/pdf-view',
+      name: 'PdfView',
+      component: PdfView
+    },
+    {
+      path: '/pdf-upload',
+      name: 'PdfUpload',
+      component: PdfUpload
     }
   ]
 })

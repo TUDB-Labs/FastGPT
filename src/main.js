@@ -18,6 +18,8 @@ Vue.use(BootstrapVue)
 
 import router from './router'
 
+import store from './store'
+
 Vue.config.productionTip = false
 
 import VueCookies from 'vue-cookies';
@@ -36,10 +38,13 @@ if (!tokenExists) {
   Vue.$cookies.set('token', newToken);
 }
 
-new Vue({
+const app = new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
+
+export default app
 
 
 

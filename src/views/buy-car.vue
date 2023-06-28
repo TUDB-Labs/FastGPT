@@ -14,13 +14,6 @@
             maxlength="100"
             @keydown="onKeydown"
           />
-          <!-- <div class="send-btn" v-if="loading">
-            <div class="loading">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div> -->
           <img
             src="https://cdn.tudb.work/aios/web/images/send-btn.png"
             alt="send-img"
@@ -127,18 +120,21 @@
         </div>
       </div>
     </main>
+    <login-modal ref="loginModal" />
   </div>
 </template>
 
 <script>
-const maxCount = 20;
+const maxCount = 10;
 import showToast from "@/utils/toast.js";
 import { getBuyCar, carLikeOrDiss } from "@/api/request.js"; // carLikeOrDiss
 import Actions from "../components/actions.vue";
+import LoginModal from "@/components/layouts/login-modal.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "buy-car",
   props: {},
-  components: { Actions },
+  components: { Actions, LoginModal },
   data() {
     return {
       searchValue: "",
@@ -179,7 +175,9 @@ export default {
   },
   mounted() {},
   watch: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["userInfo"]),
+  },
   methods: {
     getCountInfo() {
       const str = localStorage.getItem("buyCarCountInfo");
@@ -205,12 +203,14 @@ export default {
       );
     },
     onSearch() {
-      // 判断是否超过提问次数
-      if (this.buyCarCountInfo.num === maxCount)
+      // 在未登录时 判断是否超过提问次数超过就弹出登录框
+      if (!this.userInfo.phoneNumber && this.buyCarCountInfo.num === maxCount) {
+        this.$refs.loginModal.show();
         return showToast(this, {
-          content: "您今日的提问次数已达上限20次",
+          content: `您今日的提问次数已达上限${maxCount}次`,
           type: "danger",
         });
+      }
       if (this.loading) return;
       if (!this.searchValue)
         return showToast(this, {
@@ -219,8 +219,12 @@ export default {
         });
       this.loading = true;
       this.curType = "result";
-      this.buyCarCountInfo.num += 1;
-      this.setCountInfo();
+
+      // 如果未登录需要记录查询次数
+      if (!this.userInfo.phoneNumber) {
+        this.buyCarCountInfo.num += 1;
+        this.setCountInfo();
+      }
       getBuyCar({ prompt: this.searchValue })
         .then((res) => {
           if (!res.flag)
@@ -347,47 +351,6 @@ export default {
           // top: 0;
           cursor: not-allowed;
           background: #254cd8;
-          .loading {
-            display: inline-block;
-            position: relative;
-            width: 3rem;
-            height: 3rem;
-            span {
-              position: absolute;
-              top: 1.25rem;
-              background-color: #fff;
-              width: 0.5rem;
-              height: 0.5rem;
-              border-radius: 50%;
-              animation: loading 1.2s infinite ease-in-out;
-            }
-            span:nth-child(1) {
-              left: 6px;
-              animation-delay: -0.24s;
-            }
-            span:nth-child(2) {
-              left: 18px;
-              animation-delay: -0.12s;
-            }
-            span:nth-child(3) {
-              left: 30px;
-              animation-delay: 0;
-            }
-
-            @keyframes loading {
-              0% {
-                transform: scale(0);
-              }
-
-              50% {
-                transform: scale(1);
-              }
-
-              100% {
-                transform: scale(0);
-              }
-            }
-          }
         }
       }
       .count-wrapper {
@@ -472,6 +435,7 @@ export default {
           // top: 6px;
           // position: absolute;
           text-align: right;
+          font-size: 0.8rem;
           button {
             margin: 2.4rem 0 0.5rem;
             padding: 6px 12px;

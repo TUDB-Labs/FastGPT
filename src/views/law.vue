@@ -110,25 +110,21 @@
         本公司不对服务内容与结果的真实性，准确性进行陈述与保证，相关内容亦不能替代特定领域专家意见
       </div>
     </main>
+    <login-modal ref="loginModal" />
   </div>
 </template>
 
 <script>
-const maxCount = 20;
+const maxCount = 10;
 import showToast from "@/utils/toast.js";
 import Actions from "@/components/actions.vue";
 import { likeLaw, dissLaw } from "@/api/request.js";
-const { v4: uuidv4 } = require("uuid");
-// 生成 UUID
-let uuid = localStorage.getItem("uuid");
-if (!uuid) {
-  uuid = uuidv4();
-  localStorage.setItem("uuid", uuid);
-}
+import LoginModal from "@/components/layouts/login-modal.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "law",
   props: {},
-  components: { Actions },
+  components: { Actions, LoginModal },
   data() {
     return {
       // 是否正在返回查询结果
@@ -145,8 +141,8 @@ export default {
       ],
       xhr: null,
       answerStatus: "", // stop ing
-      answerCountInfo: localStorage.getItem("answerCountInfo")
-        ? JSON.parse(localStorage.getItem("answerCountInfo"))
+      lawCountInfo: localStorage.getItem("lawCountInfo")
+        ? JSON.parse(localStorage.getItem("lawCountInfo"))
         : {
             date: new Date().toLocaleDateString(),
             num: 0,
@@ -158,34 +154,33 @@ export default {
   },
   mounted() {},
   watch: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["userInfo"]),
+  },
   methods: {
     getCountInfo() {
-      const str = localStorage.getItem("answerCountInfo");
+      const str = localStorage.getItem("lawCountInfo");
       const today = new Date().toLocaleDateString();
       if (str) {
-        const answerCountInfo = JSON.parse(str);
+        const lawCountInfo = JSON.parse(str);
         // 如果已经访问过切是今天就不需要重置
-        if (today === answerCountInfo.date) {
-          this.answerCountInfo = answerCountInfo;
+        if (today === lawCountInfo.date) {
+          this.lawCountInfo = lawCountInfo;
           return;
         }
       }
-      this.answerCountInfo = {
+      this.lawCountInfo = {
         date: today,
         num: 0,
       };
       this.setCountInfo();
     },
     setCountInfo() {
-      localStorage.setItem(
-        "answerCountInfo",
-        JSON.stringify(this.answerCountInfo)
-      );
+      localStorage.setItem("lawCountInfo", JSON.stringify(this.lawCountInfo));
     },
     // 通过sse监听服务端返回的内容
     async getQuestion() {
-      const url = `${process.env.VUE_APP_LAW_SERVER}/api/chat?question=${this.searchValue}&userId=${uuid}`;
+      const url = `${process.env.VUE_APP_LAW_SERVER}/api/chat?question=${this.searchValue}&userId=${this.userInfo.id}`;
       // 输入框清空
       this.searchValue = "";
       this.answerStatus = "ing";
@@ -193,8 +188,11 @@ export default {
       const curChat = this.chatList.slice(-1)[0];
       const xhr = new XMLHttpRequest();
       this.xhr = xhr;
-      this.answerCountInfo.num += 1;
-      this.setCountInfo();
+      // 如果未登录需要记录查询次数
+      if (!this.userInfo.phoneNumber) {
+        this.lawCountInfo.num += 1;
+        this.setCountInfo();
+      }
       xhr.open("GET", url);
       xhr.send();
       xhr.addEventListener("progress", () => {
@@ -244,12 +242,14 @@ export default {
       });
     },
     onSend() {
-      // 判断是否超过提问次数
-      if (this.answerCountInfo.num === maxCount)
+      // 在未登录时 判断是否超过提问次数超过就弹出登录框
+      if (!this.userInfo.phoneNumber && this.lawCountInfo.num === maxCount) {
+        this.$refs.loginModal.show();
         return showToast(this, {
-          content: "您今日的提问次数已达上限20次",
+          content: `您今日的提问次数已达上限${maxCount}次`,
           type: "danger",
         });
+      }
       // 输入框无值
       if (!this.searchValue) return;
       // 已提问还未回复，不能继续提问
@@ -266,7 +266,7 @@ export default {
     onLike(item) {
       likeLaw({
         msgId: item.msgId,
-        userId: uuid,
+        userId: this.userInfo.id,
       }).then(() => {
         item.attitude = 1;
       });
@@ -274,7 +274,7 @@ export default {
     onDiss(item) {
       dissLaw({
         msgId: item.msgId,
-        userId: uuid,
+        userId: this.userInfo.id,
       }).then(() => {
         item.attitude = -1;
       });

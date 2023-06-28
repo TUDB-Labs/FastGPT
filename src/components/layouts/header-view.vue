@@ -34,39 +34,74 @@
             alt="微信公众号"
           />
         </b-popover>
-        <!-- <b-button variant="outline-primary">Button</b-button> -->
+        <span v-if="userInfo.phoneNumber" class="user-info">
+          欢迎：{{ userInfo.phoneNumber }}
+          <span class="loginout" @click="onLoginout">
+            <img src="@/assets/images/loginout.png" alt="" />退出
+          </span>
+        </span>
+        <b-button
+          v-else
+          class="login-btn"
+          variant="outline-primary"
+          @click="showLoginModal"
+          >登录</b-button
+        >
       </div>
     </div>
     <div class="phone flex-row content-width">
       <img src="https://cdn.tudb.work/aios/web/images/zd_logo.png" alt="logo" />
     </div>
+    <login-modal ref="loginModal" @success="loginSuccess" />
   </header>
 </template>
 
 <script>
+import LoginModal from "./login-modal.vue";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "header-view",
   props: {},
-  components: {},
+  components: { LoginModal },
   data() {
     return {
+      // 当前路由
       curPath: "",
     };
   },
   created() {
     this.curPath = this.$route.path;
+    // 判断当前是否登录且是否过期超过7天
+    // 如果已过期，退出登录
+    if (
+      this.userInfo.expirationTime &&
+      this.userInfo.expirationTime < new Date().getTime()
+    ) {
+      this.onLoginout();
+    }
   },
   mounted() {},
   watch: {
-    "$route.path"(val) {
+    "$route.path"() {
       this.curPath = this.$route.path;
-      console.log(val);
     },
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["userInfo"]),
+  },
   methods: {
+    ...mapActions(["setUserInfo"]),
     goGuidance() {
       this.$router.push("/expert");
+    },
+    showLoginModal() {
+      this.$refs.loginModal.show();
+    },
+    onLoginout() {
+      this.setUserInfo({});
+    },
+    loginSuccess() {
+      // this.userInfo = userInfo;
     },
   },
 };
@@ -77,6 +112,23 @@ header {
   height: 4rem;
   color: #000;
   text-align: center;
+  .user-info {
+    color: #192a51;
+    font-weight: bold;
+    margin-left: 1rem;
+  }
+  .login-btn {
+    margin-left: 1rem;
+    padding: 6px 2rem !important;
+  }
+  .loginout {
+    margin-left: 1rem;
+    cursor: pointer;
+    img {
+      width: 1.2rem;
+      margin-top: -3px;
+    }
+  }
 }
 .flex-row {
   height: 4rem;

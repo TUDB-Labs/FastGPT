@@ -1,15 +1,31 @@
 <template>
   <div v-if="isShowGoTop" class="go-top">
-    <div id="popover-target-top" class="item">
-      <img src="@/assets/images/telephone.png" class="phone" alt="phone1" />
+    <div id="popover-target-robot" class="item" @click="toggleKefu">
+      <img
+        v-if="!isShowKefu"
+        src="@/assets/images/robot.png"
+        class="robot"
+        alt="phone1"
+      />
+      <img
+        v-if="isShowKefu"
+        src="@/assets/images/close.png"
+        class="close-robot"
+        alt="phone1"
+      />
     </div>
-    <div id="" class="item">
-      <img src="@/assets/images/telephone.png" class="phone" alt="phone1" />
+    <div id="popover-target-phone" class="item">
+      <img src="@/assets/images/phone.png" class="phone" alt="phone1" />
     </div>
     <div class="item" @click="goTop">
       <img src="@/assets/images/cc-top.png" class="top" alt="go-top" />
     </div>
-    <b-popover target="popover-target-top" triggers="hover" placement="left">
+    <b-popover
+      id="contract-modal"
+      target="popover-target-phone"
+      triggers="hover"
+      placement="left"
+    >
       <div class="pop-content">
         <img src="@/assets/images/telephone.png" alt="微信公众号" />
         <div>
@@ -19,17 +35,39 @@
         </div>
       </div>
     </b-popover>
+    <!-- <b-popover
+      target="popover-target-robot"
+      title=""
+      id="robot-modal"
+      triggers="click"
+      placement="leftcenter"
+    >
+      <div class="header">
+        <img src="@/assets/images/logo.png" alt="" />
+        <span>智能客服</span>
+      </div>
+      <robot-chat />
+    </b-popover> -->
+    <div v-show="isShowKefu" class="kefu">
+      <div class="header">
+        <img src="@/assets/images/logo.png" alt="" />
+        <span>智能客服</span>
+      </div>
+      <robot-chat />
+    </div>
   </div>
 </template>
 
 <script>
+import RobotChat from "./robot-chat.vue";
 export default {
   name: "controls",
   props: {},
-  components: {},
+  components: { RobotChat },
   data() {
     return {
       isShowGoTop: false,
+      isShowKefu: false,
     };
   },
   created() {
@@ -63,6 +101,9 @@ export default {
       if (!/mobile/i.test(navigator.userAgent)) return;
       window.location.href = "tel:" + phoneNumber;
     },
+    toggleKefu() {
+      this.isShowKefu = !this.isShowKefu;
+    },
   },
 };
 </script>
@@ -70,7 +111,7 @@ export default {
 <style lang="less" scoped>
 .go-top {
   position: fixed;
-  bottom: 10%;
+  bottom: 20px;
   right: 12px;
   z-index: 1000;
   .item {
@@ -83,14 +124,89 @@ export default {
     margin: 12px 0;
     // box-sizing: content-box;
     img.top {
+      width: 32px;
+      height: 32px;
+      margin-top: 7px;
+    }
+    img.phone {
       width: 22px;
       height: 22px;
       margin-top: 12px;
     }
-    img.phone {
-      width: 33px;
-      height: 33px;
-      margin-top: 6px;
+    .robot {
+      width: 22px;
+      height: 22px;
+      margin-top: 10px;
+    }
+    .close-robot {
+      width: 24px;
+      height: 24px;
+      margin-top: 11px;
+    }
+  }
+}
+#contract-modal {
+  /deep/.popover-body {
+    padding: 12px;
+  }
+}
+#robot-modal {
+  max-width: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  /deep/.arrow {
+    display: none;
+  }
+  /deep/.popover-body {
+    width: 500px;
+    padding: 0;
+  }
+  .header {
+    background: #192a51;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    color: #f5b228;
+    font-weight: 550;
+    font-size: 1rem;
+    img {
+      width: 50px;
+      height: 18px;
+    }
+  }
+}
+.kefu {
+  width: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  position: fixed;
+  bottom: 2rem;
+  right: 4.5rem;
+  box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.22);
+  /deep/.arrow {
+    display: none;
+  }
+  /deep/.popover-body {
+    width: 500px;
+    padding: 0;
+  }
+  .header {
+    background: #192a51;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    color: #f5b228;
+    font-weight: 550;
+    font-size: 1rem;
+    align-items: center;
+    font-family: Noto Sans S Chinese;
+    img {
+      width: 50px;
+      height: 18px;
     }
   }
 }

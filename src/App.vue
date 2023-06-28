@@ -46,7 +46,9 @@ export default {
             };
             insertPvVu(params)
               .then(() => {})
-              .catch(() => {});
+              .catch((error) => {
+                console.log(error);
+              });
           }
         })
         .catch(() => {});
@@ -64,7 +66,7 @@ export default {
 
 <style lang="less" scoped>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Noto Sans S Chinese;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -91,7 +93,7 @@ body,
   font-weight: 400;
 
   &:hover {
-    background-color: #1e83ff;
+    background-color: #254cd8;
     border-color: transparent;
   }
 
@@ -99,6 +101,23 @@ body,
     background-color: #254cd8;
     border-color: transparent;
     box-shadow: none;
+  }
+}
+
+/deep/button.dark-btn {
+  background: #192a51;
+
+  &:hover {
+    background-color: #fff;
+    border-color: #192a51;
+    // color: #000;
+  }
+
+  &:focus {
+    background-color: #fff;
+    border-color: #192a51;
+    box-shadow: none;
+    // color: #000;
   }
 }
 
@@ -113,14 +132,16 @@ body,
   font-weight: 400;
 
   &:hover {
-    background-color: #1e83ff;
-    border-color: transparent;
+    background-color: #fff;
+    border-color: #254cd8;
+    color: #000;
   }
 
   &:focus {
-    background-color: #254cd8;
-    border-color: transparent;
+    background-color: #fff;
+    border-color: #254cd8;
     box-shadow: none;
+    color: #000;
   }
 }
 
