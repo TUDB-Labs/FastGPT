@@ -81,6 +81,13 @@ export default {
     ) {
       this.onLoginout();
     }
+
+    window.onstorage = (event) => {
+      if (event.storageArea === localStorage && event.key === "userInfo") {
+        // LocalStorage 发生变化
+        this.setUserInfo(JSON.parse(event.newValue));
+      }
+    };
   },
   mounted() {},
   watch: {

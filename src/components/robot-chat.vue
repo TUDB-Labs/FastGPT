@@ -26,7 +26,11 @@
             />
           </div>
           <div class="content">
-            <div v-html="item.question" />
+            <div
+              v-html="
+                item.question.replace(/\\n{1,}/g, '\n').replace(/\n{1,}/g, '\n')
+              "
+            />
             <!-- <div>
               {{
                 
