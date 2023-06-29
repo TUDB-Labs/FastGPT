@@ -14,7 +14,7 @@
         <div :key="'answer' + index" class="chat-item answer">
           <div class="header-img-wrapper"></div>
           <div class="content">
-            <div>{{ item.answer }}</div>
+            <div v-html="item.answer"></div>
           </div>
         </div>
         <div :key="'question' + index" class="chat-item question">
@@ -26,12 +26,12 @@
             />
           </div>
           <div class="content">
-            <!-- <div v-html="item.question" /> -->
-            <div>
+            <div v-html="item.question" />
+            <!-- <div>
               {{
-                item.question.replace(/\\n{1,}/g, "\n").replace(/\n{1,}/g, "\n")
+                
               }}
-            </div>
+            </div> -->
           </div>
         </div>
       </template>
@@ -222,13 +222,13 @@ export default {
         margin: 0 0 0 0.6rem;
         position: relative;
         border-radius: 4px;
-        padding: 8px 8px;
+        padding: 0.5rem;
         // min-height: 2.2rem;
         font-size: 13px;
         text-align: left;
         > div {
           white-space: pre-wrap;
-          line-height: 18px;
+          line-height: 1.2rem;
         }
       }
       &.question {
@@ -242,6 +242,13 @@ export default {
             position: absolute;
             right: 6px;
             bottom: 3px;
+          }
+
+          /deep/a {
+            color: #192a51;
+            &:hover {
+              color: #192a51;
+            }
           }
         }
       }

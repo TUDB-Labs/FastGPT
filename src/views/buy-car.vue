@@ -29,6 +29,17 @@
           />
           <span>{{ searchValue.length }} / 100</span>
         </div>
+        <!-- 
+          v-if="isShowProgress" -->
+        <b-progress
+          v-if="isShowProgress"
+          ref="bprogress"
+          :value="searchProgress"
+          :max="100"
+          show-progress
+          animated
+          style="margin-top: 6px; height: 0.7rem"
+        />
         <div class="recommend-wrapper">
           <h5>
             <strong>推荐问题</strong>
@@ -60,13 +71,13 @@
             >
           </p>
           <div class="result-wrap">
-            <b-spinner
+            <!-- <b-spinner
               v-if="loading"
               variant="primary"
               label="Busy"
               class="spinner"
               style="margin-top: 5rem"
-            />
+            /> -->
             <template v-if="curType === 'result'">
               <b-table
                 v-if="false"
@@ -168,10 +179,20 @@ export default {
             date: new Date().toLocaleDateString(),
             num: 0,
           },
+      searchProgress: 0,
+      isShowProgress: false,
+      timer: null,
     };
   },
   created() {
     this.getCountInfo();
+  },
+  beforeDestroy() {
+    console.log(this.timer);
+    if (this.timer) {
+      window.clearInterval(this.timer);
+      this.timer = null;
+    }
   },
   mounted() {},
   watch: {},
@@ -225,6 +246,16 @@ export default {
         this.buyCarCountInfo.num += 1;
         this.setCountInfo();
       }
+      this.searchProgress = 0;
+      this.isShowProgress = true;
+      this.timer = setInterval(() => {
+        if (this.searchProgress >= 95) {
+          window.clearInterval(this.timer);
+          this.timer = null;
+          return;
+        }
+        this.searchProgress += 1;
+      }, 50);
       getBuyCar({ prompt: this.searchValue })
         .then((res) => {
           if (!res.flag)
@@ -238,18 +269,22 @@ export default {
             const obj = result[0];
             delete obj.id;
             this.fields = Object.keys(obj);
-            // .map((key) => {
-            //   return {
-            //     key,
-            //     sortable: true,
-            //   };
-            // });
           } else {
             this.fields = [];
           }
         })
         .finally(() => {
           this.loading = false;
+          this.$refs.bprogress.$el.classList.add("animate__fadeOut");
+          // 把进度条置为100并清除进度条定时器
+          this.searchProgress = 100;
+          if (this.timer) {
+            window.clearInterval(this.timer);
+            this.timer = null;
+          }
+          setTimeout(() => {
+            this.isShowProgress = false;
+          }, 1000);
         });
     },
     onKeydown() {},
@@ -530,5 +565,8 @@ export default {
       color: #212529;
     }
   }
+}
+/deep/ .progress-bar.progress-bar-striped.progress-bar-animated {
+  color: transparent;
 }
 </style>

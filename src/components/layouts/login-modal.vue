@@ -9,12 +9,12 @@
       hide-footer
       title="登录"
     >
-      <template #modal-header="{ close }">
+      <template #modal-header="{}">
         <!-- 自定义头部 -->
         <h5>
           <img src="@/assets/images/logo.png" alt="" />
         </h5>
-        <span class="close-btn" @click="onClose(close)"> + </span>
+        <span class="close-btn" @click="onClose"> + </span>
       </template>
       <div class="login-content">
         <h5 class="title">手机号登录</h5>
@@ -105,7 +105,6 @@ export default {
     return {
       loginForm: {
         isCheck: false,
-        // phoneNumber: 17711520562,
       },
       countdownIndex: -1,
       timer: null,
@@ -195,8 +194,8 @@ export default {
         }
       }, 1000);
     },
-    onClose(close) {
-      close();
+    onClose() {
+      this.$refs.myModal.hide();
       this.loginForm = {};
       this.isWaiting = false;
     },
@@ -217,14 +216,15 @@ export default {
             });
             // 存入用户信息
             this.userInfo = {
-              phoneNumber: "17711520562",
+              phoneNumber,
               id: res.id,
               // 七天后过期
               expirationTime: new Date().getTime() + 60 * 60 * 24 * 7 * 1000,
             };
             this.setUserInfo(this.userInfo);
 
-            this.$refs.myModal.hide();
+            this.onClose();
+
             this.$emit("success", this.userInfo);
           })
           .finally(() => {

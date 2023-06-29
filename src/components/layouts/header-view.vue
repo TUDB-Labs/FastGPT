@@ -36,8 +36,8 @@
           />
         </b-popover>
         <span v-if="userInfo.phoneNumber" class="user-info">
-          欢迎：{{ userInfo.phoneNumber }}
-          <span class="loginout" @click="onLoginout">
+          <!-- 欢迎：{{ userInfo.phoneNumber }} -->
+          <span class="loginout" slot="reference" @click="onLoginout">
             <img src="@/assets/images/loginout.png" alt="" />退出
           </span>
         </span>
@@ -60,6 +60,7 @@
 <script>
 import LoginModal from "./login-modal.vue";
 import { mapGetters, mapActions } from "vuex";
+import showToast from "@/utils/toast.js";
 export default {
   name: "header-view",
   props: {},
@@ -99,7 +100,19 @@ export default {
       this.$refs.loginModal.show();
     },
     onLoginout() {
-      this.setUserInfo({});
+      this.$confirm("是否要退出登录?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          showToast(this, {
+            content: "退出登录成功",
+            type: "success",
+          });
+          this.setUserInfo({});
+        })
+        .catch(() => {});
     },
     loginSuccess() {
       // this.userInfo = userInfo;
@@ -143,6 +156,11 @@ header {
       width: 1.2rem;
       margin-top: -3px;
     }
+  }
+}
+.actions {
+  & > button {
+    width: 7.3rem;
   }
 }
 .flex-row {

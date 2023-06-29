@@ -87,7 +87,7 @@ body,
   border-color: #254cd8;
   color: #fff !important;
   border-radius: 8px;
-  padding: 6px 12px;
+  padding: 0.4rem 0.8rem;
   font-size: 1rem;
   // padding: 6px 24px;
   font-weight: 400;

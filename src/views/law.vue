@@ -196,6 +196,15 @@ export default {
       xhr.open("GET", url);
       xhr.send();
       xhr.addEventListener("progress", () => {
+        if (xhr.status !== 200) {
+          xhr.abort();
+          this.isQuestionIng = false;
+          this.answerStatus = "";
+          return showToast(this, {
+            content: `远端服务器错误`,
+            type: "danger",
+          });
+        }
         if (!curChat.msgId) {
           const msgId = xhr.getResponseHeader("x-msgid");
           curChat.msgId = msgId;
@@ -328,6 +337,7 @@ export default {
       position: relative;
       .first {
         .content {
+          // padding-bottom: 25px;
           padding-bottom: 12px !important;
         }
       }
@@ -387,8 +397,8 @@ export default {
           .content {
             position: relative;
             // padding-bottom: 25px !important;
-            &:not(:first-child) {
-              padding-bottom: 25px !important;
+            padding-bottom: 25px;
+            &:not(:first) {
             }
             .action-wrapper {
               position: absolute;
