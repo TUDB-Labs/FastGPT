@@ -129,7 +129,10 @@ export default {
           this.answerStatus = "";
         }
         // 向回复内容里写值
-        curChat.question = str;
+        curChat.question = str
+          .replace(/data:/g, "")
+          .replace(/\n/g, "")
+          .replace(/\b\d+\.\s/g, "\n$&");
         this.chatList.splice(-1, 1, curChat);
         this.scrollBottom();
       });
