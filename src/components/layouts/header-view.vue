@@ -11,11 +11,12 @@
       <div class="actions">
         <b-button
           v-if="['/law', '/buy-car'].includes(curPath)"
+          class="dark-btn"
           @click="goGuidance"
         >
-          <span class="" style="margin-right: 3px">立即咨询</span>
+          立即咨询
         </b-button>
-        <b-button v-else id="popover-target-1" class="fllow" style="">
+        <b-button v-else id="popover-target-1" class="fllow dark-btn" style="">
           <span class="" style="margin-right: 3px">关注我们</span>
           <img
             id="popover-target-1"
@@ -117,9 +118,23 @@ header {
     font-weight: bold;
     margin-left: 1rem;
   }
-  .login-btn {
+  button.login-btn {
     margin-left: 1rem;
     padding: 6px 2rem !important;
+    border-color: #192a51;
+    color: #192a51 !important;
+
+    &:hover {
+      border-color: #192a51 !important;
+      color: #192a51 !important;
+    }
+
+    &:focus {
+      background: transparent !important;
+      border-color: #192a51;
+      box-shadow: none;
+      color: #192a51 !important;
+    }
   }
   .loginout {
     margin-left: 1rem;

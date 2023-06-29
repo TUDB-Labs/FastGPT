@@ -130,7 +130,7 @@ export default {
           demoName: "",
           hopeCon: "敬请期待!",
           visible: false,
-          path: "pdf-upload",
+          // path: "pdf-upload",
         },
       ],
     };

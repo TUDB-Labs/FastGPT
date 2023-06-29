@@ -106,15 +106,16 @@ body,
 
 /deep/button.dark-btn {
   background: #192a51;
+  border-color: #192a51;
 
   &:hover {
-    background-color: #fff;
+    background-color: #192a51;
     border-color: #192a51;
     // color: #000;
   }
 
   &:focus {
-    background-color: #fff;
+    background-color: #192a51;
     border-color: #192a51;
     box-shadow: none;
     // color: #000;

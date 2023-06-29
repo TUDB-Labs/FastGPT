@@ -181,7 +181,7 @@ export default {
   background: #f0f0f0;
   .chat-list {
     // flex: 1;
-    max-height: calc(100vh - 250px);
+    max-height: calc(100vh - 340px);
     min-height: 40vh;
     overflow-y: auto;
     padding: 1rem 1.2rem;
@@ -257,7 +257,6 @@ export default {
     }
   }
   .input-wrapper {
-    padding: 12px;
     border-top: 1px solid #bdbdbd;
     input {
       border: none;
@@ -265,6 +264,7 @@ export default {
       background: transparent;
       width: 100%;
       font-size: 13px;
+      padding: 12px 12px 40px;
       &::placeholder {
         color: #717171;
       }
@@ -284,7 +284,6 @@ export default {
     align-items: center;
     justify-content: space-between;
     padding: 12px;
-    margin-top: 16px;
     button {
       height: 26px;
       line-height: 24px;
@@ -312,17 +311,19 @@ export default {
       display: flex;
       align-items: center;
       .send-btn {
+        position: relative;
+        width: 52px;
         .loading {
           display: inline-block;
-          position: relative;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          position: absolute;
           // width: 3rem;
-          height: 26px;
           display: flex;
           align-items: center;
           justify-content: center;
           span {
-            // position: absolute;
-            // top: 1.25rem;
             background-color: #fff;
             width: 0.5rem;
             height: 0.5rem;

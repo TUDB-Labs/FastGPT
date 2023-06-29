@@ -29,25 +29,12 @@
       <div class="pop-content">
         <img src="@/assets/images/telephone.png" alt="微信公众号" />
         <div>
-          <p style=""><strong>联系销售</strong></p>
-          <p @click="gotel('010-64998301')">010-64998301</p>
+          <div style=""><strong>联系销售</strong></div>
+          <div @click="gotel('010-64998301')">010-64998301</div>
           <!-- <p @click="gotel('010-69835689')">010-69835689</p> -->
         </div>
       </div>
     </b-popover>
-    <!-- <b-popover
-      target="popover-target-robot"
-      title=""
-      id="robot-modal"
-      triggers="click"
-      placement="leftcenter"
-    >
-      <div class="header">
-        <img src="@/assets/images/logo.png" alt="" />
-        <span>智能客服</span>
-      </div>
-      <robot-chat />
-    </b-popover> -->
     <div v-show="isShowKefu" class="kefu">
       <div class="header">
         <img src="@/assets/images/logo.png" alt="" />
@@ -66,18 +53,18 @@ export default {
   components: { RobotChat },
   data() {
     return {
-      isShowGoTop: false,
+      isShowGoTop: true,
       isShowKefu: false,
     };
   },
   created() {
-    window.onscroll = () => {
-      this.isShowGoTop =
-        (document.body.scrollTop || document.documentElement.scrollTop) > 10;
-    };
+    // window.onscroll = () => {
+    //   this.isShowGoTop =
+    //     (document.body.scrollTop || document.documentElement.scrollTop) > 10;
+    // };
   },
   beforeDestroy() {
-    window.onscroll = null;
+    // window.onscroll = null;
   },
   mounted() {},
   watch: {},
@@ -111,37 +98,36 @@ export default {
 <style lang="less" scoped>
 .go-top {
   position: fixed;
-  bottom: 20px;
-  right: 12px;
+  bottom: 1.2rem;
+  right: 0.8rem;
   z-index: 1000;
   .item {
-    width: 45px;
-    height: 45px;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     // padding: 7.5px;
     background: #ffffff;
     box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.22);
     border-radius: 50%;
-    margin: 12px 0;
+    margin: 0.8rem 0;
     // box-sizing: content-box;
     img.top {
-      width: 32px;
-      height: 32px;
-      margin-top: 7px;
+      width: 1.6rem;
+      height: 1.6rem;
     }
     img.phone {
-      width: 22px;
-      height: 22px;
-      margin-top: 12px;
+      width: 1.2rem;
+      height: 1.2rem;
     }
     .robot {
-      width: 22px;
-      height: 22px;
-      margin-top: 10px;
+      width: 1.2rem;
+      height: 1.2rem;
     }
     .close-robot {
-      width: 24px;
-      height: 24px;
-      margin-top: 11px;
+      width: 1.5rem;
+      height: 1.5rem;
     }
   }
 }
@@ -178,13 +164,13 @@ export default {
   }
 }
 .kefu {
-  width: 420px;
+  width: 27rem;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.2);
   position: fixed;
-  bottom: 2rem;
-  right: 4.5rem;
+  bottom: 8.5rem;
+  right: 3.9rem;
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.22);
   /deep/.arrow {
     display: none;
@@ -215,8 +201,8 @@ export default {
   font-size: 1.33rem;
   img {
     margin-right: 6px;
-    width: 3.3rem;
-    height: 3.3rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }
 </style>

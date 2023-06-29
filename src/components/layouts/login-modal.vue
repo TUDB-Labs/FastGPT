@@ -46,7 +46,13 @@
               </b-button>
             </p>
           </el-form-item>
-          <b-button class="dark-btn confirm-btn" @click="onLogin">
+          <b-button
+            class="dark-btn confirm-btn"
+            :disabled="isLogining"
+            :style="{ cursor: isLogining ? 'not-allowed' : 'auto' }"
+            @click="onLogin"
+          >
+            <b-spinner v-if="isLogining" small></b-spinner>
             登录
           </b-button>
 
@@ -56,8 +62,8 @@
                 id="checkbox-1"
                 v-model="loginForm.isCheck"
                 name="checkbox-1"
-                value="accepted"
-                unchecked-value="not_accepted"
+                :value="true"
+                :unchecked-value="false"
                 >同意
               </b-form-checkbox>
               <a href="#" @click="() => $refs.xieyiModal.show()"
@@ -98,6 +104,7 @@ export default {
   data() {
     return {
       loginForm: {
+        isCheck: false,
         // phoneNumber: 17711520562,
       },
       countdownIndex: -1,
@@ -105,7 +112,7 @@ export default {
       isWaiting: false,
       rules: {
         phoneNumber: [
-          { required: true, message: "手机号码不能为空" },
+          { required: true, message: "手机号码不能为空", trigger: "blur" },
           {
             validator(rule, value, callback) {
               console.log(rule, value);
@@ -115,11 +122,11 @@ export default {
               }
               callback();
             },
-            // trigger: "blur",
+            trigger: "blur",
           },
         ],
         verifyCode: [
-          { required: true, message: "验证码不能为空" },
+          { required: true, message: "验证码不能为空", trigger: "blur" },
           {
             validator(rule, value, callback) {
               console.log(rule, value);
@@ -128,7 +135,7 @@ export default {
               }
               callback();
             },
-            // trigger: "blur",
+            trigger: "blur",
           },
         ],
         isCheck: [
@@ -141,10 +148,11 @@ export default {
               }
               callback();
             },
-            // trigger: "blur",
+            trigger: "blur",
           },
         ],
       },
+      isLogining: false,
     };
   },
   created() {},
@@ -197,33 +205,31 @@ export default {
         if (!valid) return;
         // 判断电话号码、验证码、条款影视政策是否选择
         const { phoneNumber, verifyCode } = this.loginForm;
-        // let errorMag = "";
-        // if (!isCheck) errorMag = "请阅读并同意《使用条款和隐私政策》";
-        // if (errorMag)
-        //   return showToast(this, {
-        //     content: errorMag,
-        //     type: "danger",
-        //   });
+        this.isLogining = true;
         loginByCode({
           phoneNumber,
           verifyCode,
-        }).then((res) => {
-          showToast(this, {
-            content: "登录成功",
-            type: "success",
-          });
-          // 存入用户信息
-          this.userInfo = {
-            phoneNumber: "17711520562",
-            id: res.id,
-            // 七天后过期
-            expirationTime: new Date().getTime() + 60 * 60 * 24 * 7 * 1000,
-          };
-          this.setUserInfo(this.userInfo);
+        })
+          .then((res) => {
+            showToast(this, {
+              content: "登录成功",
+              type: "success",
+            });
+            // 存入用户信息
+            this.userInfo = {
+              phoneNumber: "17711520562",
+              id: res.id,
+              // 七天后过期
+              expirationTime: new Date().getTime() + 60 * 60 * 24 * 7 * 1000,
+            };
+            this.setUserInfo(this.userInfo);
 
-          this.$refs.myModal.hide();
-          this.$emit("success", this.userInfo);
-        });
+            this.$refs.myModal.hide();
+            this.$emit("success", this.userInfo);
+          })
+          .finally(() => {
+            this.isLogining = false;
+          });
       });
     },
   },
@@ -266,7 +272,7 @@ export default {
       color: #192a51;
     }
     .el-form-item {
-      margin-bottom: 30px;
+      margin-bottom: 26px;
     }
     .phone-item {
       .el-input-group__append,
