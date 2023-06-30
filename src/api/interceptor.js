@@ -15,7 +15,8 @@ axiosService.interceptors.response.use(
   response => {
     if (response.request.responseURL.indexOf('ipv4.icanhazip.com') > -1) return response.data
     // 需要捕捉的错误码列表
-    if (response.data && response.data.code !== 200) {
+    if (response.data && (response.data.code !== 200 && response.data.code !== 20000)) {
+    console.log('response错误：', response)
       showToast(app, {
         content: response.data.message,
         type: "danger",
