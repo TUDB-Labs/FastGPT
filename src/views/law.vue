@@ -343,8 +343,8 @@ export default {
     }
     .chat-list {
       // flex: 1;
-      height: calc(100vh - 14rem);
-      // max-height: 40rem;
+      min-height: calc(100vh - 14rem);
+      max-height: calc(100vh - 10rem);
       overflow-y: auto;
       padding: 0.6rem;
       margin-top: 1rem;
@@ -457,6 +457,7 @@ export default {
         color: #000;
         padding: 0 1rem;
         outline: none;
+        font-size: 0.9rem;
         box-shadow: 0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
           0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
           0 0 20px -12px #80808061;

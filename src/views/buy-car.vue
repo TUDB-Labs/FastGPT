@@ -109,7 +109,7 @@
             </template>
             <div
               v-if="curType === 'sql'"
-              style="text-align: left; margin: 1rem"
+              style="text-align: left; margin: 1rem; font-size: 0.9rem"
             >
               {{
                 resultObj.sql || "暂无sql内容，请输入您想了解的购车信息进行查询"
@@ -355,22 +355,23 @@ export default {
       margin: 0 auto;
       padding: 1.5rem 0;
       .submit-wrapper {
-        height: 3rem;
+        height: 2.8rem;
         // border: 1px solid gray;
         overflow: hidden;
         background: #ffffff;
         border-radius: 5px;
-        margin-top: 1.5rem;
+        margin-top: 0.5rem;
         display: flex;
         input {
-          height: 3rem;
+          height: 2.8rem;
           border: none;
           width: 100%;
           background: transparent;
           color: #000;
-          padding: 0 16px;
+          padding: 0 0.8rem;
           outline: none;
           flex: 1;
+          font-size: 0.9rem;
           box-shadow: 0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
             0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
             0 0 20px -12px #80808061;
@@ -380,14 +381,15 @@ export default {
         }
         .send-img {
           width: 3rem;
+          height: 2.8rem;
           cursor: pointer;
         }
 
         .send-btn {
           color: #fff;
           // position: absolute;
-          width: 3rem;
-          height: 3rem;
+          width: 2.8rem;
+          height: 2.8rem;
           // right: 0.5rem;
           // top: 0;
           cursor: not-allowed;
@@ -414,7 +416,7 @@ export default {
         h5 {
           display: flex;
           align-items: center;
-          font-size: 1.7rem;
+          font-size: 1.5rem;
           margin-bottom: 0;
         }
         .refresh {
@@ -437,7 +439,7 @@ export default {
           justify-content: space-between;
           .recommend-item {
             width: 49%;
-            padding: 0.8rem 0.6rem;
+            padding: 0.6rem 0.6rem;
             background: #f0f0f0;
             border: 1px solid #bdbdbd;
             border-radius: 5px;
@@ -446,6 +448,7 @@ export default {
             cursor: pointer;
             text-align: left;
             line-height: 1.2rem;
+            font-size: 0.9rem;
             &:hover {
               background: #d6d8db;
             }
@@ -476,18 +479,18 @@ export default {
           // top: 6px;
           // position: absolute;
           text-align: right;
-          font-size: 0.8rem;
+          font-size: 0.6rem;
           button {
             margin: 2.4rem 0 0.5rem;
-            padding: 6px 12px;
-            line-height: 12px;
+            padding: 0 8px;
+            // line-height: 12px;
           }
         }
       }
       .tips {
         color: #717171;
         font-size: 14px;
-        margin-top: 26px;
+        margin-top: 2.6rem;
       }
     }
   }
