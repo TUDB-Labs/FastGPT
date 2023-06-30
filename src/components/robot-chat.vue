@@ -76,6 +76,7 @@
 // import showToast from "@/utils/toast.js";
 import { mapGetters } from "vuex";
 import BlinkAnimation from "./blink-animation.vue";
+import showToast from "@/utils/toast.js";
 export default {
   name: "robot-chat",
   props: {},
@@ -119,6 +120,15 @@ export default {
       xhr.open("GET", url);
       xhr.send();
       xhr.addEventListener("progress", () => {
+        if (xhr.status !== 200) {
+          xhr.abort();
+          this.isQuestionIng = false;
+          this.answerStatus = "";
+          return showToast(this, {
+            content: `远端服务器错误,请稍后再试`,
+            type: "danger",
+          });
+        }
         let str = xhr.responseText;
         // 发现EOF，就结束链接
         if (str.includes("EOF")) {

@@ -37,12 +37,17 @@
               />
               <b-button
                 class="dark-btn get-cod-btn"
-                :disabled="isWaiting"
-                :style="{ cursor: isWaiting ? 'not-allowed' : 'auto' }"
+                :disabled="isGetCoding || isWaiting"
+                :style="{
+                  cursor: isWaiting || isGetCoding ? 'not-allowed' : 'auto',
+                }"
                 @click="onGetCode"
               >
                 <span v-if="isWaiting">{{ countdownIndex }}秒后可重新获取</span>
-                <span v-else>获取验证码</span>
+                <span v-else
+                  ><b-spinner v-if="isGetCoding" small></b-spinner
+                  >获取验证码</span
+                >
               </b-button>
             </p>
           </el-form-item>
@@ -114,7 +119,6 @@ export default {
           { required: true, message: "手机号码不能为空", trigger: "blur" },
           {
             validator(rule, value, callback) {
-              console.log(rule, value);
               const regPhone = /^[1][3-9][0-9]{9}$/;
               if (!regPhone.test(value)) {
                 return callback(new Error("手机号码格式错误，请更换后重试"));
@@ -152,6 +156,7 @@ export default {
         ],
       },
       isLogining: false,
+      isGetCoding: false,
     };
   },
   created() {},
@@ -172,15 +177,20 @@ export default {
             content: "你操作太频繁了,请稍后再试",
             type: "danger",
           });
-        getVerCode({ phoneNumber: this.loginForm.phoneNumber }).then(() => {
-          showToast(this, {
-            content: "验证码发送成功",
-            type: "success",
+        this.isGetCoding = true;
+        getVerCode({ phoneNumber: this.loginForm.phoneNumber })
+          .then(() => {
+            showToast(this, {
+              content: "验证码发送成功",
+              type: "success",
+            });
+            this.countdownIndex = 60;
+            // 开始倒计时
+            this.startCountdown();
+          })
+          .finally(() => {
+            this.isGetCoding = false;
           });
-          this.countdownIndex = 60;
-          // 开始倒计时
-          this.startCountdown();
-        });
       });
     },
     startCountdown() {

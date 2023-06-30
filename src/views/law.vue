@@ -205,7 +205,7 @@ export default {
           this.isQuestionIng = false;
           this.answerStatus = "";
           return showToast(this, {
-            content: `远端服务器错误`,
+            content: `远端服务器错误,请稍后再试`,
             type: "danger",
           });
         }
