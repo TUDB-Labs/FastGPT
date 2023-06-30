@@ -16,7 +16,9 @@
               />
             </div>
             <div class="content">
-              <div>您好，请问有什么法律问题可以帮助到您？</div>
+              <div>
+                您好，我是您的法律助手，可以为您提供专业的法律咨询服务，有什么问题可以帮您解决？
+              </div>
               <div class="indicator"></div>
             </div>
             <div class="header-img-wrapper"></div>
@@ -44,7 +46,8 @@
               </div>
               <div class="content">
                 <!-- <div v-html="item.question" /> -->
-                <div>
+                <blink-animation v-if="!item.question" color="#000" />
+                <div v-else>
                   {{
                     item.question
                       .replace(/\\n{1,}/g, "\n")
@@ -121,10 +124,11 @@ import Actions from "@/components/actions.vue";
 import { likeLaw, dissLaw } from "@/api/request.js";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { mapGetters } from "vuex";
+import BlinkAnimation from "../components/blink-animation.vue";
 export default {
   name: "law",
   props: {},
-  components: { Actions, LoginModal },
+  components: { Actions, LoginModal, BlinkAnimation },
   data() {
     return {
       // 是否正在返回查询结果
@@ -295,14 +299,23 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   h4 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 0 12px;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+    margin-bottom: 0;
+    height: 4rem;
+    position: fixed;
+    left: 50%;
+    margin-left: -5.3rem;
+
+    // padding: 0 0 0.6rem;
     img {
-      width: 3.2rem;
-      margin-right: 12px;
+      width: 2.5rem;
+      margin-right: 0.8rem;
     }
   }
   main {
@@ -316,11 +329,11 @@ export default {
       .stop-wrapper {
         display: flex;
         justify-content: center;
-        margin: 25px 0 0;
+        margin: 1rem 0 0;
         span {
-          width: 150px;
-          height: 40px;
-          line-height: 40px;
+          width: 8rem;
+          height: 2rem;
+          line-height: 2rem;
           border: 1px solid #717171;
           border-radius: 20px;
           color: #717171;
@@ -330,15 +343,15 @@ export default {
     }
     .chat-list {
       // flex: 1;
-      height: 450px;
+      height: calc(100vh - 14rem);
+      // max-height: 40rem;
       overflow-y: auto;
-      padding: 12px;
-      margin-top: 24px;
+      padding: 0.6rem;
+      margin-top: 1rem;
       position: relative;
       .first {
         .content {
           // padding-bottom: 25px;
-          padding-bottom: 12px !important;
         }
       }
       .chat-item {
@@ -346,22 +359,22 @@ export default {
         position: relative;
 
         .header-img-wrapper {
-          width: 50px;
-          height: 50px;
+          width: 2.5rem;
+          height: 2.5rem;
           .header-img {
-            width: 50px;
-            height: 50px;
+            width: 2.5rem;
+            height: 2.5rem;
             border-radius: 4px;
           }
           .self {
-            width: 50px;
-            height: 50px;
+            width: 2.5rem;
+            height: 2.5rem;
             font-weight: bold;
             color: #ffffff;
-            font-size: 1.9rem;
+            font-size: 1.5rem;
             background: #f5b228;
             border-radius: 4px;
-            line-height: 50px;
+            line-height: 2.5rem;
             text-align: center;
           }
         }
@@ -369,13 +382,13 @@ export default {
           background: #ffffff;
           color: #000;
           flex: 1;
-          margin: 0 30px;
+          margin: 0 1.2rem;
           position: relative;
           border-radius: 4px;
-          padding: 12px;
-          line-height: 26px;
-          min-height: 26px;
+          padding: 0.5rem;
           text-align: left;
+          line-height: 1.5rem;
+          font-size: 0.9rem;
           > div {
             white-space: pre-wrap;
           }
@@ -388,8 +401,8 @@ export default {
             border-bottom: 10px solid transparent;
             border-right: 10px solid #fff;
             position: absolute;
-            left: -8px;
-            top: 1rem;
+            left: -0.5rem;
+            top: 0.6rem;
             box-shadow: 0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
               0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
               0 0 20px -8px #74eaff;
@@ -397,13 +410,11 @@ export default {
           .content {
             position: relative;
             // padding-bottom: 25px !important;
-            padding-bottom: 25px;
+            // padding-bottom: 25px;
             &:not(:first) {
             }
             .action-wrapper {
-              position: absolute;
-              right: 6px;
-              bottom: 3px;
+              margin-top: -1rem;
             }
           }
         }
@@ -418,8 +429,8 @@ export default {
             border-bottom: 10px solid transparent;
             border-left: 10px solid #e0dde6;
             position: absolute;
-            right: -8px;
-            top: 1rem;
+            right: -0.5rem;
+            top: 0.6rem;
             box-shadow: 0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
               0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
               0 0 20px -8px #74eaff;
@@ -437,7 +448,7 @@ export default {
       overflow: hidden;
       background: #ffffff;
       border-radius: 5px;
-      margin-top: 25px;
+      margin-top: 1rem;
       input {
         height: 3rem;
         border: none;
@@ -514,7 +525,7 @@ export default {
     .tips {
       color: #717171;
       font-size: 13px;
-      padding: 26px 1rem;
+      padding: 1rem;
     }
     .no-message {
       position: absolute;
@@ -540,23 +551,20 @@ export default {
         // min-height: 300px;
         padding: 0;
         .chat-item {
-          .header-img-wrapper {
-            width: 3rem;
-            height: 3rem;
-            .header-img {
-              width: 3rem;
-              height: 3rem;
-            }
-            .self {
-              width: 3rem;
-              height: 3rem;
-              line-height: 3rem;
-            }
-          }
+          // .header-img-wrapper {
+          //   width: 3rem;
+          //   height: 3rem;
+          //   .header-img {
+          //     width: 3rem;
+          //     height: 3rem;
+          //   }
+          //   .self {
+          //     width: 3rem;
+          //     height: 3rem;
+          //     line-height: 3rem;
+          //   }
+          // }
           .content {
-            margin: 0 1.3rem;
-            font-size: 13px;
-            line-height: 20px !important;
           }
         }
       }

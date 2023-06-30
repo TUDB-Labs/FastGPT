@@ -10,7 +10,7 @@
           <input
             v-model.trim="searchValue"
             type="text"
-            placeholder="请输入您想了解的购车信息......"
+            placeholder="请输入您想了解的购车信息，例如：车型，配置，价位..."
             maxlength="100"
             @keydown="onKeydown"
           />
@@ -29,8 +29,6 @@
           />
           <span>{{ searchValue.length }} / 100</span>
         </div>
-        <!-- 
-          v-if="isShowProgress" -->
         <b-progress
           v-if="isShowProgress"
           ref="bprogress"
@@ -332,13 +330,21 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   h4 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 0 12px;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+    margin-bottom: 0;
+    height: 4rem;
+    position: fixed;
+    left: 50%;
+    margin-left: -5.3rem;
+    // padding: 0 0 0.6rem;
     img {
-      width: 3.2rem;
+      width: 3rem;
       margin-right: 12px;
     }
   }
@@ -530,25 +536,25 @@ export default {
   // }
 
   /*滚动条整体样式*/
-  .el-table__body-wrapper::-webkit-scrollbar {
-    width: 0.5rem;
-    /*高宽分别对应横竖滚动条的尺寸*/
-    height: 0.5rem;
-  }
+  // .el-table__body-wrapper::-webkit-scrollbar {
+  //   width: 0.5rem;
+  //   /*高宽分别对应横竖滚动条的尺寸*/
+  //   height: 0.5rem;
+  // }
 
-  .el-table__body-wrapper::-webkit-scrollbar-thumb {
-    /*滚动条里面小方块*/
-    border-radius: 10px;
-    box-shadow: inset 0 0 5px #254cd8;
-    background: #254cd8;
-  }
+  // .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  //   /*滚动条里面小方块*/
+  //   border-radius: 10px;
+  //   box-shadow: inset 0 0 5px #254cd8;
+  //   background: #254cd8;
+  // }
 
-  .el-table__body-wrapper::-webkit-scrollbar-track {
-    /*滚动条里面轨道*/
-    box-shadow: inset 0 0 5px transparent;
-    border-radius: 10px;
-    background: #fff;
-  }
+  // .el-table__body-wrapper::-webkit-scrollbar-track {
+  //   /*滚动条里面轨道*/
+  //   box-shadow: inset 0 0 5px transparent;
+  //   border-radius: 10px;
+  //   background: #fff;
+  // }
   .cell {
     // line-height: 1.2rem;
   }

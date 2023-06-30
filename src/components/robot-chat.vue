@@ -26,16 +26,13 @@
             />
           </div>
           <div class="content">
+            <blink-animation v-if="!item.question" />
             <div
+              v-else
               v-html="
                 item.question.replace(/\\n{1,}/g, '\n').replace(/\n{1,}/g, '\n')
               "
             />
-            <!-- <div>
-              {{
-                
-              }}
-            </div> -->
           </div>
         </div>
       </template>
@@ -78,10 +75,11 @@
 <script>
 // import showToast from "@/utils/toast.js";
 import { mapGetters } from "vuex";
+import BlinkAnimation from "./blink-animation.vue";
 export default {
   name: "robot-chat",
   props: {},
-  components: {},
+  components: { BlinkAnimation },
   data() {
     return {
       // 是否正在返回查询结果
@@ -226,6 +224,7 @@ export default {
         color: #303133;
         // flex: 1;
         max-width: calc(100% - 50px);
+        min-width: 50px;
         margin: 0 0 0 0.6rem;
         position: relative;
         border-radius: 4px;

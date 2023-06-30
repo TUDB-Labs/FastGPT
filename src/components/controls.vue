@@ -1,18 +1,20 @@
 <template>
   <div v-if="isShowGoTop" class="go-top">
-    <div id="popover-target-robot" class="item" @click="toggleKefu">
-      <img
-        v-if="!isShowKefu"
-        src="@/assets/images/robot.png"
-        class="robot"
-        alt="phone1"
-      />
-      <img
-        v-if="isShowKefu"
-        src="@/assets/images/close.png"
-        class="close-robot"
-        alt="phone1"
-      />
+    <div id="popover-target-robot" class="item robot-item" @click="toggleKefu">
+      <div class="img-box">
+        <img
+          v-if="!isShowKefu"
+          src="@/assets/images/robot.png"
+          class="robot"
+          alt="phone1"
+        />
+        <img
+          v-if="isShowKefu"
+          src="@/assets/images/close.png"
+          class="close-robot"
+          alt="phone1"
+        />
+      </div>
     </div>
     <div id="popover-target-phone" class="item">
       <img src="@/assets/images/phone.png" class="phone" alt="phone1" />
@@ -99,7 +101,7 @@ export default {
 .go-top {
   position: fixed;
   bottom: 1.2rem;
-  right: 0.8rem;
+  right: 3rem;
   z-index: 1000;
   .item {
     width: 2.5rem;
@@ -111,7 +113,7 @@ export default {
     background: #ffffff;
     box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.22);
     border-radius: 50%;
-    margin: 0.8rem 0;
+    margin: 0.8rem auto;
     // box-sizing: content-box;
     img.top {
       width: 1.6rem;
@@ -128,6 +130,75 @@ export default {
     .close-robot {
       width: 1.5rem;
       height: 1.5rem;
+    }
+  }
+  .robot-item {
+    border: 1px solid #254cd87c;
+    width: 2.9rem;
+    height: 2.9rem;
+    .img-box {
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 1px solid #254cd8;
+      border-radius: 50%;
+      animation: breathe-img 1.5s linear infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    animation: mymove 1.5s linear infinite, animated-border 1.5s linear infinite;
+  }
+  @keyframes breathe-img {
+    0% {
+      transform: scale(1);
+    }
+
+    25% {
+      transform: scale(0.93);
+    }
+
+    50% {
+      border-color: 1px solid #254cd87c;
+      transform: scale(0.87);
+    }
+
+    75% {
+      transform: scale(0.93);
+    }
+
+    to {
+      transform: scale(1);
+    }
+  }
+  @keyframes mymove {
+    0% {
+      transform: scale(1);
+    }
+
+    25% {
+      transform: scale(1.05);
+    }
+
+    50% {
+      transform: scale(1.1);
+    }
+
+    75% {
+      transform: scale(1.05);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes animated-border {
+    0% {
+      box-shadow: 0 0 0 0 #254cd836;
+    }
+
+    100% {
+      box-shadow: 0 0 0 0.6rem rgba(4, 235, 54, 0);
     }
   }
 }
@@ -170,7 +241,7 @@ export default {
   border: 1px solid rgba(0, 0, 0, 0.2);
   position: fixed;
   bottom: 8.5rem;
-  right: 3.9rem;
+  right: 7rem;
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.22);
   /deep/.arrow {
     display: none;

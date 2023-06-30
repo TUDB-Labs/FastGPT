@@ -133,6 +133,10 @@ header {
   height: 4rem;
   color: #000;
   text-align: center;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
   .user-info {
     color: #192a51;
     font-weight: bold;
@@ -157,7 +161,7 @@ header {
     }
   }
   .loginout {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
     cursor: pointer;
     img {
       width: 1.2rem;
