@@ -125,6 +125,7 @@ import { likeLaw, dissLaw } from "@/api/request.js";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { mapGetters } from "vuex";
 import BlinkAnimation from "../components/blink-animation.vue";
+import { isValidJSON } from "@/utils/index.js";
 export default {
   name: "law",
   props: {},
@@ -201,12 +202,12 @@ export default {
       xhr.open("GET", url);
       xhr.send();
       xhr.addEventListener("progress", () => {
-        if (xhr.status !== 200) {
+        if (xhr.status !== 200 || isValidJSON(xhr.responseText)) {
           xhr.abort();
           this.isQuestionIng = false;
           this.answerStatus = "";
           return showToast({
-            content: `远端服务器错误,请稍后再试`,
+            content: `远端服务器异常,请稍后再试`,
             type: "danger",
           });
         }

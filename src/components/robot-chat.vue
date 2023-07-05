@@ -25,7 +25,7 @@
         <div :key="'question' + index" class="chat-item question">
           <div class="header-img-wrapper">
             <img
-              src="@/assets/images/robot-icon.png"
+              src="@/assets/images/header-img.png"
               alt=""
               class="header-img"
             />
@@ -78,7 +78,7 @@
 </template>
 
 <script>
-// import showToast from "@/utils/toast.js";
+import { isValidJSON } from "@/utils/index.js";
 import { mapGetters } from "vuex";
 import BlinkAnimation from "./blink-animation.vue";
 import showToast from "@/utils/toast.js";
@@ -118,6 +118,13 @@ export default {
       // 输入框清空
       this.searchValue = "";
       this.answerStatus = "ing";
+
+      // const surceObj = new EventSource(url);
+
+      // surceObj.onmessage = (event) => {
+      //   console.log(event);
+      // };
+
       // 新增一条空白回复
       const curChat = this.chatList.slice(-1)[0];
       const xhr = new XMLHttpRequest();
@@ -125,12 +132,12 @@ export default {
       xhr.open("GET", url);
       xhr.send();
       xhr.addEventListener("progress", () => {
-        if (xhr.status !== 200) {
+        if (xhr.status !== 200 || isValidJSON(xhr.responseText)) {
           xhr.abort();
           this.isQuestionIng = false;
           this.answerStatus = "";
           return showToast({
-            content: `远端服务器错误,请稍后再试`,
+            content: `远端服务器异常,请稍后再试`,
             type: "danger",
           });
         }

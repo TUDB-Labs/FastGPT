@@ -12,22 +12,27 @@ axiosService.interceptors.request.use(config => {
 
 axiosService.interceptors.response.use(
   response => {
+    const data = response.data
+    // console.log('response：', data)
+    if (response.request.responseURL.indexOf('/car/upvote') > -1) return response.data
     if (response.request.responseURL.indexOf('ipv4.icanhazip.com') > -1) return response.data
     // 需要捕捉的错误码列表
-    if (response.data && (response.data.code !== 200 && response.data.code !== 20000)) {
-      console.log('response错误：', response)
-      showToast({
-        content: response.data.message,
-        type: "danger",
-      })
-      return Promise.reject(response.data)
+    // 正确的code列表
+    const whiteCodeList = [200, 20000, 2000]
+    if (data && whiteCodeList.includes(data.code)) {
+      return data
     }
-    return response.data
+    // console.log('responsedanger：', data)
+    showToast({
+      content: data.message,
+      type: "danger",
+    })
+    return Promise.reject(data)
   },
   error => {
     console.log('response错误：', error)
       showToast({
-        content: '远端服务器错误,请稍后重试',
+        content: '远端服务器异常,请稍后重试',
         type: "danger",
       })
     return Promise.reject(error)
