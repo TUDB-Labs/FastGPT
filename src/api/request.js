@@ -44,7 +44,7 @@ export const loginByCode = (data) => {
   const url = baseUrl + `/api/sms/insertCheck`;
   return interceptor.post(url,data)
 }
-
+// 法律
 // 点赞
 // 喝倒彩
 export const likeLaw = ({msgId, userId}) => {
@@ -56,12 +56,20 @@ export const dissLaw = ({msgId, userId}) => {
   return interceptor.post(url)
 }
 
+// 买车咨询
 export const getBuyCar = (data) => {
   const url = buyCarBaseUrl + `/texttosql/completions`;
   return interceptor.post(url, data)
 }
 
+// 车辆咨询点赞
 export const carLikeOrDiss = ({record, id}) => {
   const url = buyCarBaseUrl + `/upvote?id=${id}&record=${record}`;
   return interceptor.get(url)
+}
+
+// pdf上传文件
+export const uploadPdf = (data) => {
+  const url = 'https://gztz.idmakers.cn/passapi/file-server/files';
+  return interceptor.post(url, data)
 }

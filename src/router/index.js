@@ -6,6 +6,7 @@ const Law = () => import('@/views/law');
 const Expert = () => import('@/views/expert');
 const PdfUpload = () => import('@/views/pdf-upload');
 const PdfView = () => import('@/views/pdf-view');
+const RobotChat = () => import('@/views/robot-chat-view');
 
 Vue.use(Router)
 
@@ -33,7 +34,7 @@ const router = new Router({
       component: Expert
     },
     {
-      path: '/pdf-view',
+      path: '/pdf-view/:id',
       name: 'PdfView',
       component: PdfView
     },
@@ -41,6 +42,11 @@ const router = new Router({
       path: '/pdf-upload',
       name: 'PdfUpload',
       component: PdfUpload
+    },
+    {
+      path: '/robot-chat',
+      name: 'RobotChat',
+      component: RobotChat
     }
   ]
 })

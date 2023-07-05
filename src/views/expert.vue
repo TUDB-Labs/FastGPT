@@ -60,7 +60,7 @@ export default {
     onSubmit() {
       let testStr = this.formData.phoneNumber;
       if (!testStr) {
-        return showToast(this, {
+        return showToast({
           content: "请输入您的联系方式",
           type: "danger",
         });
@@ -68,14 +68,14 @@ export default {
       var regPhone = /^[1][3-9][0-9]{9}$/;
       var regEMail = /^([a-zA-Z0-9]+[-_.]?)+@[a-zA-Z0-9]+\.[a-z]+$/;
       if (!regPhone.test(testStr) && !regEMail.test(testStr) && testStr != "") {
-        return showToast(this, {
+        return showToast({
           content: "请输入您的正确联系方式",
           type: "danger",
         });
       } else {
         insertSolution(this.formData)
           .then(() => {
-            showToast(this, {
+            showToast({
               content: "已提交，我们会及时联系您",
             });
             //按钮点击记录

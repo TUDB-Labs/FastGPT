@@ -6,38 +6,40 @@
     </h4>
     <main>
       <div class="main-content content-width">
-        <div class="submit-wrapper">
-          <input
-            v-model.trim="searchValue"
-            type="text"
-            placeholder="请输入您想了解的购车信息，例如：车型，配置，价位..."
-            maxlength="100"
-            @keydown="onKeydown"
-          />
-          <img
-            src="https://cdn.tudb.work/aios/web/images/send-btn.png"
-            alt="send-img"
-            class="send-img"
-            @click="onSearch"
+        <div class="search-wrapper">
+          <div class="submit-wrapper">
+            <input
+              v-model.trim="searchValue"
+              type="text"
+              placeholder="请输入您想了解的购车信息，例如：车型，配置，价位..."
+              maxlength="100"
+              @keydown="onKeydown"
+            />
+            <img
+              src="https://cdn.tudb.work/aios/web/images/send-btn.png"
+              alt="send-img"
+              class="send-img"
+              @click="onSearch"
+            />
+          </div>
+          <div class="count-wrapper">
+            <img
+              src="@/assets/images/delete.png"
+              alt="clear"
+              @click="searchValue = ''"
+            />
+            <span>{{ searchValue.length }} / 100</span>
+          </div>
+          <b-progress
+            v-if="isShowProgress"
+            ref="bprogress"
+            :value="searchProgress"
+            :max="100"
+            show-progress
+            animated
+            style="margin-top: 6px; height: 0.7rem"
           />
         </div>
-        <div class="count-wrapper">
-          <img
-            src="@/assets/images/delete.png"
-            alt="clear"
-            @click="searchValue = ''"
-          />
-          <span>{{ searchValue.length }} / 100</span>
-        </div>
-        <b-progress
-          v-if="isShowProgress"
-          ref="bprogress"
-          :value="searchProgress"
-          :max="100"
-          show-progress
-          animated
-          style="margin-top: 6px; height: 0.7rem"
-        />
         <div class="recommend-wrapper">
           <h5>
             <strong>推荐问题</strong>
@@ -225,14 +227,14 @@ export default {
       // 在未登录时 判断是否超过提问次数超过就弹出登录框
       if (!this.userInfo.phoneNumber && this.buyCarCountInfo.num === maxCount) {
         this.$refs.loginModal.show();
-        return showToast(this, {
+        return showToast({
           content: `您今日的提问次数已达上限${maxCount}次`,
           type: "danger",
         });
       }
       if (this.loading) return;
       if (!this.searchValue)
-        return showToast(this, {
+        return showToast({
           content: "请输入你想了解的购车信息",
           type: "warning",
         });
@@ -257,7 +259,7 @@ export default {
       getBuyCar({ prompt: this.searchValue })
         .then((res) => {
           if (!res.flag)
-            return showToast(this, {
+            return showToast({
               content: res.message,
               type: "danger",
             });
@@ -310,7 +312,7 @@ export default {
         if (res.status === "success") {
           this.resultObj.attitude = record;
         } else {
-          showToast(this, {
+          showToast({
             content: record === 1 ? "点赞失败" : "踩失败",
             type: "danger",
           });
@@ -334,13 +336,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: fixed;
-    top: 0;
     z-index: 2;
     margin-bottom: 0;
     height: 4rem;
-    position: fixed;
-    left: 50%;
     margin-left: -5.3rem;
     // padding: 0 0 0.6rem;
     img {
@@ -353,14 +351,21 @@ export default {
     background: #f0f0f0;
     .main-content {
       margin: 0 auto;
-      padding: 1.5rem 0;
+      padding: 0;
+      .search-wrapper {
+        top: 4rem;
+        width: 100%;
+        padding-top: 1rem;
+        position: sticky;
+        background: #f0f0f0;
+      }
       .submit-wrapper {
         height: 2.8rem;
         // border: 1px solid gray;
         overflow: hidden;
         background: #ffffff;
         border-radius: 5px;
-        margin-top: 0.5rem;
+        // margin-top: 0.5rem;
         display: flex;
         input {
           height: 2.8rem;
@@ -412,7 +417,7 @@ export default {
         }
       }
       .recommend-wrapper {
-        margin-top: 2rem;
+        margin-top: 1.2rem;
         h5 {
           display: flex;
           align-items: center;
@@ -455,7 +460,7 @@ export default {
           }
         }
         .result-wrap {
-          height: 479px;
+          height: 30rem;
           background: #ffffff;
           border: 1px solid #254cd8;
           border-radius: 5px;
@@ -481,7 +486,7 @@ export default {
           text-align: right;
           font-size: 0.6rem;
           button {
-            margin: 2.4rem 0 0.5rem;
+            margin: 1.4rem 0 0.5rem;
             padding: 0 8px;
             // line-height: 12px;
           }
@@ -490,8 +495,19 @@ export default {
       .tips {
         color: #717171;
         font-size: 14px;
-        margin-top: 2.6rem;
+        padding: 0.6rem 0;
       }
+    }
+  }
+}
+
+@media (min-width: 767px) {
+  .wrapper {
+    h4 {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      margin-left: -5.3rem;
     }
   }
 }
@@ -499,10 +515,15 @@ export default {
 @media (max-width: 767px) {
   .wrapper {
     h4 {
-      padding: 12px 0;
+      padding: 0.7rem 0;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      margin-left: 0;
     }
     main {
       .main-content {
+        position: relative;
         .recommend-wrapper {
           .recommend-list {
             .recommend-item {
@@ -511,7 +532,7 @@ export default {
             }
           }
           .result-wrap {
-            height: 300px;
+            height: 35rem;
           }
         }
       }

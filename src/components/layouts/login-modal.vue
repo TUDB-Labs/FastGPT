@@ -173,14 +173,14 @@ export default {
       this.$refs.ruleForm.validateField("phoneNumber", (valid) => {
         if (valid) return;
         if (this.timer)
-          return showToast(this, {
+          return showToast({
             content: "你操作太频繁了,请稍后再试",
             type: "danger",
           });
         this.isGetCoding = true;
         getVerCode({ phoneNumber: this.loginForm.phoneNumber })
           .then(() => {
-            showToast(this, {
+            showToast({
               content: "验证码发送成功",
               type: "success",
             });
@@ -220,7 +220,7 @@ export default {
           verifyCode,
         })
           .then((res) => {
-            showToast(this, {
+            showToast({
               content: "登录成功",
               type: "success",
             });

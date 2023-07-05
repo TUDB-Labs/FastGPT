@@ -1,9 +1,14 @@
 <template>
   <div class="wrapper">
+    <h4>
+      <i class="el-icon-back" @click="$router.go(-1)"></i>
+      <strong>智能机器人</strong>
+      <span></span>
+    </h4>
     <div ref="chatList" class="chat-list">
       <div class="chat-item question first">
         <div class="header-img-wrapper">
-          <img src="@/assets/images/robot-icon.png" alt="" class="header-img" />
+          <img src="@/assets/images/header-img.png" alt="" class="header-img" />
         </div>
         <div class="content">
           <div>您好！请问有什么可以帮助到您？</div>
@@ -124,7 +129,7 @@ export default {
           xhr.abort();
           this.isQuestionIng = false;
           this.answerStatus = "";
-          return showToast(this, {
+          return showToast({
             content: `远端服务器错误,请稍后再试`,
             type: "danger",
           });
@@ -194,6 +199,27 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   background: #f0f0f0;
+  h4 {
+    font-size: 1.5rem;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+    margin-bottom: 0;
+    height: 4rem;
+    padding: 0 1rem;
+    background: #fff;
+    strong {
+      flex: 1;
+    }
+    span {
+      width: 2rem;
+    }
+    i {
+      // font-weight: bold;
+      font-size: 2rem;
+    }
+  }
   .chat-list {
     // flex: 1;
     max-height: calc(100vh - 340px);
@@ -287,7 +313,7 @@ export default {
       background: transparent;
       width: 100%;
       font-size: 13px;
-      padding: 12px 12px 40px;
+      padding: 0.7rem 0.7rem 2rem;
       &::placeholder {
         color: #717171;
       }
@@ -306,11 +332,11 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px;
+    padding: 0.7rem;
     button {
-      height: 26px;
-      line-height: 24px;
-      padding: 0 12px;
+      height: 1.5rem;
+      line-height: 1.5rem;
+      padding: 0 0.8rem;
       margin-left: 6px;
       font-size: 13px;
     }
@@ -335,11 +361,12 @@ export default {
       align-items: center;
       .send-btn {
         position: relative;
-        width: 52px;
+        width: 4.2rem;
         .loading {
           display: inline-block;
           top: 50%;
           left: 50%;
+          // padding: 1rem 0;
           transform: translate(-50%, -50%);
           position: absolute;
           // width: 3rem;
@@ -382,6 +409,25 @@ export default {
           }
         }
       }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .wrapper {
+    h4 {
+      display: flex;
+    }
+    .actions {
+      button {
+        height: 2rem;
+        line-height: 2rem;
+      }
+    }
+    .chat-list {
+      padding: 1rem 0.7rem;
+      max-height: calc(100vh - 11.9rem);
+      min-height: calc(100vh - 11.9rem);
     }
   }
 }

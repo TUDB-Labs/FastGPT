@@ -1,44 +1,61 @@
 <template>
   <div class="wrapper">
-    <h4>
-      <img src="@/assets/images/pdf-icon.png" alt="" />
-      <strong>pdf助手</strong>
-    </h4>
-    <main>
-      <div class="upload-wrapper">
-        <template v-if="curStatus === 'action'">
-          <el-upload
-            class="upload-demo acion-upload-wrapper"
-            drag
-            action="#"
-            :show-file-list="false"
-            :auto-upload="false"
-          >
-            <p class="acion-upload">添加新的文件</p>
-            <p class="drag-upload">将PDF拖到此处</p>
-          </el-upload>
-        </template>
-        <div v-if="curStatus === 'uploading'" class="uploading-wrapper">
-          <div class="uploading">
-            <p class="title">样例PDF名称样例PDF名称样例PDF名称样例.pdf</p>
-            <div class="progress-wrapper">
-              <el-progress
-                color="#254cd8"
-                define-back-color="#fff"
-                :percentage="50"
-              />
-              <i class="el-icon-circle-close" @click="onCloseUpload"></i>
+    <transition name="collapse">
+      <div v-show="!isCollapsed" class="content">
+        <h4>
+          <img src="@/assets/images/pdf-icon.png" alt="" />
+          <strong>pdf助手</strong>
+        </h4>
+        <main>
+          <div class="upload-wrapper">
+            <template v-if="curStatus === 'action'">
+              <el-upload
+                class="upload-demo acion-upload-wrapper"
+                drag
+                action="#"
+                :show-file-list="false"
+                :auto-upload="false"
+              >
+                <p class="acion-upload">添加新的文件</p>
+                <p class="drag-upload">将PDF拖到此处</p>
+              </el-upload>
+            </template>
+            <div v-if="curStatus === 'uploading'" class="uploading-wrapper">
+              <div class="uploading">
+                <p class="title">样例PDF名称样例PDF名称样例PDF名称样例.pdf</p>
+                <div class="progress-wrapper">
+                  <el-progress
+                    color="#254cd8"
+                    define-back-color="#fff"
+                    :percentage="50"
+                  />
+                  <i class="el-icon-circle-close" @click="onCloseUpload"></i>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+          <div class="recommand-list">
+            <div
+              v-for="(pdf, index) in pdfList"
+              :key="index"
+              class="item"
+              :class="{ active: curPdfInfo.id === pdf.id }"
+              @click="selectPdf(pdf)"
+            >
+              <img src="@/assets/images/wechat.png" alt="" />
+              <span class="name">{{ pdf.name }}</span>
+            </div>
+          </div>
+        </main>
       </div>
-      <div class="recommand-list">
-        <div v-for="(item, index) in recommandList" :key="index" class="item">
-          <img src="@/assets/images/wechat.png" alt="" />
-          <span class="name">{{ item.name }}</span>
-        </div>
-      </div>
-    </main>
+    </transition>
+    <div class="toggle" @click="onToggle">
+      <i
+        :class="[
+          !isCollapsed ? 'el-icon-d-arrow-left' : 'el-icon-d-arrow-right',
+        ]"
+      ></i>
+    </div>
   </div>
 </template>
 
@@ -50,35 +67,43 @@ export default {
   data() {
     return {
       curStatus: "action", // action url uploading
-      recommandList: [
+      pdfList: [
         {
           id: "1223",
-          name: "样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称.pdf",
+          url: "/test.pdf",
+          name: "test.pdf",
         },
         {
           id: "45332",
-          name: "样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称.pdf",
+          url: "/test1.pdf",
+          name: "test1.pdf",
         },
         {
           id: "wf2333",
-          name: "样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称.pdf",
+          url: "/test.pdf",
+          name: "test.pdf",
         },
       ],
+      curPdfInfo: {},
+      isCollapsed: false,
     };
   },
-  created() {},
+  created() {
+    this.curPdfInfo = this.pdfList[0];
+    this.selectPdf(this.pdfList[0]);
+  },
   mounted() {},
   watch: {},
   computed: {},
   methods: {
-    onUrlUpload() {
-      this.curStatus = "url";
+    selectPdf(pdf) {
+      this.curPdfInfo = pdf;
+      this.$emit("select", pdf);
     },
-    onCloseUrl() {
-      this.curStatus = "action";
-    },
-    onCloseUpload() {
-      this.curStatus = "action";
+    onToggle() {
+      // setTimeout(() => {
+      this.isCollapsed = !this.isCollapsed;
+      // }, 500);
     },
   },
 };
@@ -90,6 +115,28 @@ export default {
   color: #fff;
   padding: 0.8rem 0;
   height: 90vh;
+  position: relative;
+  z-index: 3;
+  .content {
+    width: 240px;
+    // transition: width 0.3s;
+  }
+  .toggle {
+    position: absolute;
+    right: -0.9rem;
+    height: 3rem;
+    line-height: 2.8rem;
+    top: 50%;
+    width: 0.9rem;
+    background: #717171;
+    border-radius: 0 0.4rem 0.4rem 0;
+    i {
+      color: #fff;
+      font-size: 0.8rem;
+      transform: scaleY(1.5);
+    }
+  }
+
   h4 {
     font-size: 1.5rem;
     display: flex;
@@ -113,16 +160,24 @@ export default {
       font-size: 0.9rem;
       /deep/.acion-upload-wrapper {
         color: #717171;
-        border: 2px dashed #ffffff;
+        // border: 2px dashed #ffffff;
         border-radius: 23px;
         .el-upload {
           width: 100%;
-          padding: 1.5rem 0;
+          // padding: 1.5rem 0;
           .el-upload-dragger {
             width: 100%;
             height: 100%;
-            border: none;
+            padding: 0.8rem 0;
+            // border: none;
             background: transparent;
+            border: 2px dashed #fff;
+            &:hover {
+              border: 2px dashed #409eff;
+            }
+            &.is-dragover {
+              border: 2px dashed #409eff;
+            }
           }
         }
         .acion-upload {
@@ -171,12 +226,18 @@ export default {
     .item {
       display: flex;
       align-items: center;
-      background: #4f79f6;
       border-radius: 8px;
       padding: 8px 10px;
-      color: #fff;
+      color: #ffffffca;
       &:not(:first-child) {
         margin-top: 0.9rem;
+      }
+      &:hover {
+        color: #ffffff;
+      }
+      &.active {
+        color: #ffffff;
+        background: #4f79f6;
       }
       font-size: 12px;
       cursor: pointer;
@@ -197,4 +258,15 @@ export default {
     }
   }
 }
+
+// .collapse-enter-active,
+// .collapse-leave-active {
+//   transition: width 1s linear 0s; /* 动画持续时间 */
+// }
+
+// .collapse-enter,
+// .collapse-leave-to {
+//   width: 0px;
+//   overflow: hidden;
+// }
 </style>

@@ -1,10 +1,15 @@
 <template>
-  <div id="app" :class="[platform]">
+  <div id="app">
     <!-- 头部 -->
     <HeaderView />
     <router-view />
     <!-- 底部 -->
-    <FooterView />
+    <!-- 不是手机端 是手机但是不是法律-->
+    <FooterView
+      v-if="
+        !isPhone || !['/buy-car', '/law', '/robot-chat'].includes($route.path)
+      "
+    />
     <controls />
   </div>
 </template>
@@ -18,19 +23,20 @@ export default {
   name: "App",
   components: { HeaderView, FooterView, Controls },
   data() {
-    return {
-      platform: "admin-web",
-    };
+    return {};
   },
   created() {
-    this.setPlatform(document.body.offsetWidth);
-    window.onresize = () => {
-      this.setPlatform(document.body.offsetWidth);
-    };
     this.webSubmit();
   },
   mounted() {},
   beforeDestroy() {},
+  computed: {
+    isPhone() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+    },
+  },
   watch: {},
   methods: {
     // 整站记录
@@ -52,13 +58,6 @@ export default {
           }
         })
         .catch(() => {});
-    },
-    setPlatform(offsetWidth) {
-      if (offsetWidth < 1100) {
-        this.platform = "admin-phone";
-      } else {
-        this.platform = "admin-web";
-      }
     },
   },
 };
@@ -172,14 +171,13 @@ body,
   margin-bottom: 86px;
 }
 
-.admin-web {
-  /deep/.content-width {
-    width: 70%;
-  }
+/deep/.content-width {
+  width: 70%;
 }
-.admin-phone {
+
+@media (max-width: 1000px) {
   /deep/ .content-width {
-    width: 90%;
+    width: 94%;
   }
 }
 </style>

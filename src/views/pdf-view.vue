@@ -1,9 +1,18 @@
 <template>
   <div class="wrapper">
     <div class="pdf-view-wrapper">
-      <action-wrapper class="action-wrapper" />
-      <pdf-preview class="pdf-preview" />
-      <pdf-contract-wrapper class="pdf-contract-wrapper" />
+      <action-wrapper class="action-wrapper" @select="onSelect" />
+      <el-row class="flex-sub">
+        <el-col :span="14">
+          <pdf-preview class="pdf-preview" :pdfBaseInfo="pdfBaseInfo" />
+        </el-col>
+        <el-col :span="10">
+          <pdf-contract-wrapper
+            :pdfBaseInfo="pdfBaseInfo"
+            class="pdf-contract-wrapper"
+          />
+        </el-col>
+      </el-row>
     </div>
     <p class="tips">
       本公司不对服务内容与结果的真实性，准确性进行陈述与保证，相关内容亦不能替代特定领域专家意见
@@ -20,13 +29,19 @@ export default {
   props: {},
   components: { ActionWrapper, PdfPreview, PdfContractWrapper },
   data() {
-    return {};
+    return {
+      pdfBaseInfo: {},
+    };
   },
   created() {},
   mounted() {},
   watch: {},
   computed: {},
-  methods: {},
+  methods: {
+    onSelect(pdf) {
+      this.pdfBaseInfo = pdf;
+    },
+  },
 };
 </script>
 
@@ -34,19 +49,25 @@ export default {
 .wrapper {
   .pdf-view-wrapper {
     display: flex;
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     background: #f0f0f0;
     border: 1px solid #bdbdbd;
     border-radius: 6px;
     overflow: hidden;
     .action-wrapper {
-      width: 300px;
+      // width: 240px;
     }
-    .pdf-preview,
-    .pdf-contract-wrapper {
-      flex: 1;
+    .el-col {
+      height: 100%;
     }
+    .pdf-preview {
+      height: 100%;
+      position: relative;
+    }
+    // .pdf-contract-wrapper {
+    //   flex: 1;
+    // }
   }
   .tips {
     text-align: center;

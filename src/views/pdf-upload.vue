@@ -6,13 +6,21 @@
     </h4>
     <main>
       <div class="upload-wrapper">
-        <template v-if="curStatus === 'action'">
+        <template>
           <el-upload
+            ref="upload"
+            v-show="curStatus === 'action'"
             class="upload-demo acion-upload-wrapper"
             drag
-            action="#"
+            action="https://gztz.idmakers.cn/passapi/file-server/files"
             :show-file-list="false"
-            :auto-upload="false"
+            accept=".pdf"
+            :data="{ appId: 1 }"
+            :on-change="onFileChange"
+            :before-upload="onBeforeUpload"
+            :on-progress="onProgress"
+            :on-error="onError"
+            :on-success="onSuccess"
           >
             <div class="acion-upload">
               <img src="@/assets/images/upload-file.png" alt="" />
@@ -20,7 +28,11 @@
             </div>
             <p class="drag-upload">或将PDF拖到此处</p>
           </el-upload>
-          <div class="url-upload" @click="onUrlUpload">
+          <div
+            v-show="curStatus === 'action'"
+            class="url-upload"
+            @click="onUrlUpload"
+          >
             <p>通过url上传</p>
           </div>
         </template>
@@ -39,12 +51,12 @@
         </div>
         <div v-if="curStatus === 'uploading'" class="uploading-wrapper">
           <div class="uploading">
-            <p class="title">样例PDF名称样例PDF名称样例PDF名称样例.pdf</p>
+            <p class="title">{{ fileInfo.name }} {{ fileInfo.percent }}</p>
             <div class="progress-wrapper">
               <el-progress
                 color="#254cd8"
                 define-back-color="#fff"
-                :percentage="50"
+                :percentage="fileInfo.percent || 0"
               />
               <i class="el-icon-circle-close" @click="onCloseUpload"></i>
             </div>
@@ -63,13 +75,14 @@
 </template>
 
 <script>
+// import { uploadPdf } from "@/api/request.js";
 export default {
   name: "pdf-upload",
   props: {},
   components: {},
   data() {
     return {
-      curStatus: "uploading", // action url uploading
+      curStatus: "action", // action url uploading
       recommandList: [
         {
           id: "1223",
@@ -84,6 +97,7 @@ export default {
           name: "样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称.pdf",
         },
       ],
+      fileInfo: {},
     };
   },
   created() {},
@@ -98,6 +112,59 @@ export default {
       this.curStatus = "action";
     },
     onCloseUpload() {
+      this.$refs.upload.abort();
+      this.fileInfo = {};
+      this.curStatus = "action";
+    },
+    onFileChange(file) {
+      console.log(file);
+      // 只能上传pdf
+      // if (file.raw.type !== "application/pdf")
+      //   return this.$message.warning("只能上传pdf文件");
+      // // 文件大小不能超过1M
+      // if (file.size / 1024 / 1024 > 1)
+      //   return this.$message.warning("只能上传小于1M的pdf文件");
+      // uploadPdf({
+      //   file: file,
+      // }).then((res) => {
+      //   console.log(res);
+      // });
+    },
+    onBeforeUpload(file) {
+      console.log(file);
+      // 只能上传pdf
+      if (file.type !== "application/pdf") {
+        this.$message.warning("只能上传pdf文件");
+        return false;
+      }
+      // 文件大小不能超过1M
+      console.log(file.size / 1024 / 1024 > 1);
+      if (file.size / 1024 / 1024 > 1) {
+        this.$message.warning("只能上传小于1M的pdf文件");
+        return false;
+      }
+      this.fileInfo = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        percent: 0,
+      };
+      this.curStatus = "uploading";
+      return true;
+    },
+    onProgress(event) {
+      this.$set(this.fileInfo, "percent", Math.floor(event.percent));
+    },
+    onError() {
+      this.$message.error("文件上传失败，请重新上传");
+      this.fileInfo = {};
+      this.curStatus = "action";
+    },
+    onSuccess(event) {
+      console.log(event);
+      this.$message.success("文件上传成功");
+      this.$router.push("/pdf-view/" + event.data.id);
+      this.fileInfo = {};
       this.curStatus = "action";
     },
   },
@@ -130,16 +197,23 @@ export default {
       padding: 12px 12px;
       /deep/.acion-upload-wrapper {
         color: #717171;
-        border: 2px dashed #ffffff;
-        border-radius: 23px;
+        // border: 2px dashed #ffffff;
+        // border-radius: 23px;
         .el-upload {
           width: 100%;
-          padding: 2rem 0;
+          // padding: 2rem 0;
           .el-upload-dragger {
             width: 100%;
             height: 100%;
-            border: none;
+            border: 2px dashed #fff;
+            padding: 1.5rem 0;
             background: transparent;
+            &:hover {
+              border: 2px dashed #409eff;
+            }
+            &.is-dragover {
+              border: 2px dashed #409eff;
+            }
           }
         }
         .acion-upload {
@@ -253,6 +327,7 @@ export default {
       color: #000;
       font-weight: 500;
       margin-top: 0.9rem;
+      text-align: left;
       cursor: pointer;
       // background: #d6d8db;
       &:hover {

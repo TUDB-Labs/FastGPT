@@ -184,7 +184,8 @@ export default {
     },
     // 通过sse监听服务端返回的内容
     async getQuestion() {
-      const url = `${process.env.VUE_APP_LAW_SERVER}/api/chat?question=${this.searchValue}&userId=${this.userInfo.id}`;
+      // process.env.VUE_APP_LAW_SERVER
+      const url = `https://aios.sco.tudb.work/legal/api/chat?question=${this.searchValue}&userId=${this.userInfo.id}`;
       // 输入框清空
       this.searchValue = "";
       this.answerStatus = "ing";
@@ -204,7 +205,7 @@ export default {
           xhr.abort();
           this.isQuestionIng = false;
           this.answerStatus = "";
-          return showToast(this, {
+          return showToast({
             content: `远端服务器错误,请稍后再试`,
             type: "danger",
           });
@@ -221,7 +222,10 @@ export default {
           this.answerStatus = "";
         }
         // 向回复内容里写值
-        curChat.question = str;
+        curChat.question = str
+          .replace(/data:/g, "")
+          .replace(/\n/g, "")
+          .replace(/\b\d+\.\s/g, "\n$&");
         this.chatList.splice(-1, 1, curChat);
         this.scrollBottom();
       });
@@ -258,7 +262,7 @@ export default {
       // 在未登录时 判断是否超过提问次数超过就弹出登录框
       if (!this.userInfo.phoneNumber && this.lawCountInfo.num === maxCount) {
         this.$refs.loginModal.show();
-        return showToast(this, {
+        return showToast({
           content: `您今日的提问次数已达上限${maxCount}次`,
           type: "danger",
         });
@@ -303,14 +307,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: fixed;
-    top: 0;
     z-index: 2;
     margin-bottom: 0;
     height: 4rem;
-    position: fixed;
-    left: 50%;
-    margin-left: -5.3rem;
 
     // padding: 0 0 0.6rem;
     img {
@@ -343,7 +342,7 @@ export default {
     }
     .chat-list {
       // flex: 1;
-      min-height: calc(100vh - 14rem);
+      min-height: calc(100vh - 13rem);
       max-height: calc(100vh - 10rem);
       overflow-y: auto;
       padding: 0.6rem;
@@ -526,7 +525,7 @@ export default {
     .tips {
       color: #717171;
       font-size: 13px;
-      padding: 1rem;
+      padding: 0.7rem;
     }
     .no-message {
       position: absolute;
@@ -539,35 +538,36 @@ export default {
     }
   }
 }
+@media (min-width: 767px) {
+  .wrapper {
+    h4 {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      margin-left: -5.3rem;
+    }
+  }
+}
 @media (max-width: 767px) {
   .wrapper {
     h4 {
-      padding: 12px 0 12px;
+      padding: 0.7rem 0;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      margin-left: 0;
     }
     main {
       .main-content {
-        width: 90%;
+        width: 94%;
       }
       .chat-list {
-        // min-height: 300px;
         padding: 0;
-        .chat-item {
-          // .header-img-wrapper {
-          //   width: 3rem;
-          //   height: 3rem;
-          //   .header-img {
-          //     width: 3rem;
-          //     height: 3rem;
-          //   }
-          //   .self {
-          //     width: 3rem;
-          //     height: 3rem;
-          //     line-height: 3rem;
-          //   }
-          // }
-          .content {
-          }
-        }
+        min-height: calc(100vh - 13.4rem);
+        max-height: calc(100vh - 13.4rem);
+      }
+      .tips {
+        font-size: 0.9rem;
       }
     }
   }

@@ -1,6 +1,5 @@
 // 定义一个封装了 fetch 的请求方法
 import axios from 'axios'
-import app from '@/main.js'
 import showToast from "@/utils/toast.js";
 
 const axiosService =  axios.create()
@@ -16,8 +15,8 @@ axiosService.interceptors.response.use(
     if (response.request.responseURL.indexOf('ipv4.icanhazip.com') > -1) return response.data
     // 需要捕捉的错误码列表
     if (response.data && (response.data.code !== 200 && response.data.code !== 20000)) {
-    console.log('response错误：', response)
-      showToast(app, {
+      console.log('response错误：', response)
+      showToast({
         content: response.data.message,
         type: "danger",
       })
@@ -27,7 +26,7 @@ axiosService.interceptors.response.use(
   },
   error => {
     console.log('response错误：', error)
-      showToast(app, {
+      showToast({
         content: '远端服务器错误,请稍后重试',
         type: "danger",
       })

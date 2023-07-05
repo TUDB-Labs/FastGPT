@@ -75,7 +75,7 @@ footer {
   // height: 170px;
   background-color: #e1dee6;
   color: #16284f;
-  padding: 36px 0;
+  padding: 1.6rem 0;
   .logo {
     img {
       width: 170px;
@@ -86,6 +86,7 @@ footer {
     height: 100%;
     display: flex;
     margin: 0 auto;
+    width: 96% !important;
     justify-content: space-between;
     align-items: center;
     .footer-info {
@@ -124,6 +125,9 @@ footer {
         color: #4a5c84;
         text-align: center;
         margin-top: 12px;
+        a {
+          color: #4a5c84;
+        }
       }
       .tips {
         font-size: 1.6rem;

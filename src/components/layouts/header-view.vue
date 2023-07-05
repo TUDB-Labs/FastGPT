@@ -113,7 +113,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          showToast(this, {
+          showToast({
             content: "退出登录成功",
             type: "success",
           });
@@ -136,7 +136,7 @@ header {
   background: #fff;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 5;
   .user-info {
     color: #192a51;
     font-weight: bold;

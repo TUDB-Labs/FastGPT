@@ -17,3 +17,16 @@
   border-radius: 0.6rem;
   background: rgba(0, 0, 0, 0);
 }
+
+.text-cut {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.flex-sub {
+  flex: 1;
+}
+
+.el-loading-mask {
+  z-index: 2!important;
+}

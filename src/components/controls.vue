@@ -91,6 +91,14 @@ export default {
       window.location.href = "tel:" + phoneNumber;
     },
     toggleKefu() {
+      // 判断是否是移动端
+      if (
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        )
+      ) {
+        return this.$router.push("/robot-chat");
+      }
       this.isShowKefu = !this.isShowKefu;
     },
   },
@@ -243,6 +251,7 @@ export default {
   bottom: 8.5rem;
   right: 7rem;
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.22);
+  z-index: 999;
   /deep/.arrow {
     display: none;
   }
@@ -274,6 +283,12 @@ export default {
     margin-right: 6px;
     width: 2.5rem;
     height: 2.5rem;
+  }
+}
+@media (max-width: 767px) {
+  .go-top {
+    right: 1rem;
+    bottom: 7.5rem;
   }
 }
 </style>
