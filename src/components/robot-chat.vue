@@ -78,10 +78,10 @@
 </template>
 
 <script>
-import { isValidJSON } from "@/utils/index.js";
+import { SSE } from "@/utils/index.js";
 import { mapGetters } from "vuex";
 import BlinkAnimation from "./blink-animation.vue";
-import showToast from "@/utils/toast.js";
+// import showToast from "@/utils/toast.js";
 export default {
   name: "robot-chat",
   props: {},
@@ -100,7 +100,7 @@ export default {
         //   question: "",
         // },
       ],
-      xhr: null,
+      eventSource: null,
       answerStatus: "", // stop ing
     };
   },
@@ -118,53 +118,32 @@ export default {
       // 输入框清空
       this.searchValue = "";
       this.answerStatus = "ing";
-
-      // const surceObj = new EventSource(url);
-
-      // surceObj.onmessage = (event) => {
-      //   console.log(event);
-      // };
-
       // 新增一条空白回复
       const curChat = this.chatList.slice(-1)[0];
-      const xhr = new XMLHttpRequest();
-      this.xhr = xhr;
-      xhr.open("GET", url);
-      xhr.send();
-      xhr.addEventListener("progress", () => {
-        if (xhr.status !== 200 || isValidJSON(xhr.responseText)) {
-          xhr.abort();
-          this.isQuestionIng = false;
-          this.answerStatus = "";
-          return showToast({
-            content: `远端服务器异常,请稍后再试`,
-            type: "danger",
-          });
-        }
-        let str = xhr.responseText;
-        // 发现EOF，就结束链接
-        if (str.includes("EOF")) {
-          str = str.replace("EOF", "");
-          this.isQuestionIng = false;
-          this.answerStatus = "";
-        }
+
+      const eventSource = new SSE(url, {
+        method: "GET",
+      });
+      eventSource.addEventListener("message", (responseText) => {
+        let str = responseText;
         // 向回复内容里写值
-        curChat.question = str
-          .replace(/data:/g, "")
-          .replace(/\n/g, "")
-          .replace(/\b\d+\.\s/g, "\n$&");
+        curChat.question = str.replace(/\n/g, "").replace(/\b\d+\.\s/g, "\n$&");
         this.chatList.splice(-1, 1, curChat);
         this.scrollBottom();
       });
-      xhr.addEventListener("error", (error) => {
-        console.log(error);
-        xhr.abort();
+      eventSource.addEventListener("error", () => {
         this.isQuestionIng = false;
+        this.answerStatus = "";
       });
+      eventSource.addEventListener("load", () => {
+        this.isQuestionIng = false;
+        this.answerStatus = "";
+      });
+      this.eventSource = eventSource;
     },
     stopQuestion() {
       this.answerStatus = "stop";
-      this.xhr.abort();
+      this.eventSource.close();
       this.isQuestionIng = false;
     },
     reloadQuestion() {

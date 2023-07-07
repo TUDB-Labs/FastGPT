@@ -258,11 +258,19 @@ export default {
       }, 50);
       getBuyCar({ prompt: this.searchValue })
         .then((res) => {
-          if (!res.flag)
-            return showToast({
-              content: res.message,
-              type: "danger",
-            });
+          if (!res.flag) {
+            return this.$confirm(res.message, "提示", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning",
+            })
+              .then(() => {})
+              .catch(() => {});
+          }
+          // showToast({
+          //   content: res.message,
+          //   type: "danger",
+          // });
           const { result, id, sql } = res.data;
           this.resultObj = { result, id, sql, attitude: 0 };
           if (result && result.length) {
@@ -285,6 +293,16 @@ export default {
           setTimeout(() => {
             this.isShowProgress = false;
           }, 1000);
+        })
+        .catch((res) => {
+          console.log("error");
+          this.$confirm(res.message, "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+          })
+            .then(() => {})
+            .catch(() => {});
         });
     },
     onKeydown() {},
