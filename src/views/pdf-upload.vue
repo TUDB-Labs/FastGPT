@@ -12,7 +12,7 @@
             v-show="curStatus === 'action'"
             class="upload-demo acion-upload-wrapper"
             drag
-            action="https://gztz.idmakers.cn/passapi/file-server/files"
+            action="/api/pdf/document/upload"
             :show-file-list="false"
             accept=".pdf"
             :data="{ appId: 1 }"

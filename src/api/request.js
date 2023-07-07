@@ -76,49 +76,49 @@ export const uploadPdf = (data) => {
 
 //分析文档
 export const downloadDocument = (data) => {
-  const url = '/document/url_download';
+  const url = '/api/pdf/document/url_download';
   return interceptor.post(url, data)
 }
 
 //分析文档
 export const analyzeDocument = (data) => {
-  const url = '/document/analyze';
+  const url = '/api/pdf/document/analyze';
   return interceptor.post(url, data)
 }
 
 // 获取对话列表
 export const getConversationList = (data) => {
-  const url = '/conversation/list';
+  const url = '/api/pdf/conversation/list';
   return interceptor.post(url, data)
 }
 // 创建对话
 export const createConversation = (data) => {
-  const url = '/conversation/create';
+  const url = '/api/pdf/conversation/create';
   return interceptor.post(url, data)
 }
 // 删除对话
 export const deleteConversationDetails = (data) => {
-  const url = '/conversation/delete';
+  const url = '/api/pdf/conversation/delete';
   return interceptor.post(url, data)
 }
 // 保存对话
 export const saveConversationDetails = (data) => {
-  const url = '/conversation/save';
+  const url = '/api/pdf/conversation/save';
   return interceptor.post(url, data)
 }
 // 获取对话内容
 export const getConversationDetails = (data) => {
-  const url = '/conversation/create';
+  const url = '/api/pdf/conversation/create';
   return interceptor.post(url, data)
 }
 // 清空对话内容
 export const clearConversationDetails = (data) => {
-  const url = '/conversation/clear';
+  const url = '/api/pdf/conversation/clear';
   return interceptor.post(url, data)
 }
 
 // 获取分享链接
 export const getShareInfo = ({uuid}) => {
-  const url = '/share/' + uuid;
+  const url = '/api/pdf/share/' + uuid;
   return interceptor.post(url)
 }

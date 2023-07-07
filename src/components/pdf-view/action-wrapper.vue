@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import { getConversationList } from "@/api/request.js";
 export default {
   name: "action-wrapper",
   props: {},
@@ -70,7 +71,8 @@ export default {
       pdfList: [
         {
           uuid: "1223",
-          docUrl: "/test.pdf",
+          docUrl:
+            "https://cdn.tudb.work/aios/pdf/4a59d5a734594bfb83f7a43b5488f987.pdf",
           name: "test.pdf",
         },
         {
@@ -92,11 +94,18 @@ export default {
   async created() {
     this.curPdfInfo = this.pdfList[0];
     this.selectPdf(this.pdfList[0]);
+    // this.getConversationList();
   },
   mounted() {},
   watch: {},
   computed: {},
   methods: {
+    getConversationList() {
+      console.log(getConversationList);
+      getConversationList.then((res) => {
+        console.log("res", res);
+      });
+    },
     selectPdf(pdf) {
       this.curPdfInfo = pdf;
       this.$emit("select", pdf);
