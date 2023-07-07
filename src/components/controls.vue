@@ -4,7 +4,7 @@
       <div class="img-box">
         <img
           v-if="!isShowKefu"
-          src="@/assets/images/robot.png"
+          src="@/assets/images/header-img.png"
           class="robot"
           alt="phone1"
         />
@@ -132,12 +132,14 @@ export default {
       height: 1.2rem;
     }
     .robot {
-      width: 1.2rem;
-      height: 1.2rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
     }
     .close-robot {
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
+      padding: 0.5rem;
     }
   }
   .robot-item {
@@ -145,9 +147,9 @@ export default {
     width: 2.9rem;
     height: 2.9rem;
     .img-box {
-      width: 2.5rem;
-      height: 2.5rem;
-      border: 1px solid #254cd8;
+      // width: 2.5rem;
+      // height: 2.5rem;
+      border: 1px solid #254cd8d2;
       border-radius: 50%;
       animation: breathe-img 1.5s linear infinite;
       display: flex;
