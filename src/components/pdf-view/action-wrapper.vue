@@ -39,7 +39,7 @@
               v-for="(pdf, index) in pdfList"
               :key="index"
               class="item"
-              :class="{ active: curPdfInfo.id === pdf.id }"
+              :class="{ active: curPdfInfo.uuid === pdf.uuid }"
               @click="selectPdf(pdf)"
             >
               <img src="@/assets/images/wechat.png" alt="" />
@@ -69,18 +69,19 @@ export default {
       curStatus: "action", // action url uploading
       pdfList: [
         {
-          id: "1223",
-          url: "/test.pdf",
+          uuid: "1223",
+          docUrl: "/test.pdf",
           name: "test.pdf",
         },
         {
-          id: "45332",
-          url: "/test1.pdf",
+          uuid: "45332",
+          docUrl:
+            "https://gztz.idmakers.cn/passapi/file-server/files/downloadFile/342b3cc40ac541d48436d3dadf8c3969",
           name: "test1.pdf",
         },
         {
-          id: "wf2333",
-          url: "/test.pdf",
+          uuid: "wf2333",
+          docUrl: "/test.pdf",
           name: "test.pdf",
         },
       ],
@@ -88,7 +89,7 @@ export default {
       isCollapsed: false,
     };
   },
-  created() {
+  async created() {
     this.curPdfInfo = this.pdfList[0];
     this.selectPdf(this.pdfList[0]);
   },
@@ -118,7 +119,8 @@ export default {
   position: relative;
   z-index: 3;
   .content {
-    width: 240px;
+    width: 14rem;
+    height: 100%;
     // transition: width 0.3s;
   }
   .toggle {

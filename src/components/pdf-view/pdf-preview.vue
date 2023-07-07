@@ -134,10 +134,10 @@ export default {
     },
     // 显示pdf到页面
     renderPdf() {
-      const url = this.pdfBaseInfo.url;
+      const docUrl = this.pdfBaseInfo.docUrl;
       this.pdfLoading = true;
       pdfjsLib
-        .getDocument(url)
+        .getDocument(docUrl)
         .promise.then((pdf) => {
           // 获取并设置总页数
           this.pageInfo.total = pdf.numPages;
