@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
     <h4>
-      <img src="https://cdn.tudb.work/aios/web/images/demo2.png" alt="" />
-      <strong>购车咨询</strong>
+      <img src="@/assets/images/tianranqi.png" alt="" />
+      <strong>ChatGas </strong>
     </h4>
     <main>
       <div class="main-content content-width">
@@ -11,16 +11,18 @@
             <input
               v-model.trim="searchValue"
               type="text"
-              placeholder="请输入您想了解的购车信息，例如：车型，配置，价位..."
+              placeholder="获取更多访问权限，请联系我们 ~"
               maxlength="100"
+              disabled
+              class="not-allowed"
               @keydown="onKeydown"
             />
-            <img
+            <!-- <img
               src="https://cdn.tudb.work/aios/web/images/send-btn.png"
               alt="send-img"
               class="send-img"
               @click="onSearch"
-            />
+            /> -->
           </div>
           <div class="count-wrapper">
             <img
@@ -79,17 +81,8 @@
               style="margin-top: 5rem"
             /> -->
             <template v-if="curType === 'result'">
-              <b-table
-                v-if="false"
-                v-show="resultObj.id && resultObj.sql"
-                sticky-header
-                responsive
-                bordered
-                :fields="fields"
-                :items="resultObj.result"
-              />
               <el-table
-                v-show="resultObj.id && resultObj.sql"
+                v-show="!resultObj.id && resultObj.sql"
                 height="100%"
                 stripe
                 border
@@ -138,8 +131,7 @@
 <script>
 const maxCount = 10;
 import showToast from "@/utils/toast.js";
-import { isExceedLimit } from "@/utils/index.js";
-import { getBuyCar, carLikeOrDiss } from "@/api/request.js"; // carLikeOrDiss
+import { getGasData, carLikeOrDiss } from "@/api/request.js"; // carLikeOrDiss
 import Actions from "../components/actions.vue";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { mapGetters } from "vuex";
@@ -152,17 +144,18 @@ export default {
       searchValue: "",
       curRecommendIndex: 1,
       recommendList: [
-        { content: "今年新上市的奔驰SUV有哪些？", index: 1 },
-        { content: "续航大于700公里的电动车有哪些？", index: 1 },
-        { content: "2023年上市的20万-30万的四驱车型有哪些？", index: 1 },
-        { content: "查询2023年上市的长度大于5米的电动车", index: 1 },
-        { content: "今年上市的7座电动车有哪些？", index: 2 },
-        { content: "最近两年上市的排量超过6L的车有哪些？", index: 2 },
-        {
-          content: "2020年以来，宝马推出过哪些型号的三缸发动机的车？",
-          index: 2,
-        },
-        { content: "今年新上市的奥迪Q3有哪些车型？", index: 2 },
+        { content: "2021年8月天然气消费结构", index: 1 },
+        { content: "2020年黑龙江CNG加气站数量", index: 1 },
+        { content: "2016年8月广汇淖毛湖（疆外）平均价格", index: 1 },
+        { content: "2021年中国城市燃气消费量", index: 1 },
+        { content: "2021年9月天然气消费量", index: 2 },
+        { content: "2016年1月至2017年9月内蒙兴圣每日价格", index: 2 },
+        { content: "2020年青海液化天然气 (LNG) 加气站数量", index: 2 },
+        { content: "2020年中国液化天然气 (LNG) 进口量", index: 2 },
+        // { content: "2021年河北LNG加气站数量", index: 3 },
+        // { content: "2022年5月天然气消费结构", index: 3 },
+        // { content: "2021年10月天然气消费结构占比", index: 3 },
+        // { content: "2020年CNG加气站数量", index: 3 },
       ],
       fields: [],
       resultObj: {
@@ -174,13 +167,22 @@ export default {
       resultContent: "",
       curType: "result", // sql
       loading: false,
+      gasCountInfo: localStorage.getItem("gasCountInfo")
+        ? JSON.parse(localStorage.getItem("gasCountInfo"))
+        : {
+            date: new Date().toLocaleDateString(),
+            num: 0,
+          },
       searchProgress: 0,
       isShowProgress: false,
       timer: null,
     };
   },
-  created() {},
+  created() {
+    this.getCountInfo();
+  },
   beforeDestroy() {
+    console.log(this.timer);
     if (this.timer) {
       window.clearInterval(this.timer);
       this.timer = null;
@@ -192,7 +194,35 @@ export default {
     ...mapGetters(["userInfo"]),
   },
   methods: {
+    getCountInfo() {
+      const str = localStorage.getItem("gasCountInfo");
+      const today = new Date().toLocaleDateString();
+      if (str) {
+        const gasCountInfo = JSON.parse(str);
+        // 如果已经访问过切是今天就不需要重置
+        if (today === gasCountInfo.date) {
+          this.gasCountInfo = gasCountInfo;
+          return;
+        }
+      }
+      this.gasCountInfo = {
+        date: today,
+        num: 0,
+      };
+      this.setCountInfo();
+    },
+    setCountInfo() {
+      localStorage.setItem("gasCountInfo", JSON.stringify(this.gasCountInfo));
+    },
     onSearch() {
+      // 在未登录时 判断是否超过提问次数超过就弹出登录框
+      if (!this.userInfo.phoneNumber && this.gasCountInfo.num === maxCount) {
+        this.$refs.loginModal.show();
+        return showToast({
+          content: `您今日的提问次数已达上限${maxCount}次`,
+          type: "danger",
+        });
+      }
       if (this.loading) return;
       if (!this.searchValue)
         return showToast({
@@ -202,14 +232,10 @@ export default {
       this.loading = true;
       this.curType = "result";
 
-      // 如果未登录需要记录查询次数 判断是否超过提问次数超过就弹出登录框
-      if (!this.userInfo.phoneNumber && isExceedLimit("buyCar")) {
-        this.$refs.loginModal.show();
-        this.loading = false;
-        return showToast({
-          content: `您今日的提问次数已达上限${maxCount}次`,
-          type: "danger",
-        });
+      // 如果未登录需要记录查询次数
+      if (!this.userInfo.phoneNumber) {
+        this.gasCountInfo.num += 1;
+        this.setCountInfo();
       }
       this.searchProgress = 0;
       this.isShowProgress = true;
@@ -221,26 +247,26 @@ export default {
         }
         this.searchProgress += 1;
       }, 50);
-      getBuyCar({ prompt: this.searchValue })
+      getGasData({ text: this.searchValue })
         .then((res) => {
-          if (!res.flag) {
-            return this.$confirm(res.message, "提示", {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消",
-              type: "warning",
-              showCancelButton: false,
-            })
-              .then(() => {})
-              .catch(() => {});
-          }
+          // if (!res.flag) {
+          //   return this.$confirm(res.message, "提示", {
+          //     confirmButtonText: "确定",
+          //     cancelButtonText: "取消",
+          //     type: "warning",
+          //     showCancelButton: false,
+          //   })
+          //     .then(() => {})
+          //     .catch(() => {});
+          // }
           // showToast({
           //   content: res.message,
           //   type: "danger",
           // });
-          const { result, id, sql } = res.data;
-          this.resultObj = { result, id, sql, attitude: 0 };
-          if (result && result.length) {
-            const obj = result[0];
+          const { data, id, sql } = res.data;
+          this.resultObj = { result: data, id, sql, attitude: 0 };
+          if (data && data.length) {
+            const obj = data[0];
             delete obj.id;
             this.fields = Object.keys(obj);
           } else {
@@ -279,13 +305,18 @@ export default {
       this.onSearch();
     },
     onRefresh() {
-      if (this.curRecommendIndex === 1) {
-        return (this.curRecommendIndex = 2);
-      }
-      if (this.curRecommendIndex === 2) {
-        return (this.curRecommendIndex = 1);
-      }
       console.log(this.curRecommendIndex);
+      if (this.curRecommendIndex === 2) {
+        this.curRecommendIndex = 1;
+        return;
+      }
+      this.curRecommendIndex += 1;
+      // if (this.curRecommendIndex === 1) {
+      //   return (this.curRecommendIndex = 2);
+      // }
+      // if (this.curRecommendIndex === 2) {
+      //   return (this.curRecommendIndex = 1);
+      // }
     },
     upvote(record) {
       const { id, attitude } = this.resultObj;
@@ -324,7 +355,7 @@ export default {
     z-index: 5;
     margin-bottom: 0;
     height: 4rem;
-    margin-left: -5.3rem;
+    // margin-left: -5.3rem;
     // padding: 0 0 0.6rem;
     img {
       width: 3rem;
@@ -492,7 +523,7 @@ export default {
       position: fixed;
       top: 0;
       left: 50%;
-      margin-left: -5.3rem;
+      transform: translateX(-50%);
     }
   }
 }

@@ -5,20 +5,11 @@ const { v4: uuidv4 } = require("uuid");
 
 Vue.use(Vuex);
 
-// const getLocaItem = (key) => {
-//   let obj = localStorage.getItem(key)
-//   if (!obj) return
-//   try {
-//     obj = JSON.parse(obj)
-//   } catch(e) {
-//     obj = {}
-//   }
-//   return obj
-// }
-
 export default new Vuex.Store({
   state: {
-    userInfo: {}
+    userInfo: {},
+    // 未登录时使用默认token
+    token: "",
   },
   getters: {
     userInfo(state) {
@@ -26,17 +17,27 @@ export default new Vuex.Store({
       if (state.userInfo.id) return state.userInfo
       const id = localStorage.getItem('uuid') || uuidv4()
       return { id }
+    },
+    token(state) {
+      return state.userInfo.token || 'AIOS-123'
     }
   },
   mutations: {
     SET_USER_INFO(state, userInfo) {
       state.userInfo = userInfo
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
-    }
+    },
+    SET_TOKEN(state, token) {
+      state.token = token
+      localStorage.setItem("token", token);
+    },
   },
   actions: {
     setUserInfo({commit}, userInfo) {
       commit('SET_USER_INFO', userInfo)
+    },
+    setToken({commit}, token) {
+      commit('SET_TOKEN', token)
     }
   },
   plugins: [persistedState()]

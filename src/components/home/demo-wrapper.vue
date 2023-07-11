@@ -14,7 +14,45 @@
       >
         <!-- Text slides with image -->
         <b-carousel-slide
-          v-for="(item, index) in demoList"
+          v-for="(item, index) in demoList.slice(0, 3)"
+          :key="index"
+          img-blank
+          img-alt="Blank image"
+        >
+          <div class="main-card-wrapper">
+            <div class="main-card">
+              <div class="image">
+                <img :src="item.img" :alt="item.title" />
+              </div>
+              <div class="card-desc">
+                <h4 style="">
+                  <strong>{{ item.title }}</strong>
+                </h4>
+                <div class="descContent">
+                  <p class="text_desc">{{ item.desc }}</p>
+                </div>
+                <!-- 
+            v-b-popover.hover.top="item.hopeCon"
+            title="" -->
+                <b-button @click="showDemoDetail(item)"> 体验 DEMO </b-button>
+              </div>
+            </div>
+          </div>
+        </b-carousel-slide>
+      </b-carousel>
+    </div>
+    <div class="phone main-tt-content" style="margin-top: 4rem">
+      <b-carousel
+        id="carousel-1"
+        v-model="slide1"
+        :interval="4000"
+        indicators
+        @sliding-start="onSlideStart"
+        @sliding-end="onSlideEnd"
+      >
+        <!-- Text slides with image -->
+        <b-carousel-slide
+          v-for="(item, index) in demoList.slice(3)"
           :key="index"
           img-blank
           img-alt="Blank image"
@@ -43,7 +81,37 @@
     </div>
     <div class="web main-tt-content">
       <div
-        v-for="(item, index) in demoList"
+        v-for="(item, index) in demoList.slice(0, 3)"
+        :key="index"
+        class="wow main-card-wrapper animate__animated"
+        :class="{
+          animate__lightSpeedInLeft: index === 0,
+          animate__lightSpeedInRight: index === 2,
+          animate__fadeInDown: index === 1,
+        }"
+      >
+        <div class="main-card">
+          <div class="image">
+            <img :src="item.img" :alt="item.title" />
+          </div>
+          <div class="card-desc">
+            <h4 style="">
+              <strong>{{ item.title }}</strong>
+            </h4>
+            <div class="descContent">
+              <p class="text_desc">{{ item.desc }}</p>
+            </div>
+            <!-- 
+            v-b-popover.hover.top="item.hopeCon"
+            title="" -->
+            <b-button @click="showDemoDetail(item)"> 体验 DEMO </b-button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="web main-tt-content" style="margin-top: 2rem">
+      <div
+        v-for="(item, index) in demoList.slice(3)"
         :key="index"
         class="wow main-card-wrapper animate__animated"
         :class="{
@@ -102,6 +170,7 @@ export default {
   data() {
     return {
       slide: 0,
+      slide1: 0,
       sliding: null,
       //demo
       demoList: [
@@ -109,28 +178,36 @@ export default {
           img: "https://cdn.tudb.work/aios/web/images/demo1.png",
           title: "法律咨询",
           desc: "根据您的具体情况，提供专业法律咨询服务，回答企业和个人都关心的法律问题",
-          demoName: "",
-          hopeCon: "敬请期待!",
-          visible: false,
           path: "law",
         },
         {
           img: "https://cdn.tudb.work/aios/web/images/demo2.png",
           title: "购车攻略",
           desc: "帮助您全面了解不同车型的价格，配置，优缺点等，为您的购车体验保驾护航",
-          demoName: "",
-          hopeCon: "敬请期待!",
-          visible: false,
           path: "buy-car",
         },
         {
           img: "https://cdn.tudb.work/aios/web/images/demo3.png",
           title: "虚拟数字人",
           desc: "为企业，院校，个人提供虚拟人技术解决方案，并将其应用于多种场景，如：企业宣传，知识讲解，直播间互动等",
-          demoName: "",
-          hopeCon: "敬请期待!",
-          visible: false,
-          // path: "pdf-upload",
+        },
+        {
+          img: require("@/assets/images/pdf.png"),
+          title: "PDF 助手",
+          desc: "PDF助手可以帮助您快速阅读PDF文档，获取内容概要和您关心的重点信息，提高您的办公和学习效率",
+          path: "pdf-upload",
+        },
+        {
+          img: require("@/assets/images/yayi.png"),
+          title: "牙医问诊",
+          desc: "提供专业的口腔诊前咨询服务，既可以解答口腔患者的疑问，同时辅助口腔医生的诊断治疗",
+          path: "dental-consultation",
+        },
+        {
+          img: require("@/assets/images/tianranqi.png"),
+          title: "ChatGas",
+          desc: "拥有丰富的天然气行业数据，高效赋能天然气领域工作人员的信息收集，数据分析和可视化工作",
+          path: "natural-gas",
         },
       ],
     };
@@ -276,7 +353,7 @@ export default {
         }
       }
       /deep/.carousel-indicators {
-        bottom: -50px;
+        bottom: -3.5rem;
         li {
           background-color: #bdbdbd;
           &.active {

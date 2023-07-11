@@ -22,7 +22,7 @@
         <div v-for="(item, index) in infoList" :key="index">
           <a
             v-if="item.key === '备案'"
-            href="https://beian.miit.gov.cn"
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802042559"
             target="_blank"
             >{{ item.content }}</a
           >
@@ -52,7 +52,7 @@ export default {
         },
         {
           content:
-            "京ICP备XXXX1111号-2 京公网安备 XXXX0000007777号 电子营业执照",
+            "京ICP备2022018609号-5 京公网安备 11010802042584号 电子营业执照",
           key: "备案",
         },
         {

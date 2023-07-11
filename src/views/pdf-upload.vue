@@ -2,32 +2,31 @@
   <div class="wrapper">
     <h4>
       <img src="@/assets/images/pdf-icon.png" alt="" />
-      <strong>pdf助手</strong>
+      <strong>PDF助手</strong>
     </h4>
     <main>
-      <div class="upload-wrapper">
+      <div
+        v-loading="analyzeLoading"
+        element-loading-spinner="el-icon-loading"
+        element-loading-text="正在分析中,请稍后..."
+        class="upload-wrapper"
+      >
         <template>
-          <el-upload
-            ref="upload"
+          <UploadPdf
+            ref="uploadPdf"
             v-show="curStatus === 'action'"
-            class="upload-demo acion-upload-wrapper"
-            drag
-            action="/api/pdf/document/upload"
-            :show-file-list="false"
-            accept=".pdf"
-            :data="{ appId: 1 }"
-            :on-change="onFileChange"
-            :before-upload="onBeforeUpload"
-            :on-progress="onProgress"
-            :on-error="onError"
-            :on-success="onSuccess"
+            class="acion-upload-wrapper"
+            @before-upload="onBeforeUpload"
+            @on-progress="onProgress"
+            @on-error="onError"
+            @on-success="onSuccess"
           >
             <div class="acion-upload">
               <img src="@/assets/images/upload-file.png" alt="" />
               <p>选择PDF文件</p>
             </div>
             <p class="drag-upload">或将PDF拖到此处</p>
-          </el-upload>
+          </UploadPdf>
           <div
             v-show="curStatus === 'action'"
             class="url-upload"
@@ -36,7 +35,12 @@
             <p>通过url上传</p>
           </div>
         </template>
-        <div v-if="curStatus === 'url'" class="url-upload-wrapper">
+        <div
+          v-if="curStatus === 'url'"
+          v-loading="uploadUrlLoading"
+          element-loading-spinner="el-icon-loading"
+          class="url-upload-wrapper"
+        >
           <div class="form-wrapper">
             <p class="title">
               <span>输入PDF的URL</span>
@@ -44,8 +48,13 @@
             </p>
             <div class="input-wrapper">
               <img src="@/assets/images/link.png" alt="" class="ling-icon" />
-              <input placeholder="输入PDF的URL" type="text" />
-              <img src="@/assets/images/url-send.png" alt="" class="send" />
+              <input v-model="pdfUrl" placeholder="输入PDF的URL" type="text" />
+              <img
+                src="@/assets/images/url-send.png"
+                alt=""
+                class="send"
+                @click="onUploadbyUrl"
+              />
             </div>
           </div>
         </div>
@@ -66,44 +75,65 @@
       <p class="tips">PDF文档不得超过1MB，暂不支持同时上传多个PDF</p>
 
       <div class="recommand-list">
-        <div v-for="(item, index) in recommandList" :key="index" class="item">
+        <div
+          v-for="(item, index) in recommandList"
+          :key="index"
+          class="item"
+          @click="goChat(item)"
+        >
           <img src="@/assets/images/paf-fix.png" alt="" />{{ item.name }}
         </div>
       </div>
     </main>
+    <login-modal ref="loginModal" />
   </div>
 </template>
 
 <script>
-// import { uploadPdf } from "@/api/request.js";
+import { analyzeDocument, uploadPdfByUrl } from "@/api/request.js";
+import UploadPdf from "../components/upload-pdf.vue";
+import LoginModal from "@/components/layouts/login-modal.vue";
+import { isExceedLimit } from "@/utils/index.js";
+import { mapState } from "vuex";
 export default {
   name: "pdf-upload",
   props: {},
-  components: {},
+  components: { UploadPdf, LoginModal },
   data() {
     return {
       curStatus: "action", // action url uploading
       recommandList: [
         {
-          id: "1223",
-          name: "样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称.pdf",
+          uuid: "4e997ef6160a4e4a88656389f38c864b",
+          name: "aigc从入门到精通.pdf",
+          url: "aios/pdf/4e997ef6160a4e4a88656389f38c864b.pdf",
         },
         {
-          id: "45332",
-          name: "样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称.pdf",
+          uuid: "20cae5c9f20e43b685512cad7fd354ae",
+          name: "你不知道的aigc.pdf",
+          url: "aios/pdf/20cae5c9f20e43b685512cad7fd354ae.pdf",
         },
         {
-          id: "wf2333",
-          name: "样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称样例PDF名称.pdf",
+          uuid: "7d5fc3dccb134ea8a51fd534749e8228",
+          name: "怎样入局aigc.pdf",
+          url: "aios/pdf/7d5fc3dccb134ea8a51fd534749e8228.pdf",
         },
       ],
       fileInfo: {},
+      analyzeLoading: false,
+      pdfUrl: "",
+      uploadUrlLoading: false,
+      uploadUrl: `${process.env.VUE_APP_PDF_SERVER}/api/pdf/document/upload`,
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    // this.onSuccess();
+  },
   watch: {},
-  computed: {},
+  computed: {
+    ...mapState(["userInfo"]),
+  },
   methods: {
     onUrlUpload() {
       this.curStatus = "url";
@@ -112,60 +142,88 @@ export default {
       this.curStatus = "action";
     },
     onCloseUpload() {
-      this.$refs.upload.abort();
+      this.$refs.uploadPdf.close();
       this.fileInfo = {};
       this.curStatus = "action";
     },
-    onFileChange(file) {
-      console.log(file);
-      // 只能上传pdf
-      // if (file.raw.type !== "application/pdf")
-      //   return this.$message.warning("只能上传pdf文件");
-      // // 文件大小不能超过1M
-      // if (file.size / 1024 / 1024 > 1)
-      //   return this.$message.warning("只能上传小于1M的pdf文件");
-      // uploadPdf({
-      //   file: file,
-      // }).then((res) => {
-      //   console.log(res);
-      // });
-    },
     onBeforeUpload(file) {
       console.log(file);
-      // 只能上传pdf
-      if (file.type !== "application/pdf") {
-        this.$message.warning("只能上传pdf文件");
-        return false;
-      }
-      // 文件大小不能超过1M
-      console.log(file.size / 1024 / 1024 > 1);
-      if (file.size / 1024 / 1024 > 1) {
-        this.$message.warning("只能上传小于1M的pdf文件");
-        return false;
-      }
       this.fileInfo = {
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        percent: 0,
+        ...file,
       };
-      this.curStatus = "uploading";
-      return true;
     },
     onProgress(event) {
       this.$set(this.fileInfo, "percent", Math.floor(event.percent));
     },
     onError() {
-      this.$message.error("文件上传失败，请重新上传");
       this.fileInfo = {};
       this.curStatus = "action";
     },
-    onSuccess(event) {
-      console.log(event);
-      this.$message.success("文件上传成功");
-      this.$router.push("/pdf-view/" + event.data.id);
+    onSuccess(event = {}) {
       this.fileInfo = {};
       this.curStatus = "action";
+      this.analyzeDocument(event);
+    },
+    // 分析文档
+    goChat(item) {
+      this.$router.push({
+        params: {
+          id: item.uuid,
+          ...item,
+          isAdd: true,
+        },
+        name: "PdfView",
+      });
+    },
+    analyzeDocument(event) {
+      this.analyzeLoading = true;
+      analyzeDocument({ uuid: event.data.uuid })
+        .then(() => {
+          this.$router.push({
+            params: {
+              id: event.data.uuid,
+              ...event.data,
+              isAdd: true,
+            },
+            name: "PdfView",
+          });
+        })
+        .finally(() => {
+          this.analyzeLoading = false;
+        });
+    },
+    onUploadbyUrl() {
+      // 判断链接是否有效
+      if (!this.isURLValid(this.pdfUrl))
+        return this.$message.warning("请输入有效链接");
+      if (!this.userInfo.phoneNumber && isExceedLimit("pdfUploadNoAuth")) {
+        this.$message.warning("您今日的上传次数已达上限3次");
+        this.$refs.loginModal.show();
+        return;
+      }
+      if (this.userInfo.phoneNumber && isExceedLimit("pdfUpload")) {
+        this.$message.warning("您今日的上传次数已达上限5次");
+        return;
+      }
+      this.uploadUrlLoading = true;
+      uploadPdfByUrl({ url: this.pdfUrl })
+        .then((res) => {
+          this.fileInfo = {};
+          this.curStatus = "action";
+          this.analyzeDocument(res);
+        })
+        .finally(() => {
+          this.uploadUrlLoading = false;
+        });
+    },
+    isURLValid(url) {
+      const pattern = /^((http(s)?:\/\/)?[a-z0-9]+(\.[a-z0-9]+)+([/?].*)?)$/i;
+      try {
+        const validURL = new URL(url);
+        return pattern.test(validURL.href);
+      } catch (error) {
+        return false;
+      }
     },
   },
 };
@@ -174,13 +232,16 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   h4 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 0 12px;
+    z-index: 5;
+    margin-bottom: 0;
+    height: 4rem;
+    margin-left: -5.3rem;
     img {
-      width: 3rem;
+      width: 2.5rem;
       margin-right: 12px;
     }
   }
@@ -340,6 +401,16 @@ export default {
     }
   }
 }
+@media (min-width: 767px) {
+  .wrapper {
+    h4 {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      margin-left: -5.3rem;
+    }
+  }
+}
 
 @media (max-width: 767px) {
   .wrapper {
@@ -349,6 +420,13 @@ export default {
     main {
       width: 90%;
     }
+  }
+}
+
+/deep/.el-loading-spinner {
+  margin-top: -1rem;
+  i {
+    font-size: 2rem;
   }
 }
 </style>

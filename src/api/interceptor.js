@@ -1,10 +1,14 @@
 // 定义一个封装了 fetch 的请求方法
 import axios from 'axios'
 import showToast from "@/utils/toast.js";
+import store from '@/store/index.js';
 
 const axiosService =  axios.create()
 
 axiosService.interceptors.request.use(config => {
+  // const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
+  console.log(store.getters)
+  config.headers.Authorization = store.getters.token // userInfo.token
   return config
 }, error => {
   Promise.reject(error)
@@ -24,7 +28,8 @@ axiosService.interceptors.response.use(
       return data
     }
     // 购车的错误报警通过自定义
-    if (responseURL.indexOf('/texttosql/completions') === -1) {
+    
+    if (responseURL.indexOf('/texttosql/completions') === -1 || responseURL.indexOf('/getdata') === -1) {
       showToast({
         content: data.message,
         type: "danger",

@@ -79,7 +79,7 @@ export default {
       this.userInfo.expirationTime &&
       this.userInfo.expirationTime < new Date().getTime()
     ) {
-      this.onLoginout();
+      this.setUserInfo({});
     }
 
     window.onstorage = (event) => {
@@ -99,7 +99,7 @@ export default {
     ...mapGetters(["userInfo"]),
   },
   methods: {
-    ...mapActions(["setUserInfo"]),
+    ...mapActions(["setUserInfo", "setToken"]),
     goGuidance() {
       this.$router.push("/expert");
     },
@@ -118,6 +118,7 @@ export default {
             type: "success",
           });
           this.setUserInfo({});
+          this.setToken("");
         })
         .catch(() => {});
     },

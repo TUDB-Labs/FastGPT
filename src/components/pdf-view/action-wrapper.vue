@@ -1,24 +1,34 @@
 <template>
   <div class="wrapper">
     <transition name="collapse">
-      <div v-show="!isCollapsed" class="content">
+      <div class="content" :class="[isCollapsed ? 'collapsed' : 'expand']">
         <h4>
           <img src="@/assets/images/pdf-icon.png" alt="" />
-          <strong>pdf助手</strong>
+          <strong v-show="!isCollapsed">PDF助手</strong>
         </h4>
-        <main>
-          <div class="upload-wrapper">
+        <div
+          class="icon-plus"
+          v-show="isCollapsed"
+          @click="isCollapsed = false"
+        >
+          <i class="el-icon-plus"></i>
+        </div>
+        <main v-show="!isCollapsed">
+          <div
+            v-loading="analyzeLoading"
+            element-loading-spinner="el-icon-loading"
+            class="upload-wrapper"
+          >
             <template v-if="curStatus === 'action'">
-              <el-upload
+              <UploadPdf
                 class="upload-demo acion-upload-wrapper"
-                drag
-                action="#"
-                :show-file-list="false"
-                :auto-upload="false"
+                @on-error="onError"
+                @before-upload="onBeforeUpload"
+                @on-success="onSuccess"
               >
                 <p class="acion-upload">添加新的文件</p>
                 <p class="drag-upload">将PDF拖到此处</p>
-              </el-upload>
+              </UploadPdf>
             </template>
             <div v-if="curStatus === 'uploading'" class="uploading-wrapper">
               <div class="uploading">
@@ -36,7 +46,7 @@
           </div>
           <div class="recommand-list">
             <div
-              v-for="(pdf, index) in pdfList"
+              v-for="(pdf, index) in conversationList"
               :key="index"
               class="item"
               :class="{ active: curPdfInfo.uuid === pdf.uuid }"
@@ -60,51 +70,88 @@
 </template>
 
 <script>
-import { getConversationList } from "@/api/request.js";
+import {
+  createConversation,
+  getConversationList,
+  analyzeDocument,
+} from "@/api/request.js";
+import { mapGetters } from "vuex";
+import eventBus from "@/utils/event-bus.js";
+import UploadPdf from "../upload-pdf.vue";
 export default {
   name: "action-wrapper",
   props: {},
-  components: {},
+  components: { UploadPdf },
   data() {
     return {
       curStatus: "action", // action url uploading
-      pdfList: [
-        {
-          uuid: "1223",
-          docUrl:
-            "https://cdn.tudb.work/aios/pdf/4a59d5a734594bfb83f7a43b5488f987.pdf",
-          name: "test.pdf",
-        },
-        {
-          uuid: "45332",
-          docUrl:
-            "https://gztz.idmakers.cn/passapi/file-server/files/downloadFile/342b3cc40ac541d48436d3dadf8c3969",
-          name: "test1.pdf",
-        },
-        {
-          uuid: "wf2333",
-          docUrl: "/test.pdf",
-          name: "test.pdf",
-        },
-      ],
+      conversationList: [],
       curPdfInfo: {},
       isCollapsed: false,
+      analyzeLoading: false,
+      uploadFileInfo: {},
     };
   },
   async created() {
-    this.curPdfInfo = this.pdfList[0];
-    this.selectPdf(this.pdfList[0]);
-    // this.getConversationList();
+    const { isAdd, uuid, name } = this.$route.params;
+    // 如果是新增就需要新建绘画
+    if (isAdd) {
+      return this.addConversation(name, uuid);
+    }
+    this.getConversationList();
+
+    eventBus.$on("delete", (id) => {
+      console.log("delete", id);
+      if (!this.userInfo.phoneNumber) {
+        const index = this.conversationList.findIndex(
+          (item) => item.uuid === id
+        );
+        this.conversationList.splice(index, 1);
+        if (!this.conversationList.length) return;
+        this.curPdfInfo = this.conversationList[0];
+        this.selectPdf(this.conversationList[0]);
+        localStorage.setItem(
+          "pdf-conversation-list",
+          JSON.stringify(this.conversationList)
+        );
+        return;
+      }
+      this.getConversationList();
+    });
   },
   mounted() {},
+  beforeDestroy() {
+    eventBus.$off("delete");
+  },
   watch: {},
-  computed: {},
+  computed: {
+    ...mapGetters(["userInfo"]),
+  },
   methods: {
-    getConversationList() {
-      console.log(getConversationList);
-      getConversationList.then((res) => {
-        console.log("res", res);
-      });
+    getConversationList(item) {
+      if (!this.userInfo.phoneNumber) {
+        const list = localStorage.getItem("pdf-conversation-list");
+        const conversationList = list ? JSON.parse(list) : [];
+        if (item) {
+          conversationList.unshift(item);
+          localStorage.setItem(
+            "pdf-conversation-list",
+            JSON.stringify(conversationList)
+          );
+        }
+        this.conversationList = conversationList;
+        if (!conversationList.length) return;
+        this.curPdfInfo = this.conversationList[0];
+        this.selectPdf(this.conversationList[0]);
+        return;
+      }
+      getConversationList()
+        .then((res) => {
+          this.conversationList = res.data || [];
+          this.curPdfInfo = this.conversationList[0];
+          this.selectPdf(this.conversationList[0]);
+        })
+        .finally(() => {});
     },
     selectPdf(pdf) {
       this.curPdfInfo = pdf;
@@ -114,6 +161,43 @@ export default {
       // setTimeout(() => {
       this.isCollapsed = !this.isCollapsed;
       // }, 500);
+    },
+    addConversation(name, uuid) {
+      const data = {
+        name,
+        docUuid: uuid,
+      };
+      createConversation(data)
+        .then((res) => {
+          this.getConversationList(res.data);
+        })
+        .finally(() => {});
+    },
+    onBeforeUpload() {
+      // this.uploadFileInfo = {
+      //   ...file,
+      // };
+      this.analyzeLoading = true;
+    },
+    onError() {
+      // this.fileInfo = {};
+      // this.curStatus = "action";
+      this.analyzeLoading = false;
+    },
+    onSuccess(event = {}) {
+      // this.fileInfo = {};
+      // this.curStatus = "action";
+      this.analyzeDocument(event);
+    },
+    // 分析文档
+    analyzeDocument(event) {
+      analyzeDocument({ uuid: event.data.uuid })
+        .then(() => {
+          this.addConversation(event.data.name, event.data.uuid);
+        })
+        .finally(() => {
+          this.analyzeLoading = false;
+        });
     },
   },
 };
@@ -131,6 +215,24 @@ export default {
     width: 14rem;
     height: 100%;
     // transition: width 0.3s;
+    &.collapsed {
+      width: 3.5rem;
+      img {
+        margin: 0;
+      }
+    }
+    &.expand {
+      width: 14rem;
+    }
+  }
+  .icon-plus {
+    border: 2px dashed #ffffff;
+    width: 2rem;
+    height: 2rem;
+    line-height: 1.8rem;
+    margin: 1.5rem auto;
+    cursor: pointer;
+    border-radius: 0.4rem;
   }
   .toggle {
     position: absolute;
@@ -153,8 +255,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 0 12px;
+    padding: 0 0;
     color: #fff;
+    height: 2rem;
     img {
       width: 2rem;
       margin-right: 12px;
@@ -231,7 +334,7 @@ export default {
   }
 
   .recommand-list {
-    height: calc(100% - 100px);
+    height: calc(100% - 80px);
     overflow: auto;
     margin-top: 0.9rem;
     .item {
@@ -265,6 +368,15 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+    }
+  }
+  /deep/ .el-loading-mask {
+    background-color: #000000e0;
+    .el-loading-spinner {
+      margin-top: -1rem;
+      i {
+        font-size: 2rem;
       }
     }
   }

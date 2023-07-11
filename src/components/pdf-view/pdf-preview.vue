@@ -7,7 +7,7 @@
     <div class="tool-bars">
       <div class="name-box">
         <img src="@/assets/images/pdf-file.png" alt="" />
-        <span class="name flex-sub text-cut">中科知道AIGC中科知道AIGC.pdf</span>
+        <span class="name flex-sub text-cut">{{ pdfBaseInfo.name }}</span>
       </div>
       <div class="page-box">
         <el-input-number
@@ -63,18 +63,6 @@ export default {
     };
   },
   created() {
-    // fetch(
-    //   "https://gztz.idmakers.cn/passapi/file-server/files/view/dde88e07e7c0456aabac230c62145fab"
-    // )
-    //   .then((response) => response.blob())
-    //   .then((blob) => {
-    //     const link = document.createElement("a");
-    //     link.href = URL.createObjectURL(blob);
-    //     link.download = "pdf对话.txt";
-    //     link.click();
-    //     URL.revokeObjectURL(link.href);
-    //   })
-    //   .catch((error) => console.error("下载文件时发生错误:", error));
     window.onresize = () => {
       if (!this.pdfViewer) return;
       console.log("onresize");
@@ -88,7 +76,6 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.initPdfViewer();
-      // this.renderPdf();
     });
   },
   watch: {
@@ -134,7 +121,9 @@ export default {
     },
     // 显示pdf到页面
     renderPdf() {
-      const docUrl = this.pdfBaseInfo.docUrl;
+      if (!this.pdfBaseInfo.docUrl) return;
+      const docUrl =
+        process.env.VUE_APP_FILE_SERVER + "/" + this.pdfBaseInfo.docUrl;
       this.pdfLoading = true;
       pdfjsLib
         .getDocument(docUrl)
@@ -180,7 +169,7 @@ export default {
     .name-box {
       display: flex;
       align-items: center;
-      width: calc(100% - 4.5rem);
+      width: calc(100% - 7rem);
       .name {
         font-weight: bold;
         text-align: left;
@@ -214,7 +203,7 @@ export default {
     width: calc(100% - 0.5rem);
     height: calc(100% - 3rem);
     overflow: auto;
-    padding-right: 0.6rem;
+    // padding-right: 0.6rem;
     /deep/.canvasWrapper {
       // overflow: hidden;
       // width: 100%;

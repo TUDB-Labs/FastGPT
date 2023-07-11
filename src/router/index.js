@@ -7,6 +7,9 @@ const Expert = () => import('@/views/expert');
 const PdfUpload = () => import('@/views/pdf-upload');
 const PdfView = () => import('@/views/pdf-view');
 const RobotChat = () => import('@/views/robot-chat-view');
+const NaturalGas = () => import('@/views/natural-gas');
+const DentalConsultation = () => import('@/views/dental-consultation');
+const share = () => import('@/views/share');
 
 Vue.use(Router)
 
@@ -47,6 +50,21 @@ const router = new Router({
       path: '/robot-chat',
       name: 'RobotChat',
       component: RobotChat
+    },
+    {
+      path: '/dental-consultation',
+      name: 'DentalConsultation',
+      component: DentalConsultation
+    },
+    {
+      path: '/natural-gas',
+      name: 'NaturalGas',
+      component: NaturalGas
+    },
+    {
+      path: '/share/:id',
+      name: 'share',
+      component: share
     }
   ]
 })

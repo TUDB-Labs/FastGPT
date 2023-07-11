@@ -1,11 +1,15 @@
 import * as interceptor from './interceptor.js'
 
 // 官网基础接口 pv
-let baseUrl = process.env.VUE_APP_WEBSITE_SERVER
+let baseUrl = process.env.VUE_APP_PDF_SERVER
 // 法律咨詢
 let lawBaseUrl = process.env.VUE_APP_LAW_SERVER
 // 买车咨询
 let buyCarBaseUrl = process.env.VUE_APP_BUYCAR_SERVER
+// pdf
+let pdfBaseUrl = process.env.VUE_APP_PDF_SERVER
+// 天然气
+let gasBaseUrl = process.env.VUE_APP_GAS_SERVER
 
 export const getIp = () => {
   const url = process.env.VUE_APP_IP_SERVER
@@ -41,7 +45,7 @@ export const chatToRobot = (data) => {
 
 // 通验证码登录
 export const loginByCode = (data) => {
-  const url = baseUrl + `/api/sms/insertCheck`;
+  const url = baseUrl + `/api/user/login`;
   return interceptor.post(url,data)
 }
 // 法律
@@ -76,49 +80,67 @@ export const uploadPdf = (data) => {
 
 //分析文档
 export const downloadDocument = (data) => {
-  const url = '/api/pdf/document/url_download';
+  const url = pdfBaseUrl + '/api/pdf/document/url_download';
   return interceptor.post(url, data)
 }
 
 //分析文档
 export const analyzeDocument = (data) => {
-  const url = '/api/pdf/document/analyze';
+  const url = pdfBaseUrl + '/api/pdf/document/analyze';
   return interceptor.post(url, data)
 }
 
 // 获取对话列表
 export const getConversationList = (data) => {
-  const url = '/api/pdf/conversation/list';
+  const url = pdfBaseUrl + '/api/pdf/conversation/list';
   return interceptor.post(url, data)
 }
 // 创建对话
 export const createConversation = (data) => {
-  const url = '/api/pdf/conversation/create';
+  const url = pdfBaseUrl + '/api/pdf/conversation/create';
   return interceptor.post(url, data)
 }
 // 删除对话
 export const deleteConversationDetails = (data) => {
-  const url = '/api/pdf/conversation/delete';
+  const url = pdfBaseUrl + '/api/pdf/conversation/delete';
   return interceptor.post(url, data)
 }
 // 保存对话
 export const saveConversationDetails = (data) => {
-  const url = '/api/pdf/conversation/save';
+  const url = pdfBaseUrl + '/api/pdf/conversation/save';
   return interceptor.post(url, data)
 }
 // 获取对话内容
 export const getConversationDetails = (data) => {
-  const url = '/api/pdf/conversation/create';
+  const url = pdfBaseUrl + '/api/pdf/conversation/messages';
   return interceptor.post(url, data)
 }
 // 清空对话内容
 export const clearConversationDetails = (data) => {
-  const url = '/api/pdf/conversation/clear';
+  const url = pdfBaseUrl + '/api/pdf/conversation/clear';
   return interceptor.post(url, data)
 }
 
 // 获取分享链接
-export const getShareInfo = ({uuid}) => {
-  const url = '/api/pdf/share/' + uuid;
-  return interceptor.post(url)
+export const getShareInfo = (data) => {
+  const url = pdfBaseUrl + '/api/pdf/share/create';
+  return interceptor.post(url, data)
+}
+
+// 获取分享文档
+export const getShareDocInfo = (data) => {
+  const url = pdfBaseUrl + '/api/pdf/share/get';
+  return interceptor.post(url, data)
+}
+
+// 通过文件地址上传
+export const uploadPdfByUrl = (data) => {
+  const url = pdfBaseUrl + '/api/pdf/document/url_download';
+  return interceptor.post(url, data)
+}
+
+// 天然气
+export const getGasData = (data) => {
+  const url = gasBaseUrl + '/getdata'
+  return interceptor.post(url, data)
 }

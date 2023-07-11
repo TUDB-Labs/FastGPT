@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
     <h4>
-      <img src="https://cdn.tudb.work/aios/web/images/demo1.png" alt="" />
-      <strong>法律咨询</strong>
+      <img src="@/assets/images/yayi.png" alt="" />
+      <strong>牙医问诊</strong>
     </h4>
     <main class="">
       <div class="main-content">
@@ -16,9 +16,7 @@
               />
             </div>
             <div class="content">
-              <div>
-                您好，我是您的法律助手，可以为您提供专业的法律咨询服务，有什么问题可以帮您解决？
-              </div>
+              <div>您好，我是您的口腔智能助理，请问您有什么需要咨询的吗？</div>
               <div class="indicator"></div>
             </div>
             <div class="header-img-wrapper"></div>
@@ -46,7 +44,7 @@
               </div>
               <div class="content">
                 <!-- <div v-html="item.question" /> -->
-                <BlinkAnimation v-if="!item.question" color="#000" />
+                <blink-animation v-if="!item.question" color="#000" />
                 <div
                   v-html="
                     item.question
@@ -126,7 +124,7 @@ import { likeLaw, dissLaw } from "@/api/request.js";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { mapGetters } from "vuex";
 import BlinkAnimation from "../components/blink-animation.vue";
-import { SSE, isExceedLimit } from "@/utils/index.js";
+import { SSE } from "@/utils/index.js";
 export default {
   name: "law",
   props: {},
@@ -147,19 +145,47 @@ export default {
       ],
       eventSource: null,
       answerStatus: "", // stop ing
+      lawCountInfo: localStorage.getItem("lawCountInfo")
+        ? JSON.parse(localStorage.getItem("lawCountInfo"))
+        : {
+            date: new Date().toLocaleDateString(),
+            num: 0,
+          },
     };
   },
-  created() {},
+  created() {
+    this.getCountInfo();
+  },
   mounted() {},
   watch: {},
   computed: {
     ...mapGetters(["userInfo"]),
   },
   methods: {
+    getCountInfo() {
+      const str = localStorage.getItem("lawCountInfo");
+      const today = new Date().toLocaleDateString();
+      if (str) {
+        const lawCountInfo = JSON.parse(str);
+        // 如果已经访问过切是今天就不需要重置
+        if (today === lawCountInfo.date) {
+          this.lawCountInfo = lawCountInfo;
+          return;
+        }
+      }
+      this.lawCountInfo = {
+        date: today,
+        num: 0,
+      };
+      this.setCountInfo();
+    },
+    setCountInfo() {
+      localStorage.setItem("lawCountInfo", JSON.stringify(this.lawCountInfo));
+    },
     // 通过sse监听服务端返回的内容
     async getQuestion() {
-      // process.env.VUE_APP_LAW_SERVER
-      const url = `${process.env.VUE_APP_LAW_SERVER}/api/chat?question=${this.searchValue}&userId=${this.userInfo.id}`;
+      // process.env.https://yayi.sco.tudb.work
+      const url = `${process.env.VUE_APP_DENTIST_SERVER}/api/advisory?question=${this.searchValue}&userId=${this.userInfo.id}`;
       // 输入框清空
       this.searchValue = "";
       this.answerStatus = "ing";
@@ -170,10 +196,10 @@ export default {
         method: "GET",
       });
       eventSource.addEventListener("message", (responseText) => {
-        if (!curChat.msgId) {
-          const msgId = eventSource.xhr.getResponseHeader("x-msgid");
-          curChat.msgId = msgId;
-        }
+        // if (!curChat.msgId) {
+        //   const msgId = eventSource.xhr.getResponseHeader("x-msgid");
+        //   curChat.msgId = msgId;
+        // }
         let str = responseText;
         // 向回复内容里写值
         curChat.question = str.replace(/\n/g, "").replace(/\b\d+\.\s/g, "\n$&");
@@ -185,7 +211,6 @@ export default {
         this.answerStatus = "";
       });
       eventSource.addEventListener("load", () => {
-        console.log("load");
         this.isQuestionIng = false;
         this.answerStatus = "";
       });
@@ -215,18 +240,18 @@ export default {
       });
     },
     onSend() {
-      // 输入框无值
-      if (!this.searchValue) return;
-      // 已提问还未回复，不能继续提问
-      if (this.isQuestionIng) return;
       // 在未登录时 判断是否超过提问次数超过就弹出登录框
-      if (!this.userInfo.phoneNumber && isExceedLimit("lawContact")) {
+      if (!this.userInfo.phoneNumber && this.lawCountInfo.num === maxCount) {
         this.$refs.loginModal.show();
         return showToast({
           content: `您今日的提问次数已达上限${maxCount}次`,
           type: "danger",
         });
       }
+      // 输入框无值
+      if (!this.searchValue) return;
+      // 已提问还未回复，不能继续提问
+      if (this.isQuestionIng) return;
       this.isQuestionIng = true;
       this.chatList.push({
         answer: this.searchValue,

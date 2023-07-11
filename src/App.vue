@@ -1,13 +1,15 @@
 <template>
   <div id="app">
     <!-- 头部 -->
-    <HeaderView />
+    <HeaderView v-if="$route.path.indexOf('share') === -1" />
     <router-view />
     <!-- 底部 -->
     <!-- 不是手机端 是手机但是不是法律-->
     <FooterView
       v-if="
-        !isPhone || !['/buy-car', '/law', '/robot-chat'].includes($route.path)
+        !isPhone ||
+        $route.path.indexOf('share') === -1 ||
+        !['/buy-car', '/law', '/robot-chat'].includes($route.path)
       "
     />
     <controls />

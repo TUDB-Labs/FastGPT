@@ -16,8 +16,12 @@ export const SSE = function (url, options) {
 
   this.stream = function() {
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", url);
-    xhr.send(options.method);
+    xhr.open(options.method, url);
+
+    xhr.setRequestHeader('Authorization', options.token)
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.send(JSON.stringify(options.payload));
 
     xhr.addEventListener('error', (error) => {
       console.log('error', error)
@@ -40,6 +44,8 @@ export const SSE = function (url, options) {
         if (!data) return
         if (data.includes("EOF")) {
           data = data.replace("EOF", "");
+          this.listeners['load']()
+          this.close()
         }
         data = data.replace(/data:/g, "")
         this.listeners['message'](data)
@@ -47,9 +53,8 @@ export const SSE = function (url, options) {
     });
 
     xhr.addEventListener('load', () => {
-      console.log('load', xhr)
-      this.close()
       this.listeners['load']()
+      this.close()
     });
 
     // xhr.addEventListener('readystatechange', () => {
@@ -67,5 +72,43 @@ export const SSE = function (url, options) {
 
   this.close = function () {
     this.xhr.abort()
+  }
+}
+
+export const getCountInfo = (type) => {
+  const obj = localStorage.getItem('webCountInfo')
+  let webCountInfo = {}
+  if (obj) {
+    webCountInfo = JSON.parse(obj)
+  }
+  if (!webCountInfo[type]) {
+    webCountInfo[type] = {
+      date: new Date().toLocaleDateString(),
+      num: 0
+    }
+  }
+  return webCountInfo
+}
+
+export const isExceedLimit = (type) => {
+  const maxObj = {
+    pdfUpload: 5,
+    pdfUploadNoAuth: 3,
+    pdfContact: 50,
+    pdfContactNoAuth: 20,
+    lawContact: 10,
+    buyCar: 10
+  }
+  const webCountInfo = getCountInfo(type)
+  
+  if (webCountInfo[type].num >= maxObj[type]) {
+    return true
+  } else {
+    webCountInfo[type].num += 1
+    localStorage.setItem(
+      "webCountInfo",
+      JSON.stringify(webCountInfo)
+    )
+    return false
   }
 }
