@@ -8,7 +8,7 @@
       <div
         v-loading="analyzeLoading"
         element-loading-spinner="el-icon-loading"
-        element-loading-text="正在分析中,请稍后..."
+        element-loading-text="正在分析中请稍后..."
         class="upload-wrapper"
       >
         <template>
@@ -90,11 +90,16 @@
 </template>
 
 <script>
-import { analyzeDocument, uploadPdfByUrl } from "@/api/request.js";
+import {
+  uploadPdfByUrl,
+  analyzeDocument,
+  createConversation,
+} from "@/api/request.js";
 import UploadPdf from "../components/upload-pdf.vue";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { isExceedLimit } from "@/utils/index.js";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+// import { SSE } from "@/utils/index.js";
 export default {
   name: "pdf-upload",
   props: {},
@@ -123,7 +128,7 @@ export default {
       analyzeLoading: false,
       pdfUrl: "",
       uploadUrlLoading: false,
-      uploadUrl: `${process.env.VUE_APP_PDF_SERVER}/api/pdf/document/upload`,
+      uploadUrl: `/api/pdf/document/upload`,
     };
   },
   created() {},
@@ -132,7 +137,7 @@ export default {
   },
   watch: {},
   computed: {
-    ...mapState(["userInfo"]),
+    ...mapGetters(["userInfo", "token"]),
   },
   methods: {
     onUrlUpload() {
@@ -147,10 +152,10 @@ export default {
       this.curStatus = "action";
     },
     onBeforeUpload(file) {
-      console.log(file);
       this.fileInfo = {
         ...file,
       };
+      this.curStatus = "uploading";
     },
     onProgress(event) {
       this.$set(this.fileInfo, "percent", Math.floor(event.percent));
@@ -160,21 +165,12 @@ export default {
       this.curStatus = "action";
     },
     onSuccess(event = {}) {
-      this.fileInfo = {};
-      this.curStatus = "action";
-      this.analyzeDocument(event);
+      this.createConversation(event.data);
+    },
+    goChat(item) {
+      this.createConversation(item);
     },
     // 分析文档
-    goChat(item) {
-      this.$router.push({
-        params: {
-          id: item.uuid,
-          ...item,
-          isAdd: true,
-        },
-        name: "PdfView",
-      });
-    },
     analyzeDocument(event) {
       this.analyzeLoading = true;
       analyzeDocument({ uuid: event.data.uuid })
@@ -187,6 +183,8 @@ export default {
             },
             name: "PdfView",
           });
+          this.fileInfo = {};
+          this.curStatus = "action";
         })
         .finally(() => {
           this.analyzeLoading = false;
@@ -208,12 +206,38 @@ export default {
       this.uploadUrlLoading = true;
       uploadPdfByUrl({ url: this.pdfUrl })
         .then((res) => {
-          this.fileInfo = {};
-          this.curStatus = "action";
-          this.analyzeDocument(res);
+          this.createConversation(res.data);
         })
         .finally(() => {
           this.uploadUrlLoading = false;
+        });
+    },
+    createConversation({ name, uuid }) {
+      this.analyzeLoading = true;
+      createConversation({ name, docUuid: uuid })
+        .then((res) => {
+          // 如果没有登录就存入缓存
+          if (!this.userInfo.phoneNumber) {
+            const list = localStorage.getItem("pdf-conversation-list");
+            const conversationList = list ? JSON.parse(list) : [];
+            conversationList.unshift(res.data);
+            localStorage.setItem(
+              "pdf-conversation-list",
+              JSON.stringify(conversationList)
+            );
+          }
+          // 跳转到详情页
+          this.$router.push({
+            params: {
+              id: res.data.uuid,
+            },
+            name: "PdfViewDetails",
+          });
+        })
+        .finally(() => {
+          this.analyzeLoading = false;
+          this.fileInfo = {};
+          this.curStatus = "action";
         });
     },
     isURLValid(url) {
@@ -248,8 +272,7 @@ export default {
   main {
     font-size: 14px;
     width: 71%;
-    margin: 0 auto;
-    padding: 0.9rem;
+    margin: 0.9rem auto;
 
     .upload-wrapper {
       background: rgba(230, 230, 230, 0.6);

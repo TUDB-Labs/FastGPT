@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { isExceedLimit } from "@/utils/index.js";
 export default {
@@ -34,25 +34,25 @@ export default {
   data() {
     return {
       fileInfo: {},
-      uploadUrl: `${process.env.VUE_APP_PDF_SERVER}/api/pdf/document/upload`,
+      uploadUrl: `/api/pdf/document/upload`,
     };
   },
   created() {},
   mounted() {},
   watch: {},
   computed: {
-    ...mapState(["token", "userInfo"]),
+    ...mapGetters(["token", "userInfo"]),
   },
   methods: {
     onBeforeUpload(file) {
       // 只能上传pdf
       if (file.type !== "application/pdf") {
-        this.$message.warning("只能上传pdf文件");
+        this.$message.warning("只能上传PDF文件");
         return false;
       }
       // 文件大小不能超过1M
       if (file.size / 1024 / 1024 > 1) {
-        this.$message.warning("只能上传小于1M的pdf文件");
+        this.$message.warning("PDF文件大小超出限制");
         return false;
       }
       if (!this.userInfo.phoneNumber && isExceedLimit("pdfUploadNoAuth")) {
@@ -79,10 +79,11 @@ export default {
       // this.$set(this.fileInfo, "percent", Math.floor(event.percent));
     },
     onError() {
-      this.$message.error("文件上传失败，请重新上传");
+      this.$message.error("文件上传失败,请稍后重试");
       this.$emit("on-error");
     },
     onSuccess(event = {}) {
+      console.log("on-success");
       this.$emit("on-success", event);
     },
     close() {

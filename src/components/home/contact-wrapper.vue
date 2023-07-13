@@ -87,6 +87,7 @@ export default {
             if (res.data.code == 200) {
               showToast({
                 content: "已提交，我们会及时联系您",
+                type: "success",
               });
               //按钮点击记录
               this.$emit("buttonClick", "提交");

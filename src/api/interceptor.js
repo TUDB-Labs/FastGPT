@@ -3,11 +3,11 @@ import axios from 'axios'
 import showToast from "@/utils/toast.js";
 import store from '@/store/index.js';
 
-const axiosService =  axios.create()
+const axiosService = axios.create({
+  timeout: 500000
+})
 
 axiosService.interceptors.request.use(config => {
-  // const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
-  console.log(store.getters)
   config.headers.Authorization = store.getters.token // userInfo.token
   return config
 }, error => {

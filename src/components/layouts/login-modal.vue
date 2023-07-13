@@ -210,58 +210,58 @@ export default {
       this.isWaiting = false;
     },
     onLogin() {
-      showToast({
-        content: "登录成功",
-        type: "success",
-      });
-      // 存入用户信息
-      this.userInfo = {
-        phoneNumber: 17711520562,
-        id: "res.id",
-        token: "e204004d59357ad44a36f8496647ba38",
-        // 七天后过期
-        expirationTime: new Date().getTime() + 60 * 60 * 24 * 7 * 1000,
-      };
-      this.setUserInfo(this.userInfo);
-      this.setToken("e204004d59357ad44a36f8496647ba38");
-
-      this.onClose();
-
-      this.$emit("success", this.userInfo);
-      // return;
-      // this.$refs.ruleForm.validate((valid) => {
-      //   if (!valid) return;
-      //   // 判断电话号码、验证码、条款影视政策是否选择
-      //   const { phoneNumber, verifyCode } = this.loginForm;
-      //   this.isLogining = true;
-      //   loginByCode({
-      //     phoneNumber,
-      //     verifyCode,
-      //   })
-      //     .then((res) => {
-      //       showToast({
-      //         content: "登录成功",
-      //         type: "success",
-      //       });
-      //       // 存入用户信息
-      //       this.userInfo = {
-      //         phoneNumber,
-      //         id: res.id,
-      //         token: res.token,
-      //         // 七天后过期
-      //         expirationTime: new Date().getTime() + 60 * 60 * 24 * 7 * 1000,
-      //       };
-      //       this.setUserInfo(this.userInfo);
-      //       this.setToken(res.token);
-
-      //       this.onClose();
-
-      //       this.$emit("success", this.userInfo);
-      //     })
-      //     .finally(() => {
-      //       this.isLogining = false;
-      //     });
+      // showToast({
+      //   content: "登录成功",
+      //   type: "success",
       // });
+      // // 存入用户信息
+      // this.userInfo = {
+      //   phoneNumber: 17711520562,
+      //   id: "res.id",
+      //   token: "e204004d59357ad44a36f8496647ba38",
+      //   // 七天后过期
+      //   expirationTime: new Date().getTime() + 60 * 60 * 24 * 7 * 1000,
+      // };
+      // this.setUserInfo(this.userInfo);
+      // this.setToken("affb9e20aaac4427fac7bd9c65c6ffef");
+
+      // this.onClose();
+
+      // this.$emit("success", this.userInfo);
+
+      this.$refs.ruleForm.validate((valid) => {
+        if (!valid) return;
+        // 判断电话号码、验证码、条款影视政策是否选择
+        const { phoneNumber, verifyCode } = this.loginForm;
+        this.isLogining = true;
+        loginByCode({
+          phoneNumber,
+          verifyCode,
+        })
+          .then((res) => {
+            showToast({
+              content: "登录成功",
+              type: "success",
+            });
+            // 存入用户信息
+            this.userInfo = {
+              phoneNumber,
+              id: res.data.id,
+              token: res.data.token,
+              // 七天后过期
+              expirationTime: new Date().getTime() + 60 * 60 * 24 * 7 * 1000,
+            };
+            this.setUserInfo(this.userInfo);
+            this.setToken(res.data.token);
+
+            this.onClose();
+
+            this.$emit("success", this.userInfo);
+          })
+          .finally(() => {
+            this.isLogining = false;
+          });
+      });
     },
   },
 };

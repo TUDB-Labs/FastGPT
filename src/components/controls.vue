@@ -109,7 +109,7 @@ export default {
 .go-top {
   position: fixed;
   bottom: 1.2rem;
-  right: 3rem;
+  right: 2.2rem;
   z-index: 1000;
   .item {
     width: 2.5rem;
@@ -271,7 +271,6 @@ export default {
     font-weight: 550;
     font-size: 1rem;
     align-items: center;
-    font-family: Noto Sans S Chinese;
     img {
       width: 50px;
       height: 18px;

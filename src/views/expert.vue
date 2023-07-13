@@ -77,6 +77,7 @@ export default {
           .then(() => {
             showToast({
               content: "已提交，我们会及时联系您",
+              type: "success",
             });
             //按钮点击记录
             let params = {

@@ -56,8 +56,8 @@ export default {
     return {
       pdfViewer: null,
       pageInfo: {
-        current: 1,
-        total: 4,
+        current: 0,
+        total: 0,
       },
       pdfLoading: false,
     };
@@ -105,9 +105,16 @@ export default {
       });
 
       // 将 currentScaleValue 设置为自动适应页面宽度
-      eventBus.on("pagesloaded", () => {
+      eventBus.on("pagerendered", () => {
         this.pdfViewer.currentScaleValue = "auto"; // 设置为自动适应页面宽度
         this.pdfViewer.update(); // 更新视图
+        this.pdfLoading = false;
+      });
+      // 将 currentScaleValue 设置为自动适应页面宽度
+      eventBus.on("pagesloaded", () => {
+        // this.pdfViewer.currentScaleValue = "auto"; // 设置为自动适应页面宽度
+        // this.pdfViewer.update(); // 更新视图
+        // this.pdfLoading = false;
       });
       // 监听滚动到第几页
       eventBus.on("pagechanging", (event) => {
@@ -134,9 +141,7 @@ export default {
           this.pageInfo.current = 1;
           this.pdfViewer.setDocument(pdf);
         })
-        .finally(() => {
-          this.pdfLoading = false;
-        })
+        .finally(() => {})
         .catch((error) => {
           console.log(error);
         });
@@ -221,6 +226,16 @@ export default {
   margin-top: -1rem;
   i {
     font-size: 2rem;
+  }
+}
+
+/* 隐藏加载器 */
+/deep/ .pdfViewer .loadingBar {
+  display: none;
+
+  /* 或者禁用加载提示文本 */
+  .progress {
+    display: none;
   }
 }
 </style>

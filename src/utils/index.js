@@ -81,10 +81,19 @@ export const getCountInfo = (type) => {
   if (obj) {
     webCountInfo = JSON.parse(obj)
   }
+  // 還沒有值
   if (!webCountInfo[type]) {
     webCountInfo[type] = {
       date: new Date().toLocaleDateString(),
       num: 0
+    }
+  } else {
+    // 有值但是过期了
+    if (webCountInfo[type].date !== new Date().toLocaleDateString()) {
+      webCountInfo[type] = {
+        date: new Date().toLocaleDateString(),
+        num: 0
+      }
     }
   }
   return webCountInfo

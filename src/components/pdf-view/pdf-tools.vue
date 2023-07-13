@@ -140,7 +140,10 @@ export default {
     onDownload() {
       // 生成文本内容
       const arr = this.chatList.map((chat) => {
-        return (chat.type === 3 ? "ME: " : "PDF: ") + chat.content;
+        return (
+          (chat.type === 3 ? "ME: " : "PDF: ") +
+          chat.content.replace(/\\n{1,}/g, "\n").replace(/\n{1,}/g, "\n")
+        );
       });
       const recommandList = this.recommandList
         .map((i, index) => {
@@ -184,11 +187,11 @@ export default {
         type: "warning",
       })
         .then(() => {
-          if (!this.userInfo.phoneNumber) {
-            this.$message.success("对话已删除");
-            eventBus.$emit("delete", this.pdfBaseInfo.uuid);
-            return;
-          }
+          // if (!this.userInfo.phoneNumber) {
+          //   this.$message.success("对话已删除");
+          //   eventBus.$emit("delete", this.pdfBaseInfo.uuid);
+          //   return;
+          // }
           deleteConversationDetails({ uuid: this.pdfBaseInfo.uuid }).then(
             () => {
               this.$message.success("对话已删除");
@@ -203,7 +206,7 @@ export default {
         navigator.clipboard
           .writeText(this.pdfShareLink)
           .then(() => {
-            this.$message.success("分享链接复制成功");
+            this.$message.success("链接复制成功");
           })
           .catch((error) => {
             console.error("复制到剪贴板失败:", error);
@@ -215,7 +218,7 @@ export default {
         textarea.select();
         document.execCommand("copy");
         document.body.removeChild(textarea);
-        this.$message.success("分享链接复制成功");
+        this.$message.success("链接复制成功");
       }
     },
   },

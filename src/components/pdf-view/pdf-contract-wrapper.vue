@@ -9,16 +9,15 @@
       @delete="$emit('delete')"
     />
     <div ref="chatList" class="chat-list">
+      <div
+        v-if="summaryLoading"
+        v-loading="summaryLoading"
+        element-loading-spinner="el-icon-loading"
+        element-loading-customClass="summary-icon"
+        class="summary-loading"
+      />
       <div v-for="(chat, index) in chatList" :key="index" class="chat-item">
-        <!-- <div v-if="chat.type !== 'summary'" class="answer chat-content-wrapper">
-          <span class="content">
-            {{ chat.content }}
-          </span>
-        </div> -->
         <div
-          v-loading="chat.otherType === 'summary' && summaryLoading"
-          element-loading-spinner="el-icon-loading"
-          element-loading-customClass="summary-icon"
           class="chat-content-wrapper"
           :class="{
             answer: chat.type === 3,
@@ -30,9 +29,14 @@
             :class="{ summary: chat.otherType === 'summary' }"
           >
             <BlinkAnimation
-              v-if="chat.type === 4 && !chat.content"
+              v-if="!chat.otherType && chat.type === 4 && !chat.content"
               color="#000"
             />
+            <span
+              v-if="chat.otherType === 'summary' && chat.content"
+              class="summary-title"
+              >内容概要:</span
+            >
             {{
               chat.content.replace(/\\n{1,}/g, "\n").replace(/\n{1,}/g, "\n")
             }}
@@ -40,23 +44,38 @@
         </div>
       </div>
       <el-empty
-        v-if="!chatList.length"
+        v-if="!summaryLoading && !chatList.length"
         :image-size="60"
         description="暂无对话信息"
       />
     </div>
     <div class="fix-bottom">
-      <div class="recommand-list">
-        <div
-          v-for="(item, index) in recommandList.slice(0, 3)"
-          :key="index"
-          class="item"
-          @click="onSelectRecommend(item)"
-        >
-          <img src="@/assets/images/hand-pointer.png" alt="" />
-          <span class="text-cut"> {{ item }}</span>
+      <p
+        v-if="recommandList.length"
+        class="more"
+        @click="isCollapsed = !isCollapsed"
+      >
+        {{ !isCollapsed ? "展开" : "收起" }}示例问题
+        <i
+          :class="[
+            !isCollapsed ? 'el-icon-d-arrow-left' : 'el-icon-d-arrow-right',
+          ]"
+        ></i>
+      </p>
+      <b-collapse v-model="isCollapsed" id="collapse-recommand">
+        <div class="recommand-list">
+          <div
+            v-for="(item, index) in recommandList"
+            :key="index"
+            class="item"
+            @click="onSelectRecommend(item)"
+          >
+            <img src="@/assets/images/hand-pointer.png" alt="" />
+            <span class="text-cut"> {{ item }}</span>
+          </div>
         </div>
-      </div>
+      </b-collapse>
+
       <div class="submit-wrapper">
         <input
           v-model.trim="answerValue"
@@ -86,15 +105,11 @@
 </template>
 
 <script>
-const maxCount = 20;
 import PdfTools from "./pdf-tools.vue";
-import showToast from "@/utils/toast.js";
-import { getConversationDetails } from "@/api/request.js";
 import { SSE, isExceedLimit } from "@/utils/index.js";
 import { mapGetters } from "vuex";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import BlinkAnimation from "@/components/blink-animation.vue";
-// import BlinkAnimation from "@/components/blink-animation.vue";
 export default {
   name: "pdf-contract-wrapper",
   props: {
@@ -103,6 +118,18 @@ export default {
       default: () => {
         return {};
       },
+    },
+    chatList: {
+      type: Array,
+      default: () => [],
+    },
+    recommandList: {
+      type: Array,
+      default: () => [],
+    },
+    summaryLoading: {
+      type: Boolean,
+      default: false,
     },
   },
   components: {
@@ -115,56 +142,34 @@ export default {
       // 是否正在返回查询结果
       isQuestionIng: false,
       answerValue: "",
-      chatList: [],
-      recommandList: [],
-      // pdf总结内容
-      pdfInfo: {},
-      summaryLoading: false,
       eventSource: null,
       answerStatus: "", // stop ing
+      isCollapsed: true,
     };
   },
-  created() {},
+  created() {
+    console.log("creater");
+  },
   mounted() {},
   watch: {
-    pdfBaseInfo: {
-      handler(val) {
-        console.log(val);
-        if (!val.uuid) return;
-        this.getConversationDetails();
-      },
-      deep: true,
+    "$route.params.id"() {
+      this.isCollapsed = true;
+      if (this.eventSource) {
+        this.eventSource.close();
+        this.isQuestionIng = false;
+        this.answerStatus = "";
+        this.eventSource = null;
+      }
     },
   },
   computed: {
     ...mapGetters(["userInfo", "token"]),
   },
   methods: {
-    // 获取对话内容
-    getConversationDetails() {
-      this.summaryLoading = true;
-      const chatItem = {
-        type: 4,
-        otherType: "summary",
-        content: "",
-      };
-      this.chatList = [chatItem];
-      getConversationDetails({ uuid: this.pdfBaseInfo.uuid })
-        .then((res) => {
-          // 历史对话记录
-          const qa = res.data.qa || [];
-          chatItem.content = res.data.summary;
-          this.chatList.push(...qa);
-          this.recommandList = res.data.examples || [];
-        })
-        .finally(() => {
-          this.summaryLoading = false;
-        });
-    },
     // 通过sse监听服务端返回的内容
     async getQuestion() {
       // process.env.VUE_APP_LAW_SERVER
-      const url = `${process.env.VUE_APP_PDF_SERVER}/api/pdf/message/ask`;
+      const url = `/api/pdf/message/ask`;
 
       // 新增一条空白回复
       const curChat = {
@@ -195,11 +200,13 @@ export default {
       eventSource.addEventListener("error", () => {
         this.isQuestionIng = false;
         this.answerStatus = "";
+        this.eventSource = null;
       });
       eventSource.addEventListener("load", () => {
         console.log("load");
         this.isQuestionIng = false;
         this.answerStatus = "";
+        this.eventSource = null;
       });
       this.eventSource = eventSource;
     },
@@ -253,22 +260,37 @@ export default {
   font-size: 12px;
   position: relative;
   box-sizing: border-box;
-  // height: 100%;
-
   height: 90vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 
   .chat-list {
-    height: calc(100% - 12rem);
+    // height: calc(100% - 11.5rem);
+    flex: 1;
     overflow: auto;
-    padding: 0 0.8rem;
+    padding: 0 0.8rem 0.7rem;
+    .summary-loading {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 12px;
+      overflow: hidden;
+    }
     .chat-item {
-      // &:not(:first-child) {
-      //   margin-top: 0.9rem;
-      // }
+      &:not(:last-child) {
+        margin-bottom: 0.7rem;
+      }
+      .summary-title {
+        font-weight: bold;
+        color: #000;
+      }
       .chat-content-wrapper {
         text-align: left;
         min-width: 3rem;
         white-space: pre-wrap;
+        &.summary {
+          min-height: 2.6rem;
+        }
         .content {
           display: inline-block;
           border-radius: 4px;
@@ -281,7 +303,7 @@ export default {
           }
         }
         &.answer {
-          margin: 0.7rem 0;
+          // margin: 0.7rem 0;
           text-align: right;
           .content {
             color: #fff;
@@ -292,11 +314,21 @@ export default {
     }
   }
   .fix-bottom {
-    position: absolute;
-    bottom: 0.6rem;
+    // position: absolute;
+    // bottom: 0.6rem;
     width: calc(100% - 0.1rem);
-    padding: 0 0.8rem;
+    color: #192a51;
+    font-weight: 550;
+    .more {
+      padding: 0.2rem 0;
+      border-top: 1px solid #bdbdbd;
+      cursor: pointer;
+      i {
+        transform: rotate(90deg);
+      }
+    }
     .recommand-list {
+      padding: 0rem 0.8rem 0rem;
       .item {
         // border: 1px solid #4f79f6;
         // border-radius: 11px;
@@ -309,12 +341,12 @@ export default {
         border-radius: 0.3rem;
         display: flex;
         align-items: center;
-        margin: 0.4rem 0;
         background: #808080eb;
         color: #fff;
         padding: 0.2rem 0.3rem;
         width: min-content;
         max-width: 100%;
+        margin-bottom: 0.4rem;
         &:hover {
           background: gray;
         }
@@ -328,6 +360,7 @@ export default {
       }
     }
     .submit-wrapper {
+      margin: 0rem 0.8rem 0.5rem;
       height: 2rem;
       // border: 1px solid gray;
       overflow: hidden;
@@ -414,9 +447,9 @@ export default {
 }
 
 /deep/.el-loading-spinner {
-  margin-top: -1rem;
+  margin-top: -0.7rem;
   i {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 }
 </style>

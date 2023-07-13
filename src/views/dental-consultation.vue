@@ -120,13 +120,13 @@
 const maxCount = 10;
 import showToast from "@/utils/toast.js";
 import Actions from "@/components/actions.vue";
-import { likeLaw, dissLaw } from "@/api/request.js";
+import { likeYayi, dissYayi } from "@/api/request.js";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { mapGetters } from "vuex";
 import BlinkAnimation from "../components/blink-animation.vue";
 import { SSE } from "@/utils/index.js";
 export default {
-  name: "law",
+  name: "yayi",
   props: {},
   components: { Actions, LoginModal, BlinkAnimation },
   data() {
@@ -196,10 +196,10 @@ export default {
         method: "GET",
       });
       eventSource.addEventListener("message", (responseText) => {
-        // if (!curChat.msgId) {
-        //   const msgId = eventSource.xhr.getResponseHeader("x-msgid");
-        //   curChat.msgId = msgId;
-        // }
+        if (!curChat.msgId) {
+          const msgId = eventSource.xhr.getResponseHeader("x-msgid");
+          curChat.msgId = msgId;
+        }
         let str = responseText;
         // 向回复内容里写值
         curChat.question = str.replace(/\n/g, "").replace(/\b\d+\.\s/g, "\n$&");
@@ -262,7 +262,7 @@ export default {
       this.getQuestion();
     },
     onLike(item) {
-      likeLaw({
+      likeYayi({
         msgId: item.msgId,
         userId: this.userInfo.id,
       }).then(() => {
@@ -270,7 +270,7 @@ export default {
       });
     },
     onDiss(item) {
-      dissLaw({
+      dissYayi({
         msgId: item.msgId,
         userId: this.userInfo.id,
       }).then(() => {

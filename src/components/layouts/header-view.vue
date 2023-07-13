@@ -1,6 +1,9 @@
 <template>
-  <header>
-    <div class="web flex-row content-width">
+  <header
+    class="content-width"
+    :class="{ pdf: $route.path.indexOf('/pdf-view') > -1 }"
+  >
+    <div class="web flex-row">
       <div class="logo" @click="() => $router.push('/')">
         <img
           src="https://cdn.tudb.work/aios/web/images/zd_logo.png"
@@ -50,7 +53,7 @@
         >
       </div>
     </div>
-    <div class="phone flex-row content-width">
+    <div class="phone flex-row">
       <img src="https://cdn.tudb.work/aios/web/images/zd_logo.png" alt="logo" />
     </div>
     <login-modal ref="loginModal" @success="loginSuccess" />
@@ -61,6 +64,7 @@
 import LoginModal from "./login-modal.vue";
 import { mapGetters, mapActions } from "vuex";
 import showToast from "@/utils/toast.js";
+import eventBus from "@/utils/event-bus.js";
 export default {
   name: "header-view",
   props: {},
@@ -119,10 +123,12 @@ export default {
           });
           this.setUserInfo({});
           this.setToken("");
+          eventBus.$emit("loginOut");
         })
         .catch(() => {});
     },
     loginSuccess() {
+      eventBus.$emit("logined");
       // this.userInfo = userInfo;
     },
   },
@@ -138,6 +144,10 @@ header {
   position: sticky;
   top: 0;
   z-index: 5;
+  margin: 0 auto;
+  &.pdf {
+    width: 85%;
+  }
   .user-info {
     color: #192a51;
     font-weight: bold;

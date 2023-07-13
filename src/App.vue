@@ -5,13 +5,7 @@
     <router-view />
     <!-- 底部 -->
     <!-- 不是手机端 是手机但是不是法律-->
-    <FooterView
-      v-if="
-        !isPhone ||
-        $route.path.indexOf('share') === -1 ||
-        !['/buy-car', '/law', '/robot-chat'].includes($route.path)
-      "
-    />
+    <FooterView v-if="isShowFooter" />
     <controls />
   </div>
 </template>
@@ -19,8 +13,10 @@
 <script>
 import HeaderView from "@/components/layouts/header-view.vue";
 import FooterView from "@/components/layouts/footer-view.vue";
-import { getIp, insertPvVu } from "@/api/request.js";
+import { insertPvVu } from "@/api/request.js";
 import Controls from "./components/controls.vue";
+import jsonp from "jsonp";
+import BrowserLogger from "alife-logger";
 export default {
   name: "App",
   components: { HeaderView, FooterView, Controls },
@@ -28,6 +24,16 @@ export default {
     return {};
   },
   created() {
+    // 统计 pv
+    BrowserLogger.singleton({
+      pid: "ggi9bf8kwx@711bf2e52a0fb4c",
+      appType: "web",
+      imgUrl: "https://arms-retcode.aliyuncs.com/r.png?",
+      sendResource: true,
+      enableLinkTrace: true,
+      behavior: true,
+    });
+
     this.webSubmit();
   },
   mounted() {},
@@ -38,16 +44,37 @@ export default {
         navigator.userAgent
       );
     },
+    isShowFooter() {
+      if (
+        this.isPhone &&
+        [
+          "/buy-car",
+          "/law",
+          "/robot-chat",
+          "/natural-gas",
+          "/dental-consultation",
+        ].includes(this.$route.path)
+      ) {
+        return false;
+      }
+      if (this.$route.path.indexOf("share") > -1) {
+        return false;
+      }
+      return true;
+    },
   },
   watch: {},
   methods: {
     // 整站记录
     //pv/uv相关
     webSubmit() {
-      // 获取ip
-      getIp()
-        .then((res) => {
-          this.ipAddress = res.trim().replace("\n", "");
+      jsonp("https://api.ipify.org?format=jsonp", (err, data) => {
+        if (err) {
+          // 处理错误
+          console.error(err);
+        } else {
+          // 处理返回的数据
+          this.ipAddress = data.ip.trim().replace("\n", "");
           if (this.ipAddress) {
             let params = {
               recordPv: this.ipAddress,
@@ -58,8 +85,25 @@ export default {
                 console.log(error);
               });
           }
-        })
-        .catch(() => {});
+          console.log(data);
+        }
+      });
+      // 获取ip
+      // getIp()
+      //   .then((res) => {
+      //     this.ipAddress = res.trim().replace("\n", "");
+      //     if (this.ipAddress) {
+      //       let params = {
+      //         recordPv: this.ipAddress,
+      //       };
+      //       insertPvVu(params)
+      //         .then(() => {})
+      //         .catch((error) => {
+      //           console.log(error);
+      //         });
+      //     }
+      //   })
+      //   .catch(() => {});
     },
   },
 };
@@ -67,7 +111,8 @@ export default {
 
 <style lang="less" scoped>
 #app {
-  font-family: Noto Sans S Chinese;
+  // font-family: 微软雅黑, Arial, sans-serif;
+  // font-family: Noto Sans S Chinese;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
