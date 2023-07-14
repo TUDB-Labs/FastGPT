@@ -102,6 +102,7 @@ export default {
   }
   .banner-wrapper {
     width: 100% !important;
+    padding: 0;
     .phone.banner-content {
       background: url(https://cdn.tudb.work/aios/web/images/phone-banner.png)
         no-repeat;

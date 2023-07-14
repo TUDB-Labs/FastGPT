@@ -31,7 +31,9 @@ export default {
       summaryLoading: false,
     };
   },
-  created() {},
+  created() {
+    console.log(this.$route);
+  },
   mounted() {},
   watch: {
     "$route.params.id": {

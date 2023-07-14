@@ -5,8 +5,8 @@
     <router-view />
     <!-- 底部 -->
     <!-- 不是手机端 是手机但是不是法律-->
-    <FooterView v-if="isShowFooter" />
-    <controls />
+    <FooterView v-if="this.$route.path === '/'" />
+    <controls v-if="$route.path.indexOf('/pdf-view') === -1" />
   </div>
 </template>
 
@@ -43,24 +43,6 @@ export default {
       return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
       );
-    },
-    isShowFooter() {
-      if (
-        this.isPhone &&
-        [
-          "/buy-car",
-          "/law",
-          "/robot-chat",
-          "/natural-gas",
-          "/dental-consultation",
-        ].includes(this.$route.path)
-      ) {
-        return false;
-      }
-      if (this.$route.path.indexOf("share") > -1) {
-        return false;
-      }
-      return true;
     },
   },
   watch: {},
@@ -219,12 +201,12 @@ body,
 }
 
 /deep/.content-width {
-  width: 70%;
+  padding: 0 15vw;
 }
 
 @media (max-width: 1000px) {
   /deep/ .content-width {
-    width: 94%;
+    padding: 0 3vw;
   }
 }
 </style>

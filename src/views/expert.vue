@@ -114,6 +114,9 @@ export default {
       top: 43%;
     }
   }
+  .content-width {
+    margin: 0 15vw;
+  }
   .content {
     padding: 3rem 0 4rem;
     .form {
@@ -192,6 +195,9 @@ export default {
       background-size: cover;
       width: 100% !important;
       border-radius: 0;
+    }
+    .content-width {
+      margin: 0;
     }
     .content {
       .form {

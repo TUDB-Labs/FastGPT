@@ -24,7 +24,7 @@
 <script>
 import { mapGetters } from "vuex";
 import LoginModal from "@/components/layouts/login-modal.vue";
-import { isExceedLimit } from "@/utils/index.js";
+import { isExceedLimit, addWebCount } from "@/utils/index.js";
 export default {
   name: "upload-pdf",
   props: {},
@@ -84,6 +84,12 @@ export default {
     },
     onSuccess(event = {}) {
       console.log("on-success");
+      if (!this.userInfo.phoneNumber) {
+        addWebCount("pdfUploadNoAuth");
+      }
+      if (this.userInfo.phoneNumber) {
+        addWebCount("pdfUpload");
+      }
       this.$emit("on-success", event);
     },
     close() {

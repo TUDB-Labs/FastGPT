@@ -4,7 +4,7 @@
       <img src="@/assets/images/pdf-icon.png" alt="" />
       <strong>PDF助手</strong>
     </h4>
-    <main>
+    <main class="content-width">
       <div
         v-loading="analyzeLoading"
         element-loading-spinner="el-icon-loading"
@@ -97,7 +97,7 @@ import {
 } from "@/api/request.js";
 import UploadPdf from "../components/upload-pdf.vue";
 import LoginModal from "@/components/layouts/login-modal.vue";
-import { isExceedLimit } from "@/utils/index.js";
+import { isExceedLimit, addWebCount } from "@/utils/index.js";
 import { mapGetters } from "vuex";
 // import { SSE } from "@/utils/index.js";
 export default {
@@ -206,6 +206,7 @@ export default {
       this.uploadUrlLoading = true;
       uploadPdfByUrl({ url: this.pdfUrl })
         .then((res) => {
+          addWebCount();
           this.createConversation(res.data);
         })
         .finally(() => {
@@ -271,7 +272,6 @@ export default {
   }
   main {
     font-size: 14px;
-    width: 71%;
     margin: 0.9rem auto;
 
     .upload-wrapper {

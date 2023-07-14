@@ -5,7 +5,7 @@
       <strong>牙医问诊</strong>
     </h4>
     <main class="">
-      <div class="main-content">
+      <div class="main-content content-width">
         <div ref="chatList" class="chat-list">
           <div class="chat-item question first">
             <div class="header-img-wrapper">
@@ -124,7 +124,7 @@ import { likeYayi, dissYayi } from "@/api/request.js";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { mapGetters } from "vuex";
 import BlinkAnimation from "../components/blink-animation.vue";
-import { SSE } from "@/utils/index.js";
+import { SSE, isExceedLimit, addWebCount } from "@/utils/index.js";
 export default {
   name: "yayi",
   props: {},
@@ -145,12 +145,6 @@ export default {
       ],
       eventSource: null,
       answerStatus: "", // stop ing
-      lawCountInfo: localStorage.getItem("lawCountInfo")
-        ? JSON.parse(localStorage.getItem("lawCountInfo"))
-        : {
-            date: new Date().toLocaleDateString(),
-            num: 0,
-          },
     };
   },
   created() {
@@ -162,26 +156,6 @@ export default {
     ...mapGetters(["userInfo"]),
   },
   methods: {
-    getCountInfo() {
-      const str = localStorage.getItem("lawCountInfo");
-      const today = new Date().toLocaleDateString();
-      if (str) {
-        const lawCountInfo = JSON.parse(str);
-        // 如果已经访问过切是今天就不需要重置
-        if (today === lawCountInfo.date) {
-          this.lawCountInfo = lawCountInfo;
-          return;
-        }
-      }
-      this.lawCountInfo = {
-        date: today,
-        num: 0,
-      };
-      this.setCountInfo();
-    },
-    setCountInfo() {
-      localStorage.setItem("lawCountInfo", JSON.stringify(this.lawCountInfo));
-    },
     // 通过sse监听服务端返回的内容
     async getQuestion() {
       // process.env.https://yayi.sco.tudb.work
@@ -213,6 +187,7 @@ export default {
       eventSource.addEventListener("load", () => {
         this.isQuestionIng = false;
         this.answerStatus = "";
+        addWebCount("dentalConsultation");
       });
       this.eventSource = eventSource;
     },
@@ -240,18 +215,18 @@ export default {
       });
     },
     onSend() {
+      // 输入框无值
+      if (!this.searchValue) return;
+      // 已提问还未回复，不能继续提问
+      if (this.isQuestionIng) return;
       // 在未登录时 判断是否超过提问次数超过就弹出登录框
-      if (!this.userInfo.phoneNumber && this.lawCountInfo.num === maxCount) {
+      if (!this.userInfo.phoneNumber && isExceedLimit("dentalConsultation")) {
         this.$refs.loginModal.show();
         return showToast({
           content: `您今日的提问次数已达上限${maxCount}次`,
           type: "danger",
         });
       }
-      // 输入框无值
-      if (!this.searchValue) return;
-      // 已提问还未回复，不能继续提问
-      if (this.isQuestionIng) return;
       this.isQuestionIng = true;
       this.chatList.push({
         answer: this.searchValue,
@@ -302,8 +277,6 @@ export default {
     background: #f0f0f0;
     .main-content {
       margin: 0 auto;
-      // height: calc(100vh - 387px);
-      width: 70%;
       display: flex;
       flex-direction: column;
       .stop-wrapper {
@@ -326,7 +299,7 @@ export default {
       min-height: calc(100vh - 13rem);
       max-height: calc(100vh - 10rem);
       overflow-y: auto;
-      padding: 0.6rem;
+      // padding: 0.6rem;
       margin-top: 1rem;
       position: relative;
       .first {
@@ -541,6 +514,7 @@ export default {
     main {
       .main-content {
         width: 94%;
+        padding: 0;
       }
       .chat-list {
         padding: 0;

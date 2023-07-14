@@ -1,6 +1,9 @@
 <template>
   <footer>
-    <div class="content content-width">
+    <div
+      class="content content-width"
+      :class="{ pdf: $route.path.indexOf('/pdf-view') > -1 }"
+    >
       <div class="logo">
         <img
           src="https://cdn.tudb.work/aios/web/images/zd_logo.png"
@@ -86,9 +89,12 @@ footer {
     height: 100%;
     display: flex;
     margin: 0 auto;
-    width: 96% !important;
+    // width: 96% !important;
     justify-content: space-between;
     align-items: center;
+    &.pdf {
+      padding: 0 7.5vw;
+    }
     .footer-info {
       flex: 1;
       text-align: right;

@@ -1,4 +1,3 @@
-首页
 <template>
   <div class="wrapper">
     <!-- 头部 -->

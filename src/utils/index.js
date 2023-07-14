@@ -100,24 +100,28 @@ export const getCountInfo = (type) => {
 }
 
 export const isExceedLimit = (type) => {
+  const webCountInfo = getCountInfo(type)
   const maxObj = {
     pdfUpload: 5,
     pdfUploadNoAuth: 3,
     pdfContact: 50,
     pdfContactNoAuth: 20,
     lawContact: 10,
-    buyCar: 10
+    buyCar: 10,
+    chatGas: 10,
+    dentalConsultation: 10
   }
-  const webCountInfo = getCountInfo(type)
-  
+  // 如果次数已到达最大则提示超次数
   if (webCountInfo[type].num >= maxObj[type]) {
     return true
-  } else {
-    webCountInfo[type].num += 1
-    localStorage.setItem(
-      "webCountInfo",
-      JSON.stringify(webCountInfo)
-    )
-    return false
   }
+}
+
+export const addWebCount = (type) => {
+  const webCountInfo = getCountInfo(type)
+  webCountInfo[type].num += 1
+  localStorage.setItem(
+    "webCountInfo",
+    JSON.stringify(webCountInfo)
+  )
 }

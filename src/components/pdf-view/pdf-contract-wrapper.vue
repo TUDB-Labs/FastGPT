@@ -106,7 +106,7 @@
 
 <script>
 import PdfTools from "./pdf-tools.vue";
-import { SSE, isExceedLimit } from "@/utils/index.js";
+import { SSE, isExceedLimit, addWebCount } from "@/utils/index.js";
 import { mapGetters } from "vuex";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import BlinkAnimation from "@/components/blink-animation.vue";
@@ -203,7 +203,12 @@ export default {
         this.eventSource = null;
       });
       eventSource.addEventListener("load", () => {
-        console.log("load");
+        if (!this.userInfo.phoneNumber) {
+          addWebCount("pdfContactNoAuth");
+        }
+        if (this.userInfo.phoneNumber) {
+          addWebCount("pdfContact");
+        }
         this.isQuestionIng = false;
         this.answerStatus = "";
         this.eventSource = null;
@@ -218,6 +223,7 @@ export default {
       }
     },
     onSelectRecommend(content) {
+      this.isCollapsed = false;
       this.answerValue = content;
       this.onSend();
     },
@@ -260,7 +266,7 @@ export default {
   font-size: 12px;
   position: relative;
   box-sizing: border-box;
-  height: 90vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   width: 100%;

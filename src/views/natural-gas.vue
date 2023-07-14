@@ -84,8 +84,10 @@
               <el-table
                 v-show="!resultObj.id && resultObj.sql"
                 height="100%"
+                width="100%"
                 stripe
                 border
+                :fit="true"
                 :data="resultObj.result"
               >
                 <el-table-column
@@ -93,8 +95,9 @@
                   :key="field"
                   :prop="field"
                   :label="field"
+                  align="center"
+                  :width="field.length * oneWordWidth + 50"
                   sortable
-                  width="180"
                 />
               </el-table>
               <div v-show="!resultObj.id && resultObj.sql">
@@ -135,6 +138,7 @@ import { getGasData, carLikeOrDiss } from "@/api/request.js"; // carLikeOrDiss
 import Actions from "../components/actions.vue";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { mapGetters } from "vuex";
+import { isExceedLimit, addWebCount } from "@/utils/index.js";
 export default {
   name: "buy-car",
   props: {},
@@ -192,6 +196,9 @@ export default {
   watch: {},
   computed: {
     ...mapGetters(["userInfo"]),
+    oneWordWidth() {
+      return parseFloat(getComputedStyle(document.documentElement).fontSize);
+    },
   },
   methods: {
     getCountInfo() {
@@ -215,20 +222,20 @@ export default {
       localStorage.setItem("gasCountInfo", JSON.stringify(this.gasCountInfo));
     },
     onSearch() {
-      // 在未登录时 判断是否超过提问次数超过就弹出登录框
-      if (!this.userInfo.phoneNumber && this.gasCountInfo.num === maxCount) {
-        this.$refs.loginModal.show();
-        return showToast({
-          content: `您今日的提问次数已达上限${maxCount}次`,
-          type: "danger",
-        });
-      }
       if (this.loading) return;
       if (!this.searchValue)
         return showToast({
           content: "请输入你想了解的购车信息",
           type: "warning",
         });
+      // 在未登录时 判断是否超过提问次数超过就弹出登录框
+      if (!this.userInfo.phoneNumber && isExceedLimit("chatGas")) {
+        this.$refs.loginModal.show();
+        return showToast({
+          content: `您今日的提问次数已达上限${maxCount}次`,
+          type: "danger",
+        });
+      }
       this.loading = true;
       this.curType = "result";
 
@@ -263,6 +270,7 @@ export default {
           //   content: res.message,
           //   type: "danger",
           // });
+          addWebCount("chatGas");
           const { data, id, sql } = res.data;
           this.resultObj = { result: data, id, sql, attitude: 0 };
           if (data && data.length) {
@@ -365,9 +373,9 @@ export default {
 
   main {
     background: #f0f0f0;
+    min-height: calc(100vh - 4rem);
     .main-content {
       margin: 0 auto;
-      padding: 0;
       .search-wrapper {
         top: 4rem;
         width: 100%;
@@ -476,7 +484,7 @@ export default {
           }
         }
         .result-wrap {
-          height: 30rem;
+          height: 10rem;
           background: #ffffff;
           border: 1px solid #254cd8;
           border-radius: 5px;
@@ -548,7 +556,7 @@ export default {
             }
           }
           .result-wrap {
-            height: 35rem;
+            height: 10rem;
           }
         }
       }

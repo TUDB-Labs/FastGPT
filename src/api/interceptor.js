@@ -21,6 +21,13 @@ axiosService.interceptors.response.use(
     // console.log('response：', data)
     if (responseURL.indexOf('/car/upvote') > -1) return response.data
     if (responseURL.indexOf('ipv4.icanhazip.com') > -1) return response.data
+    // if (data.code === 5006 && data.message==="Token身份匹配失败") {
+    //   store.mutations.setUserInfo({})
+    //   return showToast({
+    //     content: '登录信息匹配失败',
+    //     type: "danger",
+    //   })
+    // }
     // 需要捕捉的错误码列表
     // 正确的code列表
     const whiteCodeList = [200, 20000, 2000]

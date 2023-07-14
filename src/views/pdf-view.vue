@@ -204,19 +204,24 @@ export default {
 
 <style lang="less" scoped>
 .wrapper {
+  height: calc(100vh - 4rem);
+  display: flex;
+  flex-direction: column;
   .pdf-view-wrapper {
+    flex: 1;
     display: flex;
-    width: 85%;
+    width: 100%;
     margin: 0 auto;
     background: #f0f0f0;
-    border: 1px solid #bdbdbd;
-    border-radius: 6px;
+    border-top: 1px solid #bdbdbd;
+    border-bottom: 1px solid #bdbdbd;
+    // border-radius: 6px;
     overflow: hidden;
     .action-wrapper {
       background: #192a51;
       color: #fff;
       padding: 0.8rem 0;
-      height: 90vh;
+      height: 100%;
       position: relative;
       z-index: 3;
       .content {
@@ -382,7 +387,7 @@ export default {
   .tips {
     text-align: center;
     color: #717171;
-    margin: 0.7rem 0 0.7rem;
+    margin: 0.3rem 0 0.3rem;
     font-size: 12px;
   }
 }

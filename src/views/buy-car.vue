@@ -138,7 +138,7 @@
 <script>
 const maxCount = 10;
 import showToast from "@/utils/toast.js";
-import { isExceedLimit } from "@/utils/index.js";
+import { isExceedLimit, addWebCount } from "@/utils/index.js";
 import { getBuyCar, carLikeOrDiss } from "@/api/request.js"; // carLikeOrDiss
 import Actions from "../components/actions.vue";
 import LoginModal from "@/components/layouts/login-modal.vue";
@@ -233,10 +233,7 @@ export default {
               .then(() => {})
               .catch(() => {});
           }
-          // showToast({
-          //   content: res.message,
-          //   type: "danger",
-          // });
+          addWebCount("buyCar");
           const { result, id, sql } = res.data;
           this.resultObj = { result, id, sql, attitude: 0 };
           if (result && result.length) {
@@ -336,7 +333,6 @@ export default {
     background: #f0f0f0;
     .main-content {
       margin: 0 auto;
-      padding: 0;
       .search-wrapper {
         top: 4rem;
         width: 100%;

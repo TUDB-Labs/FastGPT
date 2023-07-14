@@ -36,7 +36,7 @@
       placement="bottomleft"
     >
       <!-- <template #title>Popover Title</template> -->
-      分享对话
+      分享PDF
     </b-popover>
     <b-popover
       id="b-popover-class"
@@ -63,7 +63,7 @@
       placement="bottomleft"
     >
       <!-- <template #title>Popover Title</template> -->
-      删除对话
+      删除PDF
     </b-popover>
 
     <b-modal
@@ -72,7 +72,7 @@
       id="share-modal"
       centered
       hide-footer
-      title="分享PDF对话"
+      title="分享PDF"
     >
       <div ing="shareLoading" element-loading-spinner="el-icon-loading">
         <el-input size="small" :value="pdfShareLink" disabled />
@@ -81,7 +81,7 @@
             >复制链接</el-button
           >
         </p>
-        <p class="tips">每个访问者都会开始新的对话，聊天信息不会共享</p>
+        <p class="tips">每个访问者都会开始新的对话,对话信息不会共享</p>
       </div>
     </b-modal>
   </p>
@@ -181,7 +181,7 @@ export default {
         .catch(() => {});
     },
     onDelete() {
-      this.$confirm("确定要删除此对话吗？", "提示", {
+      this.$confirm("确定要删除此PDF吗？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",

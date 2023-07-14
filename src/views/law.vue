@@ -5,7 +5,7 @@
       <strong>法律咨询</strong>
     </h4>
     <main class="">
-      <div class="main-content">
+      <div class="main-content content-width">
         <div ref="chatList" class="chat-list">
           <div class="chat-item question first">
             <div class="header-img-wrapper">
@@ -126,7 +126,7 @@ import { likeLaw, dissLaw } from "@/api/request.js";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { mapGetters } from "vuex";
 import BlinkAnimation from "../components/blink-animation.vue";
-import { SSE, isExceedLimit } from "@/utils/index.js";
+import { SSE, isExceedLimit, addWebCount } from "@/utils/index.js";
 export default {
   name: "law",
   props: {},
@@ -186,6 +186,7 @@ export default {
       });
       eventSource.addEventListener("load", () => {
         console.log("load");
+        addWebCount("lawContact");
         this.isQuestionIng = false;
         this.answerStatus = "";
       });
@@ -275,12 +276,15 @@ export default {
   }
   main {
     background: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 4rem);
     .main-content {
       margin: 0 auto;
-      // height: calc(100vh - 387px);
-      width: 70%;
       display: flex;
+      flex: 1;
       flex-direction: column;
+      height: calc(100% - 2.2rem);
       .stop-wrapper {
         display: flex;
         justify-content: center;
@@ -297,11 +301,9 @@ export default {
       }
     }
     .chat-list {
-      // flex: 1;
-      min-height: calc(100vh - 13rem);
-      max-height: calc(100vh - 10rem);
+      flex: 1;
       overflow-y: auto;
-      padding: 0.6rem;
+      // padding: 0.6rem;
       margin-top: 1rem;
       position: relative;
       .first {
@@ -481,7 +483,9 @@ export default {
     .tips {
       color: #717171;
       font-size: 13px;
-      padding: 0.7rem;
+      // line-height: 2.2rem;
+      // height: 2.2rem;
+      padding: 0.4rem 1rem;
     }
     .no-message {
       position: absolute;
@@ -516,11 +520,10 @@ export default {
     main {
       .main-content {
         width: 94%;
+        padding: 0;
       }
       .chat-list {
         padding: 0;
-        min-height: calc(100vh - 13.4rem);
-        max-height: calc(100vh - 13.4rem);
       }
       .tips {
         font-size: 0.9rem;
