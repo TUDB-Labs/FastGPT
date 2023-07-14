@@ -285,6 +285,7 @@ export default {
       flex: 1;
       flex-direction: column;
       height: calc(100% - 2.2rem);
+      width: 100%;
       .stop-wrapper {
         display: flex;
         justify-content: center;
