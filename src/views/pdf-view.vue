@@ -204,7 +204,7 @@ export default {
 
 <style lang="less" scoped>
 .wrapper {
-  height: calc(100vh - 4rem);
+  height: calc(100vh - 3rem);
   display: flex;
   flex-direction: column;
   .pdf-view-wrapper {
@@ -382,6 +382,7 @@ export default {
     }
   }
   .view {
+    flex: 1;
     // width: calc(100% - 14rem);
   }
   .tips {

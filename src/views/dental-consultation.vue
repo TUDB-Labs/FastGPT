@@ -147,9 +147,7 @@ export default {
       answerStatus: "", // stop ing
     };
   },
-  created() {
-    this.getCountInfo();
-  },
+  created() {},
   mounted() {},
   watch: {},
   computed: {
@@ -259,26 +257,32 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   h4 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 5;
     margin-bottom: 0;
-    height: 4rem;
+    height: 3rem;
 
     // padding: 0 0 0.6rem;
     img {
-      width: 2.5rem;
+      width: 2.1rem;
       margin-right: 0.8rem;
     }
   }
   main {
     background: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 3rem);
     .main-content {
+      flex: 1;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
+      height: calc(100% - 2.2rem);
+      width: 100%;
       .stop-wrapper {
         display: flex;
         justify-content: center;
@@ -295,9 +299,7 @@ export default {
       }
     }
     .chat-list {
-      // flex: 1;
-      min-height: calc(100vh - 13rem);
-      max-height: calc(100vh - 10rem);
+      flex: 1;
       overflow-y: auto;
       // padding: 0.6rem;
       margin-top: 1rem;
@@ -479,7 +481,7 @@ export default {
     .tips {
       color: #717171;
       font-size: 13px;
-      padding: 0.7rem;
+      padding: 0.4rem;
     }
     .no-message {
       position: absolute;
@@ -518,8 +520,6 @@ export default {
       }
       .chat-list {
         padding: 0;
-        min-height: calc(100vh - 13.4rem);
-        max-height: calc(100vh - 13.4rem);
       }
       .tips {
         font-size: 0.9rem;

@@ -260,17 +260,17 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   h4 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 5;
     margin-bottom: 0;
-    height: 4rem;
+    height: 3rem;
 
     // padding: 0 0 0.6rem;
     img {
-      width: 2.5rem;
+      width: 2.1rem;
       margin-right: 0.8rem;
     }
   }
@@ -278,7 +278,7 @@ export default {
     background: #f0f0f0;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 3rem);
     .main-content {
       margin: 0 auto;
       display: flex;

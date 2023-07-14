@@ -314,17 +314,17 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   h4 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 5;
     margin-bottom: 0;
-    height: 4rem;
+    height: 3rem;
     margin-left: -5.3rem;
     // padding: 0 0 0.6rem;
     img {
-      width: 3rem;
+      width: 2.1rem;
       margin-right: 12px;
     }
   }
@@ -334,7 +334,7 @@ export default {
     .main-content {
       margin: 0 auto;
       .search-wrapper {
-        top: 4rem;
+        top: 3rem;
         width: 100%;
         padding-top: 1rem;
         position: sticky;

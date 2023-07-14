@@ -171,20 +171,12 @@ export default {
       resultContent: "",
       curType: "result", // sql
       loading: false,
-      gasCountInfo: localStorage.getItem("gasCountInfo")
-        ? JSON.parse(localStorage.getItem("gasCountInfo"))
-        : {
-            date: new Date().toLocaleDateString(),
-            num: 0,
-          },
       searchProgress: 0,
       isShowProgress: false,
       timer: null,
     };
   },
-  created() {
-    this.getCountInfo();
-  },
+  created() {},
   beforeDestroy() {
     console.log(this.timer);
     if (this.timer) {
@@ -201,26 +193,6 @@ export default {
     },
   },
   methods: {
-    getCountInfo() {
-      const str = localStorage.getItem("gasCountInfo");
-      const today = new Date().toLocaleDateString();
-      if (str) {
-        const gasCountInfo = JSON.parse(str);
-        // 如果已经访问过切是今天就不需要重置
-        if (today === gasCountInfo.date) {
-          this.gasCountInfo = gasCountInfo;
-          return;
-        }
-      }
-      this.gasCountInfo = {
-        date: today,
-        num: 0,
-      };
-      this.setCountInfo();
-    },
-    setCountInfo() {
-      localStorage.setItem("gasCountInfo", JSON.stringify(this.gasCountInfo));
-    },
     onSearch() {
       if (this.loading) return;
       if (!this.searchValue)
@@ -356,28 +328,28 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   h4 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 5;
     margin-bottom: 0;
-    height: 4rem;
+    height: 3rem;
     // margin-left: -5.3rem;
     // padding: 0 0 0.6rem;
     img {
-      width: 3rem;
+      width: 2.1rem;
       margin-right: 12px;
     }
   }
 
   main {
     background: #f0f0f0;
-    min-height: calc(100vh - 4rem);
+    min-height: calc(100vh - 3rem);
     .main-content {
       margin: 0 auto;
       .search-wrapper {
-        top: 4rem;
+        top: 3rem;
         width: 100%;
         padding-top: 1rem;
         position: sticky;

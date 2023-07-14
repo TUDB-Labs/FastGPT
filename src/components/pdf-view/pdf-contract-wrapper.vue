@@ -32,11 +32,12 @@
               v-if="!chat.otherType && chat.type === 4 && !chat.content"
               color="#000"
             />
-            <span
+            <p
               v-if="chat.otherType === 'summary' && chat.content"
               class="summary-title"
-              >内容概要:</span
             >
+              内容概要:
+            </p>
             {{
               chat.content.replace(/\\n{1,}/g, "\n").replace(/\n{1,}/g, "\n")
             }}

@@ -13,7 +13,15 @@
       <!-- <img id="popover-target-1" src="https://cdn.tudb.work/aios/web/images/weixin01.png" alt="" /> -->
       <div class="actions">
         <b-button
-          v-if="['/law', '/buy-car'].includes(curPath)"
+          v-if="
+            [
+              '/law',
+              '/buy-car',
+              '/pdf-upload',
+              '/natural-gas',
+              '/dental-consultation',
+            ].includes(curPath) || curPath.indexOf('/pdf-view') > -1
+          "
           class="dark-btn"
           @click="goGuidance"
         >
@@ -137,7 +145,7 @@ export default {
 
 <style lang="less" scoped>
 header {
-  height: 4rem;
+  height: 3rem;
   color: #000;
   text-align: center;
   background: #fff;
@@ -146,7 +154,7 @@ header {
   z-index: 5;
   margin: 0 auto;
   &.pdf {
-    width: 85%;
+    padding: 0 7.5vw;
   }
   .user-info {
     color: #192a51;
@@ -155,7 +163,7 @@ header {
   }
   button.login-btn {
     margin-left: 1rem;
-    padding: 6px 2rem !important;
+    // padding: 0.4rem 2rem !important;
     border-color: #192a51;
     color: #192a51 !important;
 
@@ -182,22 +190,24 @@ header {
 }
 .actions {
   & > button {
-    width: 7.3rem;
+    padding: 4px 0px !important;
+    font-size: 16px !important;
+    width: 120px;
   }
 }
 .flex-row {
-  height: 4rem;
+  height: 3rem;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 .logo {
-  width: 174px;
-  height: 30px;
+  // width: 8rem;
+  // height: 30px;
 }
 .logo img {
-  width: 170px;
+  width: 9rem;
   // width: 100%;
   // height: 100%;
 }
@@ -205,7 +215,7 @@ button.fllow {
   background: rgb(26 41 82);
   border-color: rgb(26 41 82);
   font-size: 1rem;
-  padding: 6px 12px;
+  // padding: 0.4rem 0.8rem;
 }
 
 @media (min-width: 767px) {

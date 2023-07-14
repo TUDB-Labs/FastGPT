@@ -257,16 +257,16 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   h4 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 5;
     margin-bottom: 0;
-    height: 4rem;
+    height: 3rem;
     margin-left: -5.3rem;
     img {
-      width: 2.5rem;
+      width: 2.1rem;
       margin-right: 12px;
     }
   }
@@ -401,7 +401,6 @@ export default {
     margin: 0.7rem 0 2.5rem;
   }
   .recommand-list {
-    margin-bottom: 6rem;
     .item {
       display: flex;
       align-items: center;
