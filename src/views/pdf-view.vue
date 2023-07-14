@@ -2,52 +2,50 @@
   <div class="wrapper">
     <div class="pdf-view-wrapper">
       <div class="action-wrapper">
-        <transition name="collapse">
-          <div class="content" :class="[isCollapsed ? 'collapsed' : 'expand']">
-            <h4>
-              <img src="@/assets/images/pdf-icon.png" alt="" />
-              <strong v-show="!isCollapsed">PDF助手</strong>
-            </h4>
-            <div
-              class="icon-plus"
-              v-show="isCollapsed"
-              @click="isCollapsed = false"
-            >
-              <i class="el-icon-plus"></i>
-            </div>
-            <main v-show="!isCollapsed">
-              <div
-                v-loading="analyzeLoading"
-                element-loading-text="分析中..."
-                element-loading-spinner="el-icon-loading"
-                class="upload-wrapper"
-              >
-                <UploadPdf
-                  v-show="!analyzeLoading"
-                  class="upload-demo acion-upload-wrapper"
-                  @on-error="onError"
-                  @before-upload="onBeforeUpload"
-                  @on-success="onSuccess"
-                >
-                  <p class="acion-upload">添加新的文件</p>
-                  <p class="drag-upload">将PDF拖到此处</p>
-                </UploadPdf>
-              </div>
-              <div class="recommand-list">
-                <div
-                  v-for="(pdf, index) in conversationList"
-                  :key="index"
-                  class="item"
-                  :class="{ active: $route.params.id === pdf.uuid }"
-                  @click="selectPdf(pdf)"
-                >
-                  <img src="@/assets/images/wechat.png" alt="" />
-                  <span class="name">{{ pdf.name }}</span>
-                </div>
-              </div>
-            </main>
+        <div class="content" :class="[isCollapsed ? 'collapsed' : 'expand']">
+          <h4>
+            <img src="@/assets/images/pdf-icon.png" alt="" />
+            <strong v-show="!isCollapsed">PDF助手</strong>
+          </h4>
+          <div
+            class="icon-plus"
+            v-show="isCollapsed"
+            @click="isCollapsed = false"
+          >
+            <i class="el-icon-plus"></i>
           </div>
-        </transition>
+          <main v-show="!isCollapsed">
+            <div
+              v-loading="analyzeLoading"
+              element-loading-text="分析中..."
+              element-loading-spinner="el-icon-loading"
+              class="upload-wrapper"
+            >
+              <UploadPdf
+                v-show="!analyzeLoading"
+                class="upload-demo acion-upload-wrapper"
+                @on-error="onError"
+                @before-upload="onBeforeUpload"
+                @on-success="onSuccess"
+              >
+                <p class="acion-upload">添加新的文件</p>
+                <p class="drag-upload">将PDF拖到此处</p>
+              </UploadPdf>
+            </div>
+            <div class="recommand-list">
+              <div
+                v-for="(pdf, index) in conversationList"
+                :key="index"
+                class="item"
+                :class="{ active: $route.params.id === pdf.uuid }"
+                @click="selectPdf(pdf)"
+              >
+                <img src="@/assets/images/wechat.png" alt="" />
+                <span class="name">{{ pdf.name }}</span>
+              </div>
+            </div>
+          </main>
+        </div>
         <div class="toggle" @click="onToggle">
           <i
             :class="[
@@ -224,9 +222,13 @@ export default {
       .content {
         width: 14rem;
         height: 100%;
+        transition: width 0.5s ease-in-out;
+        white-space: nowrap;
+        overflow: hidden;
         // transition: width 0.3s;
         &.collapsed {
           width: 3.5rem;
+          transition: width 0.5s ease-in-out;
           img {
             margin: 0;
           }
@@ -375,7 +377,7 @@ export default {
     }
   }
   .view {
-    width: calc(100% - 14rem);
+    // width: calc(100% - 14rem);
   }
   .tips {
     text-align: center;
