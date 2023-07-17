@@ -194,7 +194,7 @@ export default {
           // }
           deleteConversationDetails({ uuid: this.pdfBaseInfo.uuid }).then(
             () => {
-              this.$message.success("对话已删除");
+              this.$message.success("PDF已删除");
               eventBus.$emit("delete", this.pdfBaseInfo.uuid);
             }
           );

@@ -480,7 +480,7 @@ export default {
     }
     .tips {
       color: #717171;
-      font-size: 13px;
+      font-size: 0.8rem;
       padding: 0.4rem;
     }
     .no-message {

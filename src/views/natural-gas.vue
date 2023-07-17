@@ -490,8 +490,9 @@ export default {
       }
       .tips {
         color: #717171;
-        font-size: 14px;
-        padding: 0.6rem 0;
+        font-size: 0.8rem;
+        padding: 0.3rem 0;
+        line-height: 1.2rem;
       }
     }
   }

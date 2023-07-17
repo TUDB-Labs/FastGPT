@@ -333,11 +333,14 @@ export default {
     background: #f0f0f0;
     .main-content {
       margin: 0 auto;
+      height: calc(100vh - 3rem);
+      display: flex;
+      flex-direction: column;
       .search-wrapper {
-        top: 3rem;
+        // top: 3rem;
         width: 100%;
         padding-top: 1rem;
-        position: sticky;
+        // position: sticky;
         background: #f0f0f0;
       }
       .submit-wrapper {
@@ -386,10 +389,11 @@ export default {
         align-items: center;
         justify-content: flex-end;
         display: flex;
-        font-size: 14px;
-        margin-top: 4px;
+        font-size: 0.9rem;
+        margin-top: 0.2rem;
         img {
-          margin-right: 6px;
+          width: 1.2rem;
+          margin-right: 0rem;
           cursor: pointer;
         }
         span {
@@ -398,24 +402,29 @@ export default {
         }
       }
       .recommend-wrapper {
-        margin-top: 1.2rem;
+        margin-top: 1rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
         h5 {
           display: flex;
           align-items: center;
-          font-size: 1.5rem;
+          font-size: 1.2rem;
           margin-bottom: 0;
         }
         .refresh {
-          font-size: 14px;
-          height: 30px;
-          line-height: 30px;
-          width: 90px;
+          font-size: 1rem;
+          // height: 1.6rem;
+          // line-height: 1.6rem;
+          // width: 5rem;
           border-radius: 15px;
           background: #fff;
           margin-left: 12px;
+          padding: 0.3rem 0.6rem;
           cursor: pointer;
           img {
-            width: 16px;
+            width: 1rem;
             margin-left: 6px;
           }
         }
@@ -430,7 +439,7 @@ export default {
             border: 1px solid #bdbdbd;
             border-radius: 5px;
             color: #000;
-            margin-top: 1.3rem;
+            margin-top: 1rem;
             cursor: pointer;
             text-align: left;
             line-height: 1.2rem;
@@ -441,7 +450,8 @@ export default {
           }
         }
         .result-wrap {
-          height: 30rem;
+          flex: 1;
+          // height: calc(100vh - 24.3rem);
           background: #ffffff;
           border: 1px solid #254cd8;
           border-radius: 5px;
@@ -475,8 +485,9 @@ export default {
       }
       .tips {
         color: #717171;
-        font-size: 14px;
-        padding: 0.6rem 0;
+        font-size: 0.9rem;
+        padding: 0.3rem 0;
+        line-height: 1.2rem;
       }
     }
   }
@@ -513,7 +524,7 @@ export default {
             }
           }
           .result-wrap {
-            height: 35rem;
+            // height: calc(100vh - 24.3rem);
           }
         }
       }
