@@ -398,7 +398,6 @@ export default {
         }
         span {
           width: 60px;
-          margin-top: 2px;
         }
       }
       .recommend-wrapper {

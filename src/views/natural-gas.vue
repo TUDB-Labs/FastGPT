@@ -2,7 +2,7 @@
   <div class="wrapper">
     <h4>
       <img src="@/assets/images/tianranqi.png" alt="" />
-      <strong>ChatGas </strong>
+      <strong>ChatGas</strong>
     </h4>
     <main>
       <div class="main-content content-width">
@@ -107,7 +107,7 @@
             </template>
             <div
               v-if="curType === 'sql'"
-              style="text-align: left; margin: 1rem; font-size: 0.9rem"
+              style="text-align: left; padding: 1rem; font-size: 0.9rem"
             >
               {{
                 resultObj.sql || "暂无sql内容，请输入您想了解的购车信息进行查询"
@@ -210,12 +210,6 @@ export default {
       }
       this.loading = true;
       this.curType = "result";
-
-      // 如果未登录需要记录查询次数
-      if (!this.userInfo.phoneNumber) {
-        this.gasCountInfo.num += 1;
-        this.setCountInfo();
-      }
       this.searchProgress = 0;
       this.isShowProgress = true;
       this.timer = setInterval(() => {
@@ -348,11 +342,12 @@ export default {
     min-height: calc(100vh - 3rem);
     .main-content {
       margin: 0 auto;
+      height: calc(100vh - 3rem);
+      display: flex;
+      flex-direction: column;
       .search-wrapper {
-        top: 3rem;
         width: 100%;
         padding-top: 1rem;
-        position: sticky;
         background: #f0f0f0;
       }
       .submit-wrapper {
@@ -401,19 +396,23 @@ export default {
         align-items: center;
         justify-content: flex-end;
         display: flex;
-        font-size: 14px;
-        margin-top: 4px;
+        font-size: 0.9rem;
+        margin-top: 0.2rem;
         img {
-          margin-right: 6px;
+          width: 1.2rem;
+          margin-right: 0rem;
           cursor: pointer;
         }
         span {
           width: 60px;
-          margin-top: 2px;
         }
       }
       .recommend-wrapper {
-        margin-top: 1.2rem;
+        margin-top: 1rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
         h5 {
           display: flex;
           align-items: center;
@@ -421,10 +420,10 @@ export default {
           margin-bottom: 0;
         }
         .refresh {
-          font-size: 14px;
-          height: 30px;
-          line-height: 30px;
-          width: 90px;
+          font-size: 0.9rem;
+          // height: 1.8rem;
+          // line-height: 1.8rem;
+          padding: 0.2rem 0.6rem;
           border-radius: 15px;
           background: #fff;
           margin-left: 12px;
@@ -445,7 +444,7 @@ export default {
             border: 1px solid #bdbdbd;
             border-radius: 5px;
             color: #000;
-            margin-top: 1.3rem;
+            margin-top: 1rem;
             cursor: pointer;
             text-align: left;
             line-height: 1.2rem;
@@ -456,7 +455,7 @@ export default {
           }
         }
         .result-wrap {
-          height: 10rem;
+          flex: 1;
           background: #ffffff;
           border: 1px solid #254cd8;
           border-radius: 5px;
@@ -488,14 +487,14 @@ export default {
           }
         }
       }
-      .tips {
-        color: #717171;
-        font-size: 0.8rem;
-        padding: 0.3rem 0;
-        line-height: 1.2rem;
-      }
     }
   }
+}
+.tips {
+  color: #717171;
+  font-size: 0.8rem;
+  padding: 0.3rem 0;
+  line-height: 1.2rem;
 }
 
 @media (min-width: 767px) {
