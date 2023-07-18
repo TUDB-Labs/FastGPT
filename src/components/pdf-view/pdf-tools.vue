@@ -102,12 +102,18 @@
       @close="onCloseChangeName"
     >
       <div>
-        <el-input size="lg" v-model.trim="newPdfName" />
+        <b-form-input
+          v-model.trim="newPdfName"
+          placeholder="请输入新的PDF名称"
+          maxlength="50"
+        />
       </div>
       <template #modal-footer="{ ok }">
         <!-- Emulate built in modal footer ok and cancel button actions -->
         <el-button
           type="primary"
+          size="small"
+          :disabled="!newPdfName"
           :loading="editLoading"
           @click="onChangeName(ok)"
         >
@@ -125,13 +131,7 @@
       title="分享PDF"
     >
       <div v-loading="shareLoading" element-loading-spinner="el-icon-loading">
-        <el-input
-          placeholder="请输入新的PDF名称"
-          size="small"
-          maxlength="50"
-          :value="pdfShareLink"
-          disabled
-        />
+        <el-input size="small" :value="pdfShareLink" disabled />
         <p class="copy-link">
           <el-button size="mini" icon="el-icon-copy-document" @click="onCopy"
             >复制链接</el-button
@@ -324,9 +324,10 @@ export default {
     padding: 0.2rem 0;
     i {
       color: #3185e9;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       // font-weight: bold;
-      margin-left: 0.6rem;
+      margin-left: 0.4rem;
+      cursor: pointer;
     }
   }
 }
@@ -363,5 +364,8 @@ export default {
 }
 .el-button {
   font-size: 0.9rem;
+}
+/deep/ .form-control:focus {
+  box-shadow: none;
 }
 </style>
