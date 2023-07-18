@@ -73,13 +73,6 @@
             >
           </p>
           <div ref="resultWrap" class="result-wrap">
-            <!-- <b-spinner
-              v-if="loading"
-              variant="primary"
-              label="Busy"
-              class="spinner"
-              style="margin-top: 5rem"
-            /> -->
             <template v-if="curType === 'result'">
               <el-table
                 v-show="resultObj.id && resultObj.sql"
@@ -96,9 +89,11 @@
                   :prop="field"
                   :label="field"
                   align="center"
-                  :width="field.length * oneWordWidth + 50"
                   sortable
+                  :min-width="field.length * oneWordWidth + 50"
                 />
+                <!-- 
+                  :width="field.length * oneWordWidth + 50" -->
               </el-table>
               <div v-if="false" v-show="!resultObj.id && resultObj.sql">
                 <!-- 暂无结果内容，请输入您想了解的天然气信息进行查询" -->
@@ -117,17 +112,17 @@
             <!-- <div class="result-content">{{ resultContent }}</div> -->
           </div>
           <div
-            v-show="curType === 'result'"
             v-if="chartType !== 'none'"
+            v-show="curType === 'result'"
             class="chart-wrapper"
           >
-            <LineChart
+            <!-- <LineChart
               v-if="chartType === 'line'"
               ref="lineChart"
               refStr="lineChart"
               alias="价格(元)"
               :chart-data="chartData"
-            />
+            /> -->
             <PieChart
               v-if="chartType === 'pie'"
               ref="pieChart"
@@ -135,17 +130,18 @@
               :chart-data="chartData"
             />
             <BarChart
-              v-if="chartType === 'bar'"
+              v-if="chartType === 'bar' || chartType === 'line'"
               ref="barChart"
               refStr="barChart"
+              :newChartData="newChartData"
               :chart-data="chartData"
             />
           </div>
           <Actions
-            v-if="resultObj.id"
+            v-if="resultObj.msgId"
             :attitude="resultObj.attitude"
-            @like="upvote(1)"
-            @diss="upvote(-1)"
+            @like="onLike(resultObj)"
+            @diss="onDiss(resultObj)"
           />
         </div>
         <div class="tips">
@@ -160,28 +156,19 @@
 <script>
 const maxCount = 10;
 import showToast from "@/utils/toast.js";
-import { getGasData, carLikeOrDiss } from "@/api/request.js"; // carLikeOrDiss
+import { getGasData, likeGas, dissGas } from "@/api/request.js"; // carLikeOrDiss
 import Actions from "../components/actions.vue";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { mapGetters } from "vuex";
 import { isExceedLimit, addWebCount } from "@/utils/index.js";
-import LineChart from "../components/charts/LineChart.vue";
+// import LineChart from "../components/charts/LineChart.vue";
 import PieChart from "../components/charts/PieChart.vue";
 import BarChart from "../components/charts/BarChart.vue";
-const nameObj = {
-  line: ["日期"],
-  pie: ["消费量"],
-  bar: ["年份", "消费量"],
-};
-const valueObj = {
-  line: ["价格"],
-  bar: ["数量", "进口量"],
-};
 // console.log(nameObj.line.findIndex((item) => key.indexOf(item) > -1) >= 0);
 export default {
   name: "buy-car",
   props: {},
-  components: { Actions, LoginModal, LineChart, PieChart, BarChart },
+  components: { Actions, LoginModal, PieChart, BarChart },
   data() {
     return {
       searchValue: "",
@@ -190,14 +177,91 @@ export default {
         {
           content: "2021年8月天然气消费结构",
           index: 1,
-          nameKey: "消费量",
-          valueKey: "",
+          renderChartData(data) {
+            const xAxisData = [
+              "工业燃气消费量",
+              "化工用气消费量",
+              "发电用气消费量",
+              "城市燃气消费量",
+            ];
+            const series = [
+              {
+                name: "消费量",
+                data: xAxisData.map((key) => {
+                  return data[0][key];
+                }),
+                type: "bar",
+                smooth: true,
+                barWidth: "25",
+              },
+              {
+                name: "同比增长率(%)",
+                data: xAxisData.map((key) => {
+                  return data[0][key + "同比增长率(%)"];
+                }),
+                type: "line",
+                lineStyle: {
+                  width: 2,
+                },
+                yAxisIndex: 1,
+              },
+            ];
+            return {
+              xAxisData,
+              series,
+              yAxis: [
+                {
+                  type: "value",
+                  name: "消费量",
+                },
+                {
+                  type: "value",
+                  name: "同比增长率(%)",
+                  max: 100,
+                },
+              ],
+            };
+          },
         },
         {
           content: "2020年黑龙江CNG加气站数量",
           index: 1,
-          nameKey: "年份",
-          valueKey: "价格",
+          renderChartData(data) {
+            const xAxisData = ["2020年"];
+            const series = [
+              {
+                name: "数量",
+                data: data.map((item) => item["2020年数量"]),
+                type: "bar",
+                smooth: true,
+                barWidth: "25",
+              },
+              {
+                name: "同比变化率(%)",
+                data: data.map((item) => item["同比变化率(%)"]),
+                type: "line",
+                lineStyle: {
+                  width: 2,
+                },
+                yAxisIndex: 1,
+              },
+            ];
+            return {
+              xAxisData,
+              series,
+              yAxis: [
+                {
+                  type: "value",
+                  name: "进口量",
+                },
+                {
+                  type: "value",
+                  name: "同比变化率(%)",
+                  max: 100,
+                },
+              ],
+            };
+          },
         },
         {
           content: "2016年8月广汇淖毛湖(疆外)平均价格",
@@ -214,26 +278,152 @@ export default {
         {
           content: "2021年9月天然气消费量",
           index: 2,
-          nameKey: "消费量",
-          valueKey: "",
+          renderChartData(data) {
+            const xAxisData = [
+              "化工用气消费量",
+              "发电用气消费量",
+              "城市燃气消费量",
+              "工业燃气消费量",
+            ];
+            const series = [
+              {
+                name: "数值",
+                data: xAxisData.map((key) => {
+                  return data[0][key];
+                }),
+                type: "bar",
+                smooth: true,
+                barWidth: "25",
+              },
+              {
+                name: "同比增长率(%)",
+                data: xAxisData.map((key) => {
+                  return data[0][key + "同比增长率(%)"];
+                }),
+                type: "line",
+                lineStyle: {
+                  width: 2,
+                },
+                yAxisIndex: 1,
+              },
+            ];
+            return {
+              xAxisData,
+              series,
+              yAxis: [
+                {
+                  type: "value",
+                  name: "消费量",
+                },
+                {
+                  type: "value",
+                  name: "同比增长率(%)",
+                  max: 100,
+                },
+              ],
+            };
+          },
         },
         {
           content: "2016年1月至2017年9月内蒙兴圣每日价格",
           index: 2,
-          nameKey: "",
-          valueKey: "",
+          renderChartData(data) {
+            const xAxisData = data.map((item) => item["日期"]);
+            const series = [
+              {
+                name: "价格",
+                data: data.map((item) => item["价格"]),
+                type: "line",
+                lineStyle: {
+                  width: 2,
+                },
+              },
+            ];
+            return {
+              xAxisData,
+              series,
+            };
+          },
         },
         {
           content: "2020年青海液化天然气(LNG)加气站数量",
           index: 2,
-          nameKey: "数量",
-          valueKey: "",
+          renderChartData(data) {
+            const xAxisData = ["2020年"];
+            const series = [
+              {
+                name: "数量",
+                data: data.map((item) => item["2020年数量"]),
+                type: "bar",
+                smooth: true,
+                barWidth: "25",
+              },
+              {
+                name: "同比变化率(%)",
+                data: data.map((item) => item["同比变化率(%)"]),
+                type: "line",
+                lineStyle: {
+                  width: 2,
+                },
+                yAxisIndex: 1,
+              },
+            ];
+            return {
+              xAxisData,
+              series,
+              yAxis: [
+                {
+                  type: "value",
+                  name: "进口量",
+                },
+                {
+                  type: "value",
+                  name: "同比变化率(%)",
+                  max: 100,
+                },
+              ],
+            };
+          },
         },
         {
           content: "2020年中国液化天然气(LNG)进口量",
           index: 2,
-          nameKey: "进口量",
-          valueKey: "",
+          renderChartData(data) {
+            const xAxisData = ["2020年"];
+            const series = [
+              {
+                name: "进口量(亿立方米)",
+                data: data.map((item) => item["2020年LNG进口量"]),
+                type: "bar",
+                smooth: true,
+                barWidth: "25",
+              },
+              {
+                name: "同比变化率(%)",
+                data: data.map((item) => item["同比变化率(%)"]),
+                type: "line",
+                lineStyle: {
+                  width: 2,
+                },
+                yAxisIndex: 1,
+              },
+            ];
+            return {
+              xAxisData,
+              series,
+              yAxis: [
+                {
+                  type: "value",
+                  name: "进口量",
+                },
+                {
+                  type: "value",
+                  name: "同比变化率(%)",
+                  max: 100,
+                },
+              ],
+            };
+          },
         },
         // { content: "2021年河北LNG加气站数量", index: 3 },
         // { content: "2022年5月天然气消费结构", index: 3 },
@@ -253,36 +443,16 @@ export default {
       searchProgress: 0,
       isShowProgress: false,
       timer: null,
-      chartType: null,
+      chartType: "none",
       chartData: [],
+      newChartData: {},
     };
   },
   created() {
     window.onresize = () => {
-      this.$refs?.lineChart?.chart.resize();
       this.$refs?.pieChart?.chart.resize();
       this.$refs?.barChart?.chart.resize();
     };
-    // this.$nextTick(() => {
-    //   this.chartType = "bar";
-    //   this.dataOneLength(
-    //     [
-    //       {
-    //         "化工用气消费量同比增长率(%)": -8.33,
-    //         "发电用气消费量同比增长率(%)": 8.16,
-    //         "城市燃气消费量同比增长率(%)": -13.56,
-    //         "工业燃气消费量同比增长率(%)": -11.3,
-    //         当前化工用气消费量: 22,
-    //         当前发电用气消费量: 53,
-    //         当前城市燃气消费量: 102,
-    //         当前工业燃气消费量: 102,
-    //         日期: "2022-09",
-    //       },
-    //     ],
-    //     "bar"
-    //   );
-    //   console.log(this.chartData);
-    // });
   },
   beforeDestroy() {
     if (this.timer) {
@@ -307,33 +477,33 @@ export default {
           name: "",
           value: 0,
         };
-        if (key.indexOf(nameKey) > -1) {
-          if (valueKey) {
-            newObj.name = obj[key];
-          } else {
+        if (nameKey.includes(key)) {
+          if (!valueKey) {
             newObj.name = key;
             newObj.value = obj[key];
+          } else {
+            newObj.name = obj[key];
           }
         }
-        if (valueKey && key.indexOf(valueKey) > -1) {
+        if (valueKey && valueKey.includes(key)) {
           newObj.value = obj[key];
+          console.log(newObj.value, obj[key]);
         }
+        // console.log(key, newObj);
         if (newObj.name) this.chartData.push(newObj);
       }
     },
-    dataMoreLength(data, chart) {
+    dataMoreLength(data, { nameKey, valueKey }) {
       this.chartData = data.map((obj) => {
         const newObj = {
           name: "",
           value: 0,
         };
         for (let key in obj) {
-          if (nameObj[chart].findIndex((item) => key.indexOf(item) > -1) >= 0) {
+          if (nameKey.includes(key)) {
             newObj.name = obj[key];
           }
-          if (
-            valueObj[chart].findIndex((item) => key.indexOf(item) > -1) >= 0
-          ) {
+          if (valueKey.includes(key)) {
             newObj.value = obj[key];
           }
         }
@@ -388,31 +558,17 @@ export default {
           if (data && data.length > 1) {
             this.$refs.resultWrap.style.height = "25rem";
           } else {
-            this.$refs.resultWrap.style.height = "auto";
+            this.$refs.resultWrap.style.height = "10rem";
           }
           this.chartType = chart;
-          if (
-            chart !== "none" &&
-            [
-              "2020年黑龙江CNG加气站数量",
-              "2016年1月至2017年9月内蒙兴圣每日价格",
-            ].includes(this.searchValue)
-          ) {
-            this.dataMoreLength(data, chart, item);
+          if (chart === "pie") {
+            console.log("pie");
           }
-          if (
-            chart !== "none" &&
-            [
-              "2021年8月天然气消费结构",
-              "2021年9月天然气消费量",
-              "2020年青海液化天然气(LNG)加气站数量",
-              "2020年中国液化天然气(LNG)进口量",
-            ].includes(this.searchValue)
-          ) {
-            this.dataOneLength(data, item);
+          if (chart === "line" || chart === "bar") {
+            const newChartData = item.renderChartData(data);
+            this.newChartData = newChartData;
           }
-          this.resultObj = { result: data, id, sql, attitude: 0 };
-          console.log(this.resultObj);
+          this.resultObj = { result: data, msgId: id, sql, attitude: 0 };
           if (data && data.length) {
             const obj = data[0];
             delete obj.id;
@@ -459,35 +615,28 @@ export default {
         return;
       }
       this.curRecommendIndex += 1;
-      // if (this.curRecommendIndex === 1) {
-      //   return (this.curRecommendIndex = 2);
-      // }
-      // if (this.curRecommendIndex === 2) {
-      //   return (this.curRecommendIndex = 1);
-      // }
-    },
-    upvote(record) {
-      const { id, attitude } = this.resultObj;
-      if (attitude === record) return;
-      carLikeOrDiss({
-        record: record,
-        id: id,
-      }).then((res) => {
-        if (res.status === "success") {
-          this.resultObj.attitude = record;
-        } else {
-          showToast({
-            content: record === 1 ? "点赞失败" : "踩失败",
-            type: "danger",
-          });
-        }
-      });
     },
     showSql() {
       this.curType = "sql";
     },
     showResult() {
       this.curType = "result";
+    },
+    onLike(resultObj) {
+      likeGas({
+        msgId: resultObj.msgId,
+        userId: this.userInfo.id,
+      }).then(() => {
+        resultObj.attitude = 1;
+      });
+    },
+    onDiss(resultObj) {
+      dissGas({
+        msgId: resultObj.msgId,
+        userId: this.userInfo.id,
+      }).then(() => {
+        resultObj.attitude = -1;
+      });
     },
   },
 };
@@ -520,6 +669,7 @@ export default {
         top: 3rem;
         width: 100%;
         padding-top: 1rem;
+        z-index: 2;
         position: sticky;
         background: #f0f0f0;
       }

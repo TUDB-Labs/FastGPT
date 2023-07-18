@@ -103,8 +103,7 @@ export default {
           trigger: "item",
         },
         legend: {
-          right: "top",
-          top: "3%",
+          top: "10",
           // orient: "vertical",
         },
         series: [

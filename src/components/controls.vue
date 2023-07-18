@@ -1,6 +1,11 @@
 <template>
   <div v-if="isShowGoTop" class="go-top">
-    <div id="popover-target-robot" class="item robot-item" @click="toggleKefu">
+    <div
+      id="popover-target-robot"
+      v-if="$route.path !== '/robot-chat'"
+      class="item robot-item"
+      @click="toggleKefu"
+    >
       <div class="img-box">
         <img
           v-if="!isShowKefu"

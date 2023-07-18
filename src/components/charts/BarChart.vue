@@ -4,6 +4,7 @@
 
 <script>
 import * as echarts from "echarts";
+const colors = ["#5470C6", "#EE6666"];
 // const colors = ["#46C9AF", "#EAA94D", "#057FEB", "#A5D0F6"];
 export default {
   name: "BarChart",
@@ -13,6 +14,12 @@ export default {
       type: Array,
       default() {
         return [];
+      },
+    },
+    newChartData: {
+      type: Object,
+      default() {
+        return {};
       },
     },
     alias: {
@@ -69,6 +76,21 @@ export default {
     };
   },
   watch: {
+    newChartData: {
+      handler(val) {
+        this.$nextTick(() => {
+          console.log(val);
+          if (!val.xAxisData && !val.series) return;
+          if (this.chart) {
+            this.chart.dispose();
+            this.chart = null;
+          }
+          this.initECharts();
+        });
+      },
+      immediate: true,
+      deep: true,
+    },
     chartData: {
       handler() {
         this.$nextTick(() => {
@@ -76,11 +98,6 @@ export default {
             this.chart.dispose();
             this.chart = null;
           }
-          // if (isNaN(this.height)) {
-          //   this.$refs[this.refStr].style.height = this.height;
-          // } else {
-          //   this.$refs[this.refStr].style.height = this.height + "px";
-          // }
           this.initECharts();
         });
       },
@@ -99,67 +116,34 @@ export default {
   },
   methods: {
     initECharts() {
-      const xAxisData = [];
-      const seriesData = [];
-      this.chartData.forEach((item) => {
-        xAxisData.push(item.name);
-        seriesData.push(item.value);
-      });
       const option = {
-        color: "#75BEFF",
+        color: colors,
         grid: {
-          top: 30,
+          top: 40,
           bottom: 30,
           left: 60,
-          right: 20,
+          right: 50,
         },
         tooltip: {
           trigger: "axis",
-          // triggerOn: "click",
           axisPointer: {
             type: "shadow",
           },
-          // valueFormatter: (value) => value + " 收运车辆",
         },
         xAxis: {
-          type: this.displayMode === "horizontal" ? "value" : "category",
-          data: this.displayMode === "horizontal" ? null : xAxisData,
-          axisLabel: {
-            // rotate: -20,
-          },
+          type: "category",
+          data: this.newChartData.xAxisData,
+          axisLabel: {},
         },
-        yAxis: {
-          type: this.displayMode === "horizontal" ? "category" : "value",
-          data: this.displayMode === "horizontal" ? xAxisData : null,
+        yAxis: this.newChartData.yAxis || {
+          type: "value",
         },
-        series: [
-          {
-            name: this.alias || "数值",
-            data: seriesData,
-            type: "bar",
-            barWidth: "25",
-          },
-        ],
+        series: this.newChartData.series,
       };
       const chartDom = this.$refs[this.refStr];
       const myChart = echarts.init(chartDom);
       option && myChart.setOption(option);
       this.chart = myChart;
-      // this.showTooltip();
-    },
-    showTooltip() {
-      let dataIndex = 0;
-      this.timer = setInterval(() => {
-        this.chart.dispatchAction({
-          type: "showTip",
-          seriesIndex: 0,
-          dataIndex: dataIndex,
-        });
-        if (dataIndex >= this.chartData.length - 1) {
-          dataIndex = -1;
-        }
-        dataIndex += 1;
-      }, 2000);
     },
   },
 };
