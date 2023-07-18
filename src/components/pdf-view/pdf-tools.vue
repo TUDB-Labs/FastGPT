@@ -282,7 +282,9 @@ export default {
       }
     },
     onChangeName(ok) {
-      if (this.pdfBaseInfo.name === this.newPdfName) return;
+      if (this.pdfBaseInfo.name === this.newPdfName) {
+        return ok();
+      }
       if (!this.newPdfName) return this.$message.warning("PDF名称不能为空");
       this.editLoading = true;
       renameConversation({
