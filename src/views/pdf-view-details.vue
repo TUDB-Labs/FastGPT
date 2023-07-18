@@ -19,6 +19,7 @@
 import PdfContractWrapper from "../components/pdf-view/pdf-contract-wrapper.vue";
 import PdfPreview from "../components/pdf-view/pdf-preview.vue";
 import { getConversationDetails } from "@/api/request.js";
+import eventBus from "@/utils/event-bus.js";
 export default {
   name: "pdf-view-details",
   props: {},
@@ -32,9 +33,15 @@ export default {
     };
   },
   created() {
-    console.log(this.$route);
+    eventBus.$on("rename", (newName) => {
+      console.log("rename", newName);
+      this.pdfBaseInfo.name = newName;
+    });
   },
   mounted() {},
+  beforeDestroy() {
+    // eventBus.$off("rename");
+  },
   watch: {
     "$route.params.id": {
       handler(id) {

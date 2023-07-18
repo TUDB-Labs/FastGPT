@@ -123,6 +123,11 @@ export const saveConversation = (data) => {
   const url = baseUrl + '/api/pdf/conversation/save';
   return interceptor.post(url, data)
 }
+// 修改对话名称
+export const renameConversation = (data) => {
+  const url = baseUrl + '/api/pdf/conversation/rename';
+  return interceptor.post(url, data)
+}
 // 获取对话内容
 export const getConversationDetails = (data) => {
   const url = baseUrl + '/api/pdf/conversation/messages';

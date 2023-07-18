@@ -2,31 +2,47 @@
   <p class="title">
     <span>PDF助手</span>
     <span class="controls">
-      <img
-        src="@/assets/images/share.png"
-        v-b-modal.share-modal
-        id="popover-target-share"
-        alt=""
-        @click="onShowShareModal"
-      />
-      <img
-        src="@/assets/images/download.png"
-        id="popover-target-download"
-        alt=""
-        @click="onDownload"
-      />
-      <img
-        src="@/assets/images/reset.png"
-        id="popover-target-clear"
-        alt=""
-        @click="onRest"
-      />
-      <img
-        src="@/assets/images/pdf-delete.png"
-        id="popover-target-delete"
-        alt=""
-        @click="onDelete"
-      />
+      <span>
+        <i
+          class="el-icon-share"
+          v-b-modal.share-modal
+          id="popover-target-share"
+          @click="onShowShareModal"
+        ></i>
+      </span>
+      <span>
+        <i
+          class="el-icon-edit-outline"
+          v-b-modal.edit-modal
+          id="popover-target-edit"
+          alt=""
+          @click="onEdit"
+        ></i>
+      </span>
+      <span>
+        <i
+          class="el-icon-download"
+          id="popover-target-download"
+          alt=""
+          @click="onDownload"
+        ></i>
+      </span>
+      <span>
+        <i
+          class="el-icon-refresh-right"
+          id="popover-target-clear"
+          alt=""
+          @click="onRest"
+        ></i>
+      </span>
+      <span>
+        <i
+          class="el-icon-delete"
+          id="popover-target-delete"
+          alt=""
+          @click="onDelete"
+        ></i>
+      </span>
     </span>
 
     <b-popover
@@ -37,6 +53,15 @@
     >
       <!-- <template #title>Popover Title</template> -->
       分享PDF
+    </b-popover>
+    <b-popover
+      id="b-popover-class"
+      target="popover-target-edit"
+      triggers="hover"
+      placement="bottomleft"
+    >
+      <!-- <template #title>Popover Title</template> -->
+      修改PDF名称
     </b-popover>
     <b-popover
       id="b-popover-class"
@@ -67,6 +92,31 @@
     </b-popover>
 
     <b-modal
+      ref="editModal"
+      size="middle"
+      id="edit-modal"
+      centered
+      ok-only
+      title="修改PDF名称"
+      @show="onShowChangeName"
+      @close="onCloseChangeName"
+    >
+      <div>
+        <el-input size="lg" v-model.trim="newPdfName" />
+      </div>
+      <template #modal-footer="{ ok }">
+        <!-- Emulate built in modal footer ok and cancel button actions -->
+        <el-button
+          type="primary"
+          :loading="editLoading"
+          @click="onChangeName(ok)"
+        >
+          确认
+        </el-button>
+      </template>
+    </b-modal>
+
+    <b-modal
       ref="shareModal"
       size="middle"
       id="share-modal"
@@ -74,8 +124,14 @@
       hide-footer
       title="分享PDF"
     >
-      <div ing="shareLoading" element-loading-spinner="el-icon-loading">
-        <el-input size="small" :value="pdfShareLink" disabled />
+      <div v-loading="shareLoading" element-loading-spinner="el-icon-loading">
+        <el-input
+          placeholder="请输入新的PDF名称"
+          size="small"
+          maxlength="50"
+          :value="pdfShareLink"
+          disabled
+        />
         <p class="copy-link">
           <el-button size="mini" icon="el-icon-copy-document" @click="onCopy"
             >复制链接</el-button
@@ -92,6 +148,7 @@ import {
   clearConversationDetails,
   deleteConversationDetails,
   getShareInfo,
+  renameConversation,
 } from "@/api/request.js";
 import eventBus from "@/utils/event-bus.js";
 import { mapGetters } from "vuex";
@@ -114,6 +171,8 @@ export default {
   components: {},
   data() {
     return {
+      editLoading: false,
+      newPdfName: "",
       // pdf分享链接
       shareLoading: false,
       shareUUid: "74b60f7c4d1e46ca8068a1105a3b41b4",
@@ -127,6 +186,7 @@ export default {
     ...mapGetters(["userInfo"]),
   },
   methods: {
+    onEdit() {},
     onShowShareModal() {
       this.shareLoading = true;
       getShareInfo({ docUuid: this.pdfBaseInfo.docUUid })
@@ -221,6 +281,29 @@ export default {
         this.$message.success("链接复制成功");
       }
     },
+    onChangeName(ok) {
+      if (this.pdfBaseInfo.name === this.newPdfName) return;
+      if (!this.newPdfName) return this.$message.warning("PDF名称不能为空");
+      this.editLoading = true;
+      renameConversation({
+        uuid: this.pdfBaseInfo.uuid,
+        name: this.newPdfName,
+      })
+        .then(() => {
+          ok();
+          this.$message.success("PDF名称修改成功");
+          eventBus.$emit("rename", this.newPdfName, this.pdfBaseInfo.uuid);
+        })
+        .finally(() => {
+          this.editLoading = false;
+        });
+    },
+    onCloseChangeName() {
+      // this.newPdfName = this.pdfBaseInfo.name;
+    },
+    onShowChangeName() {
+      this.newPdfName = this.pdfBaseInfo.name;
+    },
   },
 };
 </script>
@@ -237,6 +320,13 @@ export default {
       width: 1rem;
       margin: 0 6px;
       cursor: pointer;
+    }
+    padding: 0.2rem 0;
+    i {
+      color: #3185e9;
+      font-size: 1.3rem;
+      // font-weight: bold;
+      margin-left: 0.6rem;
     }
   }
 }
@@ -270,5 +360,8 @@ export default {
   /deep/.popover-body {
     color: #fff;
   }
+}
+.el-button {
+  font-size: 0.9rem;
 }
 </style>

@@ -72,7 +72,7 @@
               >结果</b-button
             >
           </p>
-          <div class="result-wrap">
+          <div ref="resultWrap" class="result-wrap">
             <!-- <b-spinner
               v-if="loading"
               variant="primary"
@@ -82,11 +82,11 @@
             /> -->
             <template v-if="curType === 'result'">
               <el-table
-                v-show="!resultObj.id && resultObj.sql"
-                height="100%"
+                v-show="resultObj.id && resultObj.sql"
                 width="100%"
                 stripe
                 border
+                height="100%"
                 :fit="true"
                 :data="resultObj.result"
               >
@@ -100,9 +100,9 @@
                   sortable
                 />
               </el-table>
-              <div v-show="!resultObj.id && resultObj.sql">
-                <!-- 暂无结果内容，请输入您想了解的购车信息进行查询" -->
-                您的问题不准确或者含有歧义，请简洁描述下想要查询的车型。
+              <div v-if="false" v-show="!resultObj.id && resultObj.sql">
+                <!-- 暂无结果内容，请输入您想了解的天然气信息进行查询" -->
+                您的问题不准确或者含有歧义，请简洁描述下想要查询的天然气信息。
               </div>
             </template>
             <div
@@ -110,10 +110,36 @@
               style="text-align: left; padding: 1rem; font-size: 0.9rem"
             >
               {{
-                resultObj.sql || "暂无sql内容，请输入您想了解的购车信息进行查询"
+                resultObj.sql ||
+                "暂无sql内容，请输入您想了解的天然气信息进行查询"
               }}
             </div>
             <!-- <div class="result-content">{{ resultContent }}</div> -->
+          </div>
+          <div
+            v-show="curType === 'result'"
+            v-if="chartType !== 'none'"
+            class="chart-wrapper"
+          >
+            <LineChart
+              v-if="chartType === 'line'"
+              ref="lineChart"
+              refStr="lineChart"
+              alias="价格(元)"
+              :chart-data="chartData"
+            />
+            <PieChart
+              v-if="chartType === 'pie'"
+              ref="pieChart"
+              refStr="pieChart"
+              :chart-data="chartData"
+            />
+            <BarChart
+              v-if="chartType === 'bar'"
+              ref="barChart"
+              refStr="barChart"
+              :chart-data="chartData"
+            />
           </div>
           <Actions
             v-if="resultObj.id"
@@ -139,23 +165,76 @@ import Actions from "../components/actions.vue";
 import LoginModal from "@/components/layouts/login-modal.vue";
 import { mapGetters } from "vuex";
 import { isExceedLimit, addWebCount } from "@/utils/index.js";
+import LineChart from "../components/charts/LineChart.vue";
+import PieChart from "../components/charts/PieChart.vue";
+import BarChart from "../components/charts/BarChart.vue";
+const nameObj = {
+  line: ["日期"],
+  pie: ["消费量"],
+  bar: ["年份", "消费量"],
+};
+const valueObj = {
+  line: ["价格"],
+  bar: ["数量", "进口量"],
+};
+// console.log(nameObj.line.findIndex((item) => key.indexOf(item) > -1) >= 0);
 export default {
   name: "buy-car",
   props: {},
-  components: { Actions, LoginModal },
+  components: { Actions, LoginModal, LineChart, PieChart, BarChart },
   data() {
     return {
       searchValue: "",
       curRecommendIndex: 1,
       recommendList: [
-        { content: "2021年8月天然气消费结构", index: 1 },
-        { content: "2020年黑龙江CNG加气站数量", index: 1 },
-        { content: "2016年8月广汇淖毛湖（疆外）平均价格", index: 1 },
-        { content: "2021年中国城市燃气消费量", index: 1 },
-        { content: "2021年9月天然气消费量", index: 2 },
-        { content: "2016年1月至2017年9月内蒙兴圣每日价格", index: 2 },
-        { content: "2020年青海液化天然气 (LNG) 加气站数量", index: 2 },
-        { content: "2020年中国液化天然气 (LNG) 进口量", index: 2 },
+        {
+          content: "2021年8月天然气消费结构",
+          index: 1,
+          nameKey: "消费量",
+          valueKey: "",
+        },
+        {
+          content: "2020年黑龙江CNG加气站数量",
+          index: 1,
+          nameKey: "年份",
+          valueKey: "价格",
+        },
+        {
+          content: "2016年8月广汇淖毛湖(疆外)平均价格",
+          index: 1,
+          nameKey: "日期",
+          valueKey: "价格",
+        },
+        {
+          content: "2021年中国城市燃气消费量",
+          index: 1,
+          nameKey: "",
+          valueKey: "",
+        },
+        {
+          content: "2021年9月天然气消费量",
+          index: 2,
+          nameKey: "消费量",
+          valueKey: "",
+        },
+        {
+          content: "2016年1月至2017年9月内蒙兴圣每日价格",
+          index: 2,
+          nameKey: "",
+          valueKey: "",
+        },
+        {
+          content: "2020年青海液化天然气(LNG)加气站数量",
+          index: 2,
+          nameKey: "数量",
+          valueKey: "",
+        },
+        {
+          content: "2020年中国液化天然气(LNG)进口量",
+          index: 2,
+          nameKey: "进口量",
+          valueKey: "",
+        },
         // { content: "2021年河北LNG加气站数量", index: 3 },
         // { content: "2022年5月天然气消费结构", index: 3 },
         // { content: "2021年10月天然气消费结构占比", index: 3 },
@@ -174,11 +253,38 @@ export default {
       searchProgress: 0,
       isShowProgress: false,
       timer: null,
+      chartType: null,
+      chartData: [],
     };
   },
-  created() {},
+  created() {
+    window.onresize = () => {
+      this.$refs?.lineChart?.chart.resize();
+      this.$refs?.pieChart?.chart.resize();
+      this.$refs?.barChart?.chart.resize();
+    };
+    // this.$nextTick(() => {
+    //   this.chartType = "bar";
+    //   this.dataOneLength(
+    //     [
+    //       {
+    //         "化工用气消费量同比增长率(%)": -8.33,
+    //         "发电用气消费量同比增长率(%)": 8.16,
+    //         "城市燃气消费量同比增长率(%)": -13.56,
+    //         "工业燃气消费量同比增长率(%)": -11.3,
+    //         当前化工用气消费量: 22,
+    //         当前发电用气消费量: 53,
+    //         当前城市燃气消费量: 102,
+    //         当前工业燃气消费量: 102,
+    //         日期: "2022-09",
+    //       },
+    //     ],
+    //     "bar"
+    //   );
+    //   console.log(this.chartData);
+    // });
+  },
   beforeDestroy() {
-    console.log(this.timer);
     if (this.timer) {
       window.clearInterval(this.timer);
       this.timer = null;
@@ -193,11 +299,52 @@ export default {
     },
   },
   methods: {
-    onSearch() {
+    dataOneLength(data, { nameKey, valueKey }) {
+      const obj = data[0] || {};
+      this.chartData = [];
+      for (let key in obj) {
+        const newObj = {
+          name: "",
+          value: 0,
+        };
+        if (key.indexOf(nameKey) > -1) {
+          if (valueKey) {
+            newObj.name = obj[key];
+          } else {
+            newObj.name = key;
+            newObj.value = obj[key];
+          }
+        }
+        if (valueKey && key.indexOf(valueKey) > -1) {
+          newObj.value = obj[key];
+        }
+        if (newObj.name) this.chartData.push(newObj);
+      }
+    },
+    dataMoreLength(data, chart) {
+      this.chartData = data.map((obj) => {
+        const newObj = {
+          name: "",
+          value: 0,
+        };
+        for (let key in obj) {
+          if (nameObj[chart].findIndex((item) => key.indexOf(item) > -1) >= 0) {
+            newObj.name = obj[key];
+          }
+          if (
+            valueObj[chart].findIndex((item) => key.indexOf(item) > -1) >= 0
+          ) {
+            newObj.value = obj[key];
+          }
+        }
+        return newObj;
+      });
+    },
+    onSearch(item) {
       if (this.loading) return;
       if (!this.searchValue)
         return showToast({
-          content: "请输入你想了解的购车信息",
+          content: "请输入你想了解的天然气信息",
           type: "warning",
         });
       // 在未登录时 判断是否超过提问次数超过就弹出登录框
@@ -237,8 +384,35 @@ export default {
           //   type: "danger",
           // });
           addWebCount("chatGas");
-          const { data, id, sql } = res.data;
+          const { data, id, sql, chart } = res.data;
+          if (data && data.length > 1) {
+            this.$refs.resultWrap.style.height = "25rem";
+          } else {
+            this.$refs.resultWrap.style.height = "auto";
+          }
+          this.chartType = chart;
+          if (
+            chart !== "none" &&
+            [
+              "2020年黑龙江CNG加气站数量",
+              "2016年1月至2017年9月内蒙兴圣每日价格",
+            ].includes(this.searchValue)
+          ) {
+            this.dataMoreLength(data, chart, item);
+          }
+          if (
+            chart !== "none" &&
+            [
+              "2021年8月天然气消费结构",
+              "2021年9月天然气消费量",
+              "2020年青海液化天然气(LNG)加气站数量",
+              "2020年中国液化天然气(LNG)进口量",
+            ].includes(this.searchValue)
+          ) {
+            this.dataOneLength(data, item);
+          }
           this.resultObj = { result: data, id, sql, attitude: 0 };
+          console.log(this.resultObj);
           if (data && data.length) {
             const obj = data[0];
             delete obj.id;
@@ -276,7 +450,7 @@ export default {
     onSelectRecommend(item) {
       if (this.loading) return;
       this.searchValue = item.content;
-      this.onSearch();
+      this.onSearch(item);
     },
     onRefresh() {
       console.log(this.curRecommendIndex);
@@ -342,12 +516,11 @@ export default {
     min-height: calc(100vh - 3rem);
     .main-content {
       margin: 0 auto;
-      height: calc(100vh - 3rem);
-      display: flex;
-      flex-direction: column;
       .search-wrapper {
+        top: 3rem;
         width: 100%;
         padding-top: 1rem;
+        position: sticky;
         background: #f0f0f0;
       }
       .submit-wrapper {
@@ -455,7 +628,9 @@ export default {
           }
         }
         .result-wrap {
-          flex: 1;
+          // flex: 1;
+          min-height: 10rem;
+          // max-height: 15rem;
           background: #ffffff;
           border: 1px solid #254cd8;
           border-radius: 5px;
@@ -488,6 +663,12 @@ export default {
         }
       }
     }
+  }
+  .chart-wrapper {
+    background: #fff;
+    margin-top: 1rem;
+    border: 1px solid #254cd8;
+    border-radius: 5px;
   }
 }
 .tips {
@@ -528,7 +709,7 @@ export default {
             }
           }
           .result-wrap {
-            height: 10rem;
+            // height: 10rem;
           }
         }
       }

@@ -32,6 +32,9 @@ axiosService.interceptors.response.use(
     // 正确的code列表
     const whiteCodeList = [200, 20000, 2000]
     if (data && whiteCodeList.includes(data.code)) {
+      if (response.headers['x-msgid']) {
+        data.data.id = response.headers['x-msgid']
+      }
       return data
     }
     // 购车的错误报警通过自定义

@@ -78,7 +78,6 @@ export default {
   components: { UploadPdf },
   data() {
     return {
-      pdfBaseInfo: {},
       conversationList: [],
       isCollapsed: false,
       analyzeLoading: false,
@@ -114,6 +113,23 @@ export default {
       // 选中第一个
       this.selectPdf(this.conversationList[0]);
     });
+    eventBus.$on("rename", (newName, uuid) => {
+      console.log("rename", newName, uuid);
+      const index = this.conversationList.findIndex(
+        (item) => item.uuid === uuid
+      );
+      const item = this.conversationList[index];
+      item.name = newName;
+      console.log("item", item);
+      this.conversationList.splice(index, 1, item);
+      //如果没登录，就更新缓存
+      if (!this.userInfo.phoneNumber) {
+        localStorage.setItem(
+          "pdf-conversation-list",
+          JSON.stringify(this.conversationList)
+        );
+      }
+    });
     this.getConversationList();
   },
   mounted() {},
@@ -121,6 +137,7 @@ export default {
     eventBus.$off("logined");
     eventBus.$off("loginOut");
     eventBus.$off("delete");
+    eventBus.$off("rename");
   },
   watch: {},
   computed: {

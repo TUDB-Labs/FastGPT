@@ -79,9 +79,9 @@ export default {
     });
   },
   watch: {
-    pdfBaseInfo: {
+    "pdfBaseInfo.docUrl": {
       handler() {
-        if (!this.pdfViewer) return;
+        // if (!this.pdfViewer) return;
         this.renderPdf();
         console.log(this.pdfBaseInfo);
       },
