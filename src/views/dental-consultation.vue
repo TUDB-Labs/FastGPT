@@ -156,7 +156,6 @@ export default {
   methods: {
     // 通过sse监听服务端返回的内容
     async getQuestion() {
-      // process.env.https://yayi.sco.tudb.work
       const url = `${process.env.VUE_APP_DENTIST_SERVER}/api/advisory?question=${this.searchValue}&userId=${this.userInfo.id}`;
       // 输入框清空
       this.searchValue = "";

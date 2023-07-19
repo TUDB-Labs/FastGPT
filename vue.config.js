@@ -5,20 +5,6 @@ module.exports = {
     disableHostCheck: true,
     port: 80,
     proxy: {
-      // '/yayi/': {
-      //   target: 'https://yayi.sco.tudb.work',  // 后台接口域名
-      //   pathRewrite: { '^/dentist': '' },
-      //   ws: false,        //如果要代理 websockets，配置这个参数
-      //   secure: false,  // 如果是https接口，需要配置这个参数
-      //   changeOrigin: true,  //是否跨域
-      // },
-      // '/gas': {
-      //   target: 'https://sqljava.sco.tudb.work',  // 后台接口域名
-      //   pathRewrite: { '^/gas': '' },
-      //   ws: false,        //如果要代理 websockets，配置这个参数
-      //   secure: false,  // 如果是https接口，需要配置这个参数
-      //   changeOrigin: true,  //是否跨域
-      // },
       '': {
         target: 'https://www.sco.tudb.work',  // 后台接口域名
         // pathRewrite: { '^/car': '' },

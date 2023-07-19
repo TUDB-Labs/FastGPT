@@ -90,7 +90,7 @@
                   :label="field"
                   align="center"
                   sortable
-                  :min-width="field.length * oneWordWidth + 50"
+                  :min-width="field.length * oneWordWidth + 80"
                 />
                 <!-- 
                   :width="field.length * oneWordWidth + 50" -->
@@ -723,11 +723,11 @@ export default {
         margin-top: 0.2rem;
         img {
           width: 1.2rem;
-          margin-right: 0rem;
+          margin-right: 0.2rem;
           cursor: pointer;
         }
         span {
-          width: 60px;
+          // width: 60px;
         }
       }
       .recommend-wrapper {
