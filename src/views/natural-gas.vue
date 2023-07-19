@@ -75,7 +75,7 @@
           <div ref="resultWrap" class="result-wrap">
             <template v-if="curType === 'result'">
               <el-table
-                v-show="resultObj.id && resultObj.sql"
+                v-show="resultObj.msgId"
                 width="100%"
                 stripe
                 border

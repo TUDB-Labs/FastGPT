@@ -10,7 +10,7 @@
           <div class="chat-item question first">
             <div class="header-img-wrapper">
               <img
-                src="https://cdn.tudb.work/aios/web/images/jqr.png"
+                src="@/assets/images/lvshi.png"
                 alt=""
                 class="header-img"
               />
@@ -39,7 +39,7 @@
             <div :key="'question' + index" class="chat-item question">
               <div class="header-img-wrapper">
                 <img
-                  src="https://cdn.tudb.work/aios/web/images/jqr.png"
+                  src="@/assets/images/lvshi.png"
                   alt=""
                   class="header-img"
                 />
