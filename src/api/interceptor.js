@@ -16,11 +16,12 @@ axiosService.interceptors.request.use(config => {
 
 axiosService.interceptors.response.use(
   response => {
+    console.log(response.config)
+    const url = response.config.url
     const data = response.data
-    const responseURL = response.request.responseURL
     // console.log('response：', data)
-    if (responseURL.indexOf('/car/upvote') > -1) return response.data
-    if (responseURL.indexOf('ipv4.icanhazip.com') > -1) return response.data
+    if (url.includes('/car/upvote')) return response.data
+    if (url.includes('ipv4.icanhazip.com')) return response.data
     // if (data.code === 5006 && data.message==="Token身份匹配失败") {
     //   store.mutations.setUserInfo({})
     //   return showToast({
@@ -38,8 +39,7 @@ axiosService.interceptors.response.use(
       return data
     }
     // 购车的错误报警通过自定义
-    
-    if (responseURL.indexOf('/texttosql/completions') === -1 || responseURL.indexOf('/getdata') === -1) {
+    if (!url.includes('/car/texttosql/completions')) {
       showToast({
         content: data.message,
         type: "danger",
@@ -48,11 +48,17 @@ axiosService.interceptors.response.use(
     return Promise.reject(data)
   },
   error => {
-    console.log('response错误：', error)
+    if (!error.config.url.includes('/texttosql/completions')) {
       showToast({
-        content: '服务器异常,请稍后再试',
+        content: error.message,
         type: "danger",
       })
+    }
+    console.log('response错误：', error.message)
+      // showToast({
+      //   content: '服务器异常,请稍后再试',
+      //   type: "danger",
+      // })
     return Promise.reject(error)
   }
 )

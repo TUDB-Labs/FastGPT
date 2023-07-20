@@ -1,3 +1,4 @@
+const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
   // 在这里添加您的配置
   publicPath: '/',
@@ -32,6 +33,17 @@ module.exports = {
             }
           }
         }
+      ]
+    },
+    optimization: {
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            compress: {
+              drop_console: true // 去掉 console 输出
+            }
+          }
+        })
       ]
     }
   }

@@ -79,7 +79,6 @@ export default {
     newChartData: {
       handler(val) {
         this.$nextTick(() => {
-          console.log(val);
           if (!val.xAxisData && !val.series) return;
           if (this.chart) {
             this.chart.dispose();
@@ -152,7 +151,7 @@ export default {
 <style scoped lang="less">
 .chart {
   width: 100%;
-  height: 25rem;
+  height: 20rem;
   // height: 300px;
   // min-width: 589px;
   // calc(100% - 32px);

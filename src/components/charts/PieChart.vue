@@ -15,6 +15,12 @@ export default {
         return [];
       },
     },
+    newChartData: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
     // height: {
     //   type: Number | String,
     //   default: 250,
@@ -65,6 +71,21 @@ export default {
     };
   },
   watch: {
+    newChartData: {
+      handler(val) {
+        this.$nextTick(() => {
+          if (!val.series) return;
+          if (this.chart) {
+            this.chart.dispose();
+            this.chart = null;
+          }
+          console.log("val", val);
+          this.initECharts();
+        });
+      },
+      immediate: true,
+      deep: true,
+    },
     chartData: {
       handler(value) {
         this.$nextTick(() => {
@@ -106,30 +127,22 @@ export default {
           top: "10",
           // orient: "vertical",
         },
-        series: [
-          {
-            // name: "作业状态",
-            type: "pie",
-            // radius: ["40%", "60%"],
-            avoidLabelOverlap: false,
-            itemStyle: {
-              borderColor: "#fff",
-              borderWidth: 0,
-            },
-            label: {
-              show: this.showLabel,
-              // position: "center",
-            },
-            // emphasis: {
-            //   itemStyle: {
-            //     shadowBlur: 10,
-            //     shadowOffsetX: 0,
-            //     shadowColor: "rgba(0, 0, 0, 0.5)",
-            //   },
-            // },
-            data: this.chartData,
-          },
-        ],
+        itemStyle: {
+          borderColor: "#fff",
+          borderWidth: 0,
+        },
+        label: {
+          show: true,
+        },
+        avoidLabelOverlap: false,
+        // emphasis: {
+        //   itemStyle: {
+        //     shadowBlur: 10,
+        //     shadowOffsetX: 0,
+        //     shadowColor: "rgba(0, 0, 0, 0.5)",
+        //   },
+        // },
+        series: this.newChartData.series,
       };
       const chartDom = this.$refs[this.refStr];
       const myChart = echarts.init(chartDom);

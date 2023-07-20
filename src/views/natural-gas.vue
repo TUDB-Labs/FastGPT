@@ -6,7 +6,7 @@
     </h4>
     <main>
       <div class="main-content content-width">
-        <div class="search-wrapper">
+        <div v-if="false" class="search-wrapper">
           <div class="submit-wrapper">
             <input
               v-model.trim="searchValue"
@@ -59,11 +59,25 @@
               )"
               :key="index"
               class="recommend-item"
-              @click="onSelectRecommend(item)"
+              :class="{ active: item.content === curRecommandname }"
+              @click="
+                onSelectRecommend(item);
+                curRecommandname = item.content;
+              "
             >
               {{ item.content }}
             </div>
           </div>
+
+          <b-progress
+            v-if="isShowProgress"
+            ref="bprogress"
+            :value="searchProgress"
+            :max="100"
+            show-progress
+            animated
+            style="margin-top: 0.8rem; height: 0.7rem"
+          />
           <p class="sql">
             <b-button v-if="curType === 'result'" @click="showSql"
               >SQL</b-button
@@ -72,6 +86,7 @@
               >结果</b-button
             >
           </p>
+
           <div ref="resultWrap" class="result-wrap">
             <template v-if="curType === 'result'">
               <el-table
@@ -116,25 +131,17 @@
             v-show="curType === 'result'"
             class="chart-wrapper"
           >
-            <!-- <LineChart
-              v-if="chartType === 'line'"
-              ref="lineChart"
-              refStr="lineChart"
-              alias="价格(元)"
-              :chart-data="chartData"
-            /> -->
             <PieChart
               v-if="chartType === 'pie'"
               ref="pieChart"
               refStr="pieChart"
-              :chart-data="chartData"
+              :newChartData="newChartData"
             />
             <BarChart
               v-if="chartType === 'bar' || chartType === 'line'"
               ref="barChart"
               refStr="barChart"
               :newChartData="newChartData"
-              :chart-data="chartData"
             />
           </div>
           <Actions
@@ -173,59 +180,74 @@ export default {
     return {
       searchValue: "",
       curRecommendIndex: 1,
+      curRecommandname: -1,
       recommendList: [
+        {
+          content: "2020年各省LNG加气站数量",
+          index: 1,
+          renderChartData(data) {
+            const xAxisData = data.map((item) => item["省份"]);
+            const series = [
+              {
+                name: "2020年数量",
+                type: "bar",
+                data: data.map((item) => item["2020年数量"]),
+              },
+            ];
+            return {
+              series,
+              xAxisData,
+            };
+          },
+        },
+        {
+          content: "2020-02-16内蒙地区LNG送到价是多少？",
+          index: 1,
+        },
         {
           content: "2021年8月天然气消费结构",
           index: 1,
           renderChartData(data) {
-            const xAxisData = [
-              "工业燃气消费量",
-              "化工用气消费量",
-              "发电用气消费量",
-              "城市燃气消费量",
-            ];
             const series = [
               {
-                name: "消费量",
-                data: xAxisData.map((key) => {
-                  return data[0][key];
+                name: "2021年8月天然气消费结构",
+                type: "pie",
+                data: Object.keys(data[0]).map((key) => {
+                  return {
+                    name: key,
+                    value: data[0][key],
+                  };
                 }),
+              },
+            ];
+            return {
+              series,
+            };
+          },
+        },
+        {
+          content: "河北省2019-2021每年LNG加气站的数量变化趋势",
+          index: 1,
+          renderChartData(data) {
+            const xAxisData = data.map((item) => item["年份"]);
+            const series = [
+              {
+                name: "加气站数量",
+                data: data.map((item) => item["数量"]),
                 type: "bar",
                 smooth: true,
                 barWidth: "25",
-              },
-              {
-                name: "同比增长率(%)",
-                data: xAxisData.map((key) => {
-                  return data[0][key + "同比增长率(%)"];
-                }),
-                type: "line",
-                lineStyle: {
-                  width: 2,
-                },
-                yAxisIndex: 1,
               },
             ];
             return {
               xAxisData,
               series,
-              yAxis: [
-                {
-                  type: "value",
-                  name: "消费量",
-                },
-                {
-                  type: "value",
-                  name: "同比增长率(%)",
-                  max: 100,
-                },
-              ],
             };
           },
         },
         {
-          content: "2020年黑龙江CNG加气站数量",
-          index: 1,
+          content: "2021年黑龙江CNG加气站数量",
+          index: 2,
           renderChartData(data) {
             const xAxisData = ["2020年"];
             const series = [
@@ -257,67 +279,6 @@ export default {
                 {
                   type: "value",
                   name: "同比变化率(%)",
-                  max: 100,
-                },
-              ],
-            };
-          },
-        },
-        {
-          content: "2016年8月广汇淖毛湖(疆外)平均价格",
-          index: 1,
-          nameKey: "日期",
-          valueKey: "价格",
-        },
-        {
-          content: "2021年中国城市燃气消费量",
-          index: 1,
-          nameKey: "",
-          valueKey: "",
-        },
-        {
-          content: "2021年9月天然气消费量",
-          index: 2,
-          renderChartData(data) {
-            const xAxisData = [
-              "化工用气消费量",
-              "发电用气消费量",
-              "城市燃气消费量",
-              "工业燃气消费量",
-            ];
-            const series = [
-              {
-                name: "数值",
-                data: xAxisData.map((key) => {
-                  return data[0][key];
-                }),
-                type: "bar",
-                smooth: true,
-                barWidth: "25",
-              },
-              {
-                name: "同比增长率(%)",
-                data: xAxisData.map((key) => {
-                  return data[0][key + "同比增长率(%)"];
-                }),
-                type: "line",
-                lineStyle: {
-                  width: 2,
-                },
-                yAxisIndex: 1,
-              },
-            ];
-            return {
-              xAxisData,
-              series,
-              yAxis: [
-                {
-                  type: "value",
-                  name: "消费量",
-                },
-                {
-                  type: "value",
-                  name: "同比增长率(%)",
                   max: 100,
                 },
               ],
@@ -337,51 +298,12 @@ export default {
                 lineStyle: {
                   width: 2,
                 },
-              },
-            ];
-            return {
-              xAxisData,
-              series,
-            };
-          },
-        },
-        {
-          content: "2020年青海液化天然气(LNG)加气站数量",
-          index: 2,
-          renderChartData(data) {
-            const xAxisData = ["2020年"];
-            const series = [
-              {
-                name: "数量",
-                data: data.map((item) => item["2020年数量"]),
-                type: "bar",
                 smooth: true,
-                barWidth: "25",
-              },
-              {
-                name: "同比变化率(%)",
-                data: data.map((item) => item["同比变化率(%)"]),
-                type: "line",
-                lineStyle: {
-                  width: 2,
-                },
-                yAxisIndex: 1,
               },
             ];
             return {
               xAxisData,
               series,
-              yAxis: [
-                {
-                  type: "value",
-                  name: "进口量",
-                },
-                {
-                  type: "value",
-                  name: "同比变化率(%)",
-                  max: 100,
-                },
-              ],
             };
           },
         },
@@ -425,10 +347,10 @@ export default {
             };
           },
         },
-        // { content: "2021年河北LNG加气站数量", index: 3 },
-        // { content: "2022年5月天然气消费结构", index: 3 },
-        // { content: "2021年10月天然气消费结构占比", index: 3 },
-        // { content: "2020年CNG加气站数量", index: 3 },
+        {
+          content: "预测2025年中国的LNG接收站产能是多少？",
+          index: 2,
+        },
       ],
       fields: [],
       resultObj: {
@@ -444,7 +366,6 @@ export default {
       isShowProgress: false,
       timer: null,
       chartType: "none",
-      chartData: [],
       newChartData: {},
     };
   },
@@ -469,47 +390,6 @@ export default {
     },
   },
   methods: {
-    dataOneLength(data, { nameKey, valueKey }) {
-      const obj = data[0] || {};
-      this.chartData = [];
-      for (let key in obj) {
-        const newObj = {
-          name: "",
-          value: 0,
-        };
-        if (nameKey.includes(key)) {
-          if (!valueKey) {
-            newObj.name = key;
-            newObj.value = obj[key];
-          } else {
-            newObj.name = obj[key];
-          }
-        }
-        if (valueKey && valueKey.includes(key)) {
-          newObj.value = obj[key];
-          console.log(newObj.value, obj[key]);
-        }
-        // console.log(key, newObj);
-        if (newObj.name) this.chartData.push(newObj);
-      }
-    },
-    dataMoreLength(data, { nameKey, valueKey }) {
-      this.chartData = data.map((obj) => {
-        const newObj = {
-          name: "",
-          value: 0,
-        };
-        for (let key in obj) {
-          if (nameKey.includes(key)) {
-            newObj.name = obj[key];
-          }
-          if (valueKey.includes(key)) {
-            newObj.value = obj[key];
-          }
-        }
-        return newObj;
-      });
-    },
     onSearch(item) {
       if (this.loading) return;
       if (!this.searchValue)
@@ -539,32 +419,17 @@ export default {
       }, 50);
       getGasData({ text: this.searchValue })
         .then((res) => {
-          // if (!res.flag) {
-          //   return this.$confirm(res.message, "提示", {
-          //     confirmButtonText: "确定",
-          //     cancelButtonText: "取消",
-          //     type: "warning",
-          //     showCancelButton: false,
-          //   })
-          //     .then(() => {})
-          //     .catch(() => {});
-          // }
-          // showToast({
-          //   content: res.message,
-          //   type: "danger",
-          // });
           addWebCount("chatGas");
           const { data, id, sql, chart } = res.data;
-          if (data && data.length > 1) {
-            this.$refs.resultWrap.style.height = "25rem";
+          if (data && data.length) {
+            this.$refs.resultWrap.style.height = `calc(${
+              data.length > 5 ? 5 * 3 : data.length * 3
+            }rem + 50px)`;
           } else {
-            this.$refs.resultWrap.style.height = "10rem";
+            this.$refs.resultWrap.style.height = "6rem";
           }
           this.chartType = chart;
-          if (chart === "pie") {
-            console.log("pie");
-          }
-          if (chart === "line" || chart === "bar") {
+          if (chart !== "none") {
             const newChartData = item.renderChartData(data);
             this.newChartData = newChartData;
           }
@@ -590,16 +455,8 @@ export default {
             this.isShowProgress = false;
           }, 1000);
         })
-        .catch((res) => {
+        .catch(() => {
           console.log("error");
-          this.$confirm(res.message, "提示", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning",
-            showCancelButton: false,
-          })
-            .then(() => {})
-            .catch(() => {});
         });
     },
     onKeydown() {},
@@ -731,11 +588,10 @@ export default {
         }
       }
       .recommend-wrapper {
-        margin-top: 1rem;
-        flex: 1;
         display: flex;
         flex-direction: column;
-        overflow: hidden;
+        // overflow: hidden;
+        padding-top: 1rem;
         h5 {
           display: flex;
           align-items: center;
@@ -775,11 +631,14 @@ export default {
             &:hover {
               background: #d6d8db;
             }
+            &.active {
+              background: #d6d8db;
+            }
           }
         }
         .result-wrap {
           // flex: 1;
-          min-height: 10rem;
+          min-height: 6rem;
           // max-height: 15rem;
           background: #ffffff;
           border: 1px solid #254cd8;

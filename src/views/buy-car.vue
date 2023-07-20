@@ -223,6 +223,7 @@ export default {
       }, 50);
       getBuyCar({ prompt: this.searchValue })
         .then((res) => {
+          console.log(res)
           if (!res.flag) {
             return this.$confirm(res.message, "提示", {
               confirmButtonText: "确定",
@@ -258,8 +259,8 @@ export default {
           }, 1000);
         })
         .catch((res) => {
-          console.log("error");
-          this.$confirm(res.message, "提示", {
+          console.log("error", res);
+          this.$confirm("服务器异常,请稍后再试", "提示", {
             confirmButtonText: "确定",
             cancelButtonText: "取消",
             type: "warning",
