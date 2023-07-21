@@ -109,19 +109,14 @@ export default {
       curStatus: "action", // action url uploading
       recommandList: [
         {
-          uuid: "4e997ef6160a4e4a88656389f38c864b",
-          name: "aigc从入门到精通.pdf",
-          url: "aios/pdf/4e997ef6160a4e4a88656389f38c864b.pdf",
+          uuid: "d2f993b05bfd4865bf28a3c5895fe2d1",
+          name: "中华人民共和国国民经济和社会发展第十四个五年规划(第二篇).pdf",
+          url: "aios/pdf/d2f993b05bfd4865bf28a3c5895fe2d1.pdf",
         },
         {
-          uuid: "20cae5c9f20e43b685512cad7fd354ae",
-          name: "你不知道的aigc.pdf",
-          url: "aios/pdf/20cae5c9f20e43b685512cad7fd354ae.pdf",
-        },
-        {
-          uuid: "7d5fc3dccb134ea8a51fd534749e8228",
-          name: "怎样入局aigc.pdf",
-          url: "aios/pdf/7d5fc3dccb134ea8a51fd534749e8228.pdf",
+          uuid: "cf47d0fc3f894fefb3c8deb445bd1587",
+          name: "《西方经济学》知识点总结(部分).pdf",
+          url: "aios/pdf/cf47d0fc3f894fefb3c8deb445bd1587.pdf",
         },
       ],
       fileInfo: {},
