@@ -9,11 +9,7 @@
         <div ref="chatList" class="chat-list">
           <div class="chat-item question first">
             <div class="header-img-wrapper">
-              <img
-                src="@/assets/images/lvshi.png"
-                alt=""
-                class="header-img"
-              />
+              <img src="@/assets/images/lvshi.png" alt="" class="header-img" />
             </div>
             <div class="content">
               <div>
@@ -159,7 +155,7 @@ export default {
     // 通过sse监听服务端返回的内容
     async getQuestion() {
       // process.env.VUE_APP_LAW_SERVER
-      const url = `${process.env.VUE_APP_LAW_SERVER}/api/chat?question=${this.searchValue}&userId=${this.userInfo.id}`;
+      const url = `https://aios.tudb.work/legal/api/chat?question=${this.searchValue}&userId=${this.userInfo.id}`;
       // 输入框清空
       this.searchValue = "";
       this.answerStatus = "ing";
