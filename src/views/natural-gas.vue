@@ -90,6 +90,7 @@
           <div ref="resultWrap" class="result-wrap">
             <template v-if="curType === 'result'">
               <el-table
+                ref="table"
                 v-show="resultObj.msgId"
                 width="100%"
                 stripe
@@ -421,19 +422,11 @@ export default {
         .then((res) => {
           addWebCount("chatGas");
           const { data, id, sql, chart } = res.data;
-          if (data && data.length) {
-            this.$refs.resultWrap.style.height = `calc(${
-              data.length > 5 ? 5 * 3 : data.length * 3
-            }rem + 50px)`;
-          } else {
-            this.$refs.resultWrap.style.height = "6rem";
-          }
           this.chartType = chart;
           if (chart !== "none") {
             const newChartData = item.renderChartData(data);
             this.newChartData = newChartData;
           }
-          this.resultObj = { result: data, msgId: id, sql, attitude: 0 };
           if (data && data.length) {
             const obj = data[0];
             delete obj.id;
@@ -441,6 +434,17 @@ export default {
           } else {
             this.fields = [];
           }
+          if (data && data.length) {
+            this.$refs.resultWrap.style.height = `calc(${
+              data.length > 5 ? 5 * 3 : data.length * 3
+            }rem + 50px)`;
+          } else {
+            this.$refs.resultWrap.style.height = "6rem";
+          }
+          this.resultObj = { result: data, msgId: id, sql, attitude: 0 };
+          this.$nextTick(() => {
+            this.$refs.table.doLayout();
+          });
         })
         .finally(() => {
           this.loading = false;
