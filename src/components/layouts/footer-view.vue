@@ -21,7 +21,7 @@
           关注<span>中科知道</span> 微信公众号<br />获取更多资讯
         </p>
       </div>
-      <div class="footer-info">
+      <div class="web footer-info">
         <div v-for="(item, index) in infoList" :key="index">
           <a
             v-if="item.key === '备案'"
@@ -31,6 +31,24 @@
           >
           <span v-else>{{ item.content }}</span>
         </div>
+      </div>
+      <div class="phone footer-info">
+        <div>Copyright 2019-2023 中科知道（北京）科技有限公司 版权所有</div>
+        <div>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802042559"
+            target="_blank"
+            >京ICP备 2022018609号-5</a
+          >
+        </div>
+        <div>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802042559"
+            target="_blank"
+            >京公网安备 11010802042584号</a
+          >
+        </div>
+        <div>电子营业执照</div>
       </div>
     </div>
   </footer>
@@ -98,7 +116,7 @@ footer {
     .footer-info {
       flex: 1;
       text-align: right;
-      font-size: 13px;
+      font-size: 0.7rem;
       a {
         text-decoration: none;
         color: #16284f;
@@ -119,6 +137,9 @@ footer {
 }
 
 @media (max-width: 767px) {
+  .web {
+    display: none !important;
+  }
   footer {
     background-color: #182a52;
     .content {

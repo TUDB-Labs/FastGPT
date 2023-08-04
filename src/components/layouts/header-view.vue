@@ -4,11 +4,23 @@
     :class="{ pdf: $route.path.indexOf('/pdf-view') > -1 }"
   >
     <div class="web flex-row">
-      <div class="logo" @click="() => $router.push('/')">
+      <!-- <div class="logo" @click="() => $router.push('/')">
         <img
           src="https://cdn.tudb.work/aios/web/images/zd_logo.png"
           alt="logo"
         />
+      </div> -->
+      <div class="logo pointer" @click="$router.push('/')">
+        <span class="company-name text-bold"> <strong>中科知道</strong> </span>
+        <el-divider direction="vertical"></el-divider>
+        <span> <strong>AIGC</strong> </span>
+      </div>
+      <div v-if="curPath === '/'" class="tabs">
+        <span class="item" @click="goPosition('.demo-wrapper')">DEMO 体验</span>
+        <span class="item" @click="goPosition('.our-advantage')">技术优势</span>
+        <span class="item" @click="goPosition('.team-introduction')"
+          >团队介绍</span
+        >
       </div>
       <!-- <img id="popover-target-1" src="https://cdn.tudb.work/aios/web/images/weixin01.png" alt="" /> -->
       <div class="actions">
@@ -139,6 +151,13 @@ export default {
       eventBus.$emit("logined");
       // this.userInfo = userInfo;
     },
+    goPosition(className) {
+      document.querySelector(className).scrollIntoView({
+        block: "start",
+        behavior: "smooth",
+        // inline: "start",
+      });
+    },
   },
 };
 </script>
@@ -153,6 +172,7 @@ header {
   top: 0;
   z-index: 5;
   margin: 0 auto;
+  border-bottom: 1px solid #f3f3f3;
   &.pdf {
     padding: 0 7.5vw;
   }
@@ -188,11 +208,30 @@ header {
     }
   }
 }
+
+.tabs {
+  display: flex;
+  font-size: 0.9rem;
+  .item {
+    margin: 0 0.7rem;
+    cursor: pointer;
+    color: #192a51;
+    &:hover {
+      font-weight: 550;
+      // color: #254cd8;
+    }
+  }
+}
 .actions {
+  width: 16rem;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   & > button {
     padding: 4px 0px !important;
-    font-size: 16px !important;
-    width: 120px;
+    font-size: 0.8rem !important;
+    width: 6rem;
   }
 }
 .flex-row {
@@ -203,8 +242,28 @@ header {
   align-items: center;
 }
 .logo {
+  text-align: left;
+  width: 16rem;
   // width: 8rem;
   // height: 30px;
+}
+.logo {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  color: #15274f;
+  cursor: pointer;
+  .company-name {
+    font-style: italic;
+    font-size: 1.2rem;
+    transform: scaleY(1.1);
+    margin-right: 3px;
+    color: #16264a;
+  }
+  .el-divider {
+    height: 0.8rem;
+    background-color: #313131;
+  }
 }
 .logo img {
   width: 9rem;

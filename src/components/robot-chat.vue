@@ -252,7 +252,7 @@ export default {
         border-radius: 4px;
         padding: 0.5rem;
         // min-height: 2.2rem;
-        font-size: 13px;
+        font-size: 0.6rem;
         text-align: left;
         > div {
           white-space: pre-wrap;
@@ -298,7 +298,7 @@ export default {
       outline: none;
       background: transparent;
       width: 100%;
-      font-size: 13px;
+      font-size: 0.6rem;
       padding: 0.7rem 0.7rem 2rem;
       &::placeholder {
         color: #717171;
@@ -314,7 +314,7 @@ export default {
     }
   }
   .actions {
-    font-size: 13px;
+    font-size: 0.6rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -324,10 +324,11 @@ export default {
       line-height: 1.5rem;
       padding: 0 0.8rem;
       margin-left: 6px;
-      font-size: 13px;
+      // font-size: ;
     }
     /deep/button.dark-btn {
       background: #192a51;
+      border-radius: 0.3rem;
 
       &:hover {
         background-color: 192a51;

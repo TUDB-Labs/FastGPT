@@ -79,16 +79,8 @@
               style="margin-top: 5rem"
             /> -->
             <template v-if="curType === 'result'">
-              <b-table
-                v-if="false"
-                v-show="resultObj.id && resultObj.sql"
-                sticky-header
-                responsive
-                bordered
-                :fields="fields"
-                :items="resultObj.result"
-              />
               <el-table
+                ref="table"
                 v-show="resultObj.id && resultObj.sql"
                 height="100%"
                 stripe
@@ -101,7 +93,7 @@
                   :prop="field"
                   :label="field"
                   sortable
-                  width="180"
+                  :min-width="field.length * oneWordWidth + 80"
                 />
               </el-table>
               <div v-show="!resultObj.id && resultObj.sql">
@@ -190,6 +182,9 @@ export default {
   watch: {},
   computed: {
     ...mapGetters(["userInfo"]),
+    oneWordWidth() {
+      return parseFloat(getComputedStyle(document.documentElement).fontSize);
+    },
   },
   methods: {
     onSearch() {
@@ -223,7 +218,6 @@ export default {
       }, 50);
       getBuyCar({ prompt: this.searchValue })
         .then((res) => {
-          console.log(res)
           if (!res.flag) {
             return this.$confirm(res.message, "提示", {
               confirmButtonText: "确定",
@@ -244,6 +238,9 @@ export default {
           } else {
             this.fields = [];
           }
+          this.$nextTick(() => {
+            this.$refs.table.doLayout();
+          });
         })
         .finally(() => {
           this.loading = false;
@@ -349,7 +346,7 @@ export default {
         // border: 1px solid gray;
         overflow: hidden;
         background: #ffffff;
-        border-radius: 5px;
+        border-radius: 0.3rem;
         // margin-top: 0.5rem;
         display: flex;
         input {
@@ -418,7 +415,7 @@ export default {
           // height: 1.6rem;
           // line-height: 1.6rem;
           // width: 5rem;
-          border-radius: 15px;
+          border-radius: 0.3rem;
           background: #fff;
           margin-left: 12px;
           padding: 0.3rem 0.6rem;
@@ -437,7 +434,7 @@ export default {
             padding: 0.6rem 0.6rem;
             background: #f0f0f0;
             border: 1px solid #bdbdbd;
-            border-radius: 5px;
+            border-radius: 0.3rem;
             color: #000;
             margin-top: 1rem;
             cursor: pointer;
@@ -485,7 +482,7 @@ export default {
       }
       .tips {
         color: #717171;
-        font-size: 0.9rem;
+        font-size: 0.6rem;
         padding: 0.3rem 0;
         line-height: 1.2rem;
       }

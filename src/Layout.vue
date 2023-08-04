@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="layout">
     <!-- 头部 -->
     <HeaderView v-if="$route.path.indexOf('share') === -1" />
     <router-view />
@@ -92,7 +92,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-#app {
+.layout {
   // font-family: 微软雅黑, Arial, sans-serif;
   // font-family: Noto Sans S Chinese;
   -webkit-font-smoothing: antialiased;

@@ -1,30 +1,18 @@
 <template>
-  <div class="banner-wrapper content-width">
-    <div class="web banner-content">
-      <p class="" style="font-size: 2.2rem; line-height: 40px">
+  <div class="banner-wrapper">
+    <div class="web banner-content content-width">
+      <p class="tips" style="font-size: 2.2rem; line-height: 40px">
         <strong>AIGC企业私有化部署方案</strong>
       </p>
-      <p style="margin: 1.5rem 0 6rem">
-        <strong>高安全，低成本，可定制</strong>
-      </p>
+      <p class="tips" style="margin: 1.2rem 0 3rem">高安全，低成本，可定制</p>
       <b-button @click="startBtn">免费1V1咨询</b-button>
     </div>
     <div class="phone banner-content">
-      <h3 class="" style="">
-        <span style="font-style: italic">中科知道</span>
-
-        <strong
-          ><span
-            style="
-              font-size: 1.3rem;
-              margin: 0 8px;
-              position: relative;
-              top: -4px;
-            "
-            >|</span
-          >AIGC</strong
-        >
-      </h3>
+      <div class="logo">
+        <span class="company-name text-bold"> <strong>中科知道</strong> </span>
+        <el-divider direction="vertical"></el-divider>
+        <span> <strong>AIGC</strong> </span>
+      </div>
       <!-- <img src="https://cdn.tudb.work/aios/web/images/zd_logo.png" class="logo" alt="logo" /> -->
       <h4 class="" style="font-size: 2.3rem">
         <strong>AIGC企业私有化<br />部署方案</strong>
@@ -61,19 +49,25 @@ export default {
 
 <style lang="less" scoped>
 .banner-wrapper {
-  margin: 0 auto;
+  margin: 0 auto 1rem;
   color: #fff;
   .banner-content {
     background: url(https://cdn.tudb.work/aios/web/images/banner.png) no-repeat;
+    // background: url(~@/assets/images/banner.png) no-repeat;
     position: relative;
-    height: 400px;
+    height: 21rem;
     overflow: hidden;
     background-size: 100% 100%;
-    border-radius: 20px;
-    padding: 5rem 40px 3rem;
+    // border-radius: 20px;
+    padding-top: 4.8rem;
     text-align: left;
+    .tips {
+      color: #254cd8;
+    }
     button {
-      height: 50px;
+      height: 2.2rem;
+      width: 12rem;
+      font-weight: bold;
     }
     a {
       color: #1890ff;
@@ -103,9 +97,11 @@ export default {
   .banner-wrapper {
     width: 100% !important;
     padding: 0;
+    color: #000;
     .phone.banner-content {
-      background: url(https://cdn.tudb.work/aios/web/images/phone-banner.png)
-        no-repeat;
+      // background: url(https://cdn.tudb.work/aios/web/images/phone-banner.png)
+      //   no-repeat;
+      background: url(~@/assets/images/phone-banner.png) no-repeat;
       background-size: 100% 100%;
       display: block;
       padding: 24px 0 0;
@@ -114,10 +110,10 @@ export default {
       position: relative;
       border-radius: 0;
       .logo {
-        margin: 30px 0;
+        // margin: 30px 0;
       }
       h4 {
-        color: #fff;
+        color: #254cd8;
         margin: 24px 0;
       }
       button {
@@ -130,6 +126,26 @@ export default {
         transform: translateX(-50%);
       }
       // background-size: 100%;
+    }
+  }
+
+  .logo {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #15274f;
+    cursor: pointer;
+    .company-name {
+      font-style: italic;
+      font-size: 1.7rem;
+      transform: scaleY(1.1);
+      margin-right: 3px;
+      color: #16264a;
+    }
+    .el-divider {
+      height: 1.2rem;
+      background-color: #313131;
     }
   }
 }

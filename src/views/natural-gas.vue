@@ -539,7 +539,7 @@ export default {
         // border: 1px solid gray;
         overflow: hidden;
         background: #ffffff;
-        border-radius: 5px;
+        border-radius: 0.3rem;
         // margin-top: 0.5rem;
         display: flex;
         input {
@@ -607,7 +607,7 @@ export default {
           // height: 1.8rem;
           // line-height: 1.8rem;
           padding: 0.2rem 0.6rem;
-          border-radius: 15px;
+          border-radius: 0.3rem;
           background: #fff;
           margin-left: 12px;
           cursor: pointer;
@@ -625,7 +625,7 @@ export default {
             padding: 0.6rem 0.6rem;
             background: #f0f0f0;
             border: 1px solid #bdbdbd;
-            border-radius: 5px;
+            border-radius: 0.3rem;
             color: #000;
             margin-top: 1rem;
             cursor: pointer;
@@ -646,7 +646,7 @@ export default {
           // max-height: 15rem;
           background: #ffffff;
           border: 1px solid #254cd8;
-          border-radius: 5px;
+          border-radius: 0.3rem;
           position: relative;
           overflow: hidden;
           .result-content {
@@ -681,12 +681,12 @@ export default {
     background: #fff;
     margin-top: 1rem;
     border: 1px solid #254cd8;
-    border-radius: 5px;
+    border-radius: 0.3rem;
   }
 }
 .tips {
   color: #717171;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   padding: 0.3rem 0;
   line-height: 1.2rem;
 }

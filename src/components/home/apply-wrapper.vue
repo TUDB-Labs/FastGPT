@@ -166,10 +166,10 @@ export default {
 .main-middle {
   width: 100%;
   // height: 1020px;
-  background-color: #d6ebff;
+  background-color: #f3f3f3;
   padding-bottom: 24px;
   .middle-title {
-    height: 220px;
+    height: 12rem;
     font-size: 2rem;
     text-align: center;
     margin: 0 auto;
@@ -178,18 +178,22 @@ export default {
     justify-content: center;
     align-items: center;
     letter-spacing: 4px;
+    .one {
+    }
   }
   .middle-content {
     // height: 780px;
     margin: 0 auto;
+    // padding: 0 20vw;
     .middle_li {
       width: 100%;
-      height: 220px;
+      height: 10rem;
       margin-bottom: 20px;
-      background-image: url(https://cdn.tudb.work/aios/web/images/applyBj.png);
+      // background-image: url(https://cdn.tudb.work/aios/web/images/applyBj.png);
+      background-image: url(~@/assets/images/applyBj.png);
       background-size: 100% 100%;
       overflow: hidden;
-      border-radius: 12px;
+      border-radius: 0.3rem;
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -203,7 +207,7 @@ export default {
         text-align: left;
         .left_img {
           img {
-            width: 100px;
+            width: 4rem;
           }
         }
         .left_con {
@@ -217,12 +221,12 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        color: #fff;
+        // color: #fff;
         font-size: 1rem;
         .right_li {
           margin: 0 6px;
           .image {
-            width: 90px;
+            width: 4rem;
           }
         }
       }
@@ -250,7 +254,7 @@ export default {
   .main-middle {
     .middle-title {
       display: block;
-      height: 150px;
+      height: 11rem;
       padding-top: 50px;
       .one {
         font-size: 1.2rem;
@@ -258,6 +262,8 @@ export default {
     }
     .phone.middle-content {
       display: block !important;
+
+      padding: 0 3vw;
       .middle_li {
         display: block !important;
         height: auto;
@@ -265,11 +271,11 @@ export default {
         .middle_left {
           width: 100%;
           background: #fff;
-          padding: 12px;
-          border-radius: 12px;
+          padding: 2rem 1rem;
+          border-radius: 0.3rem;
           .left_img {
             img {
-              width: 50px;
+              width: 3.5rem;
             }
           }
           h4 {
@@ -279,8 +285,8 @@ export default {
         }
         .middle_right {
           width: 90%;
-          background: #0f2658;
-          border-radius: 0 0 30px 30px;
+          background: #e6e6e6;
+          border-radius: 0 0 0.4rem 0.4rem;
           margin: 0 5%;
           // font-size: 13px;
           font-weight: bold;

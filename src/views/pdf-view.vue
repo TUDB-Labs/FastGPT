@@ -266,7 +266,7 @@ export default {
         line-height: 1.8rem;
         margin: 1.5rem auto;
         cursor: pointer;
-        border-radius: 0.4rem;
+        border-radius: 0.3rem;
       }
       .toggle {
         position: absolute;
@@ -356,7 +356,7 @@ export default {
         .item {
           display: flex;
           align-items: center;
-          border-radius: 8px;
+          border-radius: 0.3rem;
           padding: 8px 10px;
           color: #ffffffca;
           &:not(:first-child) {

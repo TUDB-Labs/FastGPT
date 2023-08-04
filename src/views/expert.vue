@@ -103,10 +103,10 @@ export default {
   h1 {
     background: url(https://cdn.tudb.work/aios/web/images/zjzx.png);
     background-size: 100% 100%;
-    height: 12rem;
+    height: 14rem;
     color: #fff;
     margin: 0 auto 0;
-    border-radius: 16px;
+    border-radius: 0.3rem;
     position: relative;
     strong {
       position: absolute;
@@ -115,7 +115,7 @@ export default {
     }
   }
   .content-width {
-    margin: 0 15vw;
+    margin: 0 10vw;
   }
   .content {
     padding: 3rem 0 4rem;
@@ -142,7 +142,7 @@ export default {
         }
         input {
           background-color: #f0f0f0;
-          border-radius: 20px;
+          border-radius: 0.3rem;
           border: 1px solid #dcdfe6;
           outline: none;
           padding: 6px 15px;
@@ -150,7 +150,7 @@ export default {
         }
         textarea {
           background-color: #f0f0f0;
-          border-radius: 20px;
+          border-radius: 0.3rem;
           border: 1px solid #dcdfe6;
           outline: none;
           padding: 6px 15px;

@@ -155,7 +155,7 @@ export default {
     // 通过sse监听服务端返回的内容
     async getQuestion() {
       // process.env.VUE_APP_LAW_SERVER
-      const url = `https://aios.tudb.work/legal/api/chat?question=${this.searchValue}&userId=${this.userInfo.id}`;
+      const url = `${process.env.VUE_APP_LAW_SERVER}/api/chat?question=${this.searchValue}&userId=${this.userInfo.id}`;
       // 输入框清空
       this.searchValue = "";
       this.answerStatus = "ing";
@@ -280,8 +280,8 @@ export default {
       display: flex;
       flex: 1;
       flex-direction: column;
-      height: calc(100% - 2.2rem);
       width: 100%;
+      overflow: hidden;
       .stop-wrapper {
         display: flex;
         justify-content: center;
@@ -401,7 +401,7 @@ export default {
       // border: 1px solid gray;
       overflow: hidden;
       background: #ffffff;
-      border-radius: 5px;
+      border-radius: 0.3rem;
       margin-top: 1rem;
       input {
         height: 3rem;
@@ -479,7 +479,7 @@ export default {
     }
     .tips {
       color: #717171;
-      font-size: 13px;
+      font-size: 0.6rem;
       // line-height: 2.2rem;
       // height: 2.2rem;
       padding: 0.4rem 1rem;

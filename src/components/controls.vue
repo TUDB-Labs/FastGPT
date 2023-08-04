@@ -251,7 +251,7 @@ export default {
 }
 .kefu {
   width: 27rem;
-  border-radius: 12px;
+  border-radius: 0.3rem;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.2);
   position: fixed;

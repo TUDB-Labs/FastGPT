@@ -299,7 +299,7 @@ export default {
           width: 25rem;
           padding: 0.9rem;
           background: #4f79f6;
-          border-radius: 11px;
+          border-radius: 0.3rem;
           margin: 0 auto 12px;
           color: #fff;
           font-size: 18px;
@@ -322,11 +322,11 @@ export default {
     }
     .url-upload-wrapper {
       border: 2px dashed #ffffff;
-      border-radius: 23px;
+      border-radius: 0.3rem;
       padding: 2rem 3rem;
       .form-wrapper {
         background: #4f79f6;
-        border-radius: 12px;
+        border-radius: 0.3rem;
         padding: 1rem 0;
         .title {
           color: #fff;
@@ -355,7 +355,7 @@ export default {
             outline: none;
             border: none;
             padding: 6px 40px 6px 12px;
-            border-radius: 20px;
+            border-radius: 0.3rem;
           }
           .send {
             color: #000;
@@ -400,7 +400,7 @@ export default {
       display: flex;
       align-items: center;
       border: 1px solid #4f79f6;
-      border-radius: 11px;
+      border-radius: 0.3rem;
       padding: 12px;
       color: #000;
       font-weight: 500;

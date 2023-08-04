@@ -135,7 +135,7 @@ export default {
   .main-bottom-right {
     flex: 1;
     height: 100%;
-    font-size: 14px;
+    font-size: 0.8rem;
     margin: 0 5%;
     .main-bottom-form {
       width: 100%;
@@ -143,7 +143,7 @@ export default {
       // padding-left: 80px;
       input {
         background-color: #f0f0f0;
-        border-radius: 20px;
+        border-radius: 0.3rem;
         border: 1px solid #dcdfe6;
         outline: none;
         padding: 6px 15px;
@@ -153,7 +153,7 @@ export default {
         margin: 30px 0 20px;
         textarea {
           background-color: #f0f0f0;
-          border-radius: 20px;
+          border-radius: 0.3rem;
           border: 1px solid #dcdfe6;
           outline: none;
           padding: 6px 15px;

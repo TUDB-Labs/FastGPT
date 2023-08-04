@@ -9,11 +9,7 @@
         <div ref="chatList" class="chat-list">
           <div class="chat-item question first">
             <div class="header-img-wrapper">
-              <img
-                src="@/assets/images/yayi.webp"
-                alt=""
-                class="header-img"
-              />
+              <img src="@/assets/images/yayi.webp" alt="" class="header-img" />
             </div>
             <div class="content">
               <div>您好，我是您的口腔智能助理，请问您有什么需要咨询的吗？</div>
@@ -280,8 +276,9 @@ export default {
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      height: calc(100% - 2.2rem);
+      // height: calc(100% - 2.2rem);
       width: 100%;
+      overflow: hidden;
       .stop-wrapper {
         display: flex;
         justify-content: center;
@@ -296,182 +293,182 @@ export default {
           cursor: pointer;
         }
       }
-    }
-    .chat-list {
-      flex: 1;
-      overflow-y: auto;
-      // padding: 0.6rem;
-      margin-top: 1rem;
-      position: relative;
-      .first {
-        .content {
-          // padding-bottom: 25px;
-        }
-      }
-      .chat-item {
-        display: flex;
+      .chat-list {
+        flex: 1;
+        overflow-y: auto;
+        // padding: 0.6rem;
+        margin-top: 1rem;
         position: relative;
-
-        .header-img-wrapper {
-          width: 2.5rem;
-          height: 2.5rem;
-          .header-img {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 4px;
-          }
-          .self {
-            width: 2.5rem;
-            height: 2.5rem;
-            font-weight: bold;
-            color: #ffffff;
-            font-size: 1.5rem;
-            background: #f5b228;
-            border-radius: 4px;
-            line-height: 2.5rem;
-            text-align: center;
-          }
-        }
-        .content {
-          background: #ffffff;
-          color: #000;
-          flex: 1;
-          margin: 0 1.2rem;
-          position: relative;
-          border-radius: 4px;
-          padding: 0.5rem;
-          text-align: left;
-          line-height: 1.5rem;
-          font-size: 0.9rem;
-          > div {
-            white-space: pre-wrap;
-          }
-        }
-        &.question {
-          .indicator {
-            width: 0;
-            height: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-right: 10px solid #fff;
-            position: absolute;
-            left: -0.5rem;
-            top: 0.6rem;
-            box-shadow: 0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
-              0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
-              0 0 20px -8px #74eaff;
-          }
+        .first {
           .content {
-            position: relative;
-            // padding-bottom: 25px !important;
             // padding-bottom: 25px;
-            &:not(:first) {
-            }
-            .action-wrapper {
-              margin-top: -0.4rem;
-            }
           }
         }
-        &.answer {
-          .content {
-            background: #e0dde6;
-          }
-          .indicator {
-            width: 0;
-            height: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-left: 10px solid #e0dde6;
-            position: absolute;
-            right: -0.5rem;
-            top: 0.6rem;
-            box-shadow: 0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
-              0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
-              0 0 20px -8px #74eaff;
-          }
-        }
-      }
-      .chat-item:not(:first-child) {
-        margin-top: 1.1rem;
-      }
-    }
-    .submit-wrapper {
-      position: relative;
-      height: 3rem;
-      // border: 1px solid gray;
-      overflow: hidden;
-      background: #ffffff;
-      border-radius: 5px;
-      margin-top: 1rem;
-      input {
-        height: 3rem;
-        border: none;
-        width: 100%;
-        background: transparent;
-        color: #000;
-        padding: 0 1rem;
-        outline: none;
-        font-size: 0.9rem;
-        box-shadow: 0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
-          0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
-          0 0 20px -12px #80808061;
-      }
-      input::placeholder {
-        color: #666;
-      }
-      .send-img {
-        position: absolute;
-        width: 1.5rem;
-        right: 0.9rem;
-        top: 0.7rem;
-        cursor: pointer;
-      }
-      .send-btn {
-        color: #fff;
-        position: absolute;
-        width: 3rem;
-        height: 3rem;
-        right: 0.5rem;
-        top: 0;
-        cursor: not-allowed;
-        .loading {
-          display: inline-block;
+        .chat-item {
+          display: flex;
           position: relative;
+
+          .header-img-wrapper {
+            width: 2.5rem;
+            height: 2.5rem;
+            .header-img {
+              width: 2.5rem;
+              height: 2.5rem;
+              border-radius: 4px;
+            }
+            .self {
+              width: 2.5rem;
+              height: 2.5rem;
+              font-weight: bold;
+              color: #ffffff;
+              font-size: 1.5rem;
+              background: #f5b228;
+              border-radius: 4px;
+              line-height: 2.5rem;
+              text-align: center;
+            }
+          }
+          .content {
+            background: #ffffff;
+            color: #000;
+            flex: 1;
+            margin: 0 1.2rem;
+            position: relative;
+            border-radius: 4px;
+            padding: 0.5rem;
+            text-align: left;
+            line-height: 1.5rem;
+            font-size: 0.9rem;
+            > div {
+              white-space: pre-wrap;
+            }
+          }
+          &.question {
+            .indicator {
+              width: 0;
+              height: 0;
+              border-top: 10px solid transparent;
+              border-bottom: 10px solid transparent;
+              border-right: 10px solid #fff;
+              position: absolute;
+              left: -0.5rem;
+              top: 0.6rem;
+              box-shadow: 0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
+                0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
+                0 0 20px -8px #74eaff;
+            }
+            .content {
+              position: relative;
+              // padding-bottom: 25px !important;
+              // padding-bottom: 25px;
+              &:not(:first) {
+              }
+              .action-wrapper {
+                margin-top: -0.4rem;
+              }
+            }
+          }
+          &.answer {
+            .content {
+              background: #e0dde6;
+            }
+            .indicator {
+              width: 0;
+              height: 0;
+              border-top: 10px solid transparent;
+              border-bottom: 10px solid transparent;
+              border-left: 10px solid #e0dde6;
+              position: absolute;
+              right: -0.5rem;
+              top: 0.6rem;
+              box-shadow: 0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
+                0 0 20px -8px #74eaff, 0 0 20px -8px #74eaff,
+                0 0 20px -8px #74eaff;
+            }
+          }
+        }
+        .chat-item:not(:first-child) {
+          margin-top: 1.1rem;
+        }
+      }
+      .submit-wrapper {
+        position: relative;
+        height: 3rem;
+        // border: 1px solid gray;
+        overflow: hidden;
+        background: #ffffff;
+        border-radius: 0.3rem;
+        margin-top: 1rem;
+        input {
+          height: 3rem;
+          border: none;
+          width: 100%;
+          background: transparent;
+          color: #000;
+          padding: 0 1rem;
+          outline: none;
+          font-size: 0.9rem;
+          box-shadow: 0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
+            0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
+            0 0 20px -12px #80808061;
+        }
+        input::placeholder {
+          color: #666;
+        }
+        .send-img {
+          position: absolute;
+          width: 1.5rem;
+          right: 0.9rem;
+          top: 0.7rem;
+          cursor: pointer;
+        }
+        .send-btn {
+          color: #fff;
+          position: absolute;
           width: 3rem;
           height: 3rem;
-          span {
-            position: absolute;
-            top: 1.25rem;
-            background-color: #000;
-            width: 0.5rem;
-            height: 0.5rem;
-            border-radius: 50%;
-            animation: loading 1.2s infinite ease-in-out;
-          }
-          span:nth-child(1) {
-            left: 0;
-            animation-delay: -0.24s;
-          }
-          span:nth-child(2) {
-            left: 12px;
-            animation-delay: -0.12s;
-          }
-          span:nth-child(3) {
-            left: 24px;
-            animation-delay: 0;
-          }
-
-          @keyframes loading {
-            0% {
-              transform: scale(0);
+          right: 0.5rem;
+          top: 0;
+          cursor: not-allowed;
+          .loading {
+            display: inline-block;
+            position: relative;
+            width: 3rem;
+            height: 3rem;
+            span {
+              position: absolute;
+              top: 1.25rem;
+              background-color: #000;
+              width: 0.5rem;
+              height: 0.5rem;
+              border-radius: 50%;
+              animation: loading 1.2s infinite ease-in-out;
+            }
+            span:nth-child(1) {
+              left: 0;
+              animation-delay: -0.24s;
+            }
+            span:nth-child(2) {
+              left: 12px;
+              animation-delay: -0.12s;
+            }
+            span:nth-child(3) {
+              left: 24px;
+              animation-delay: 0;
             }
 
-            50% {
-              transform: scale(1);
-            }
+            @keyframes loading {
+              0% {
+                transform: scale(0);
+              }
 
-            100% {
-              transform: scale(0);
+              50% {
+                transform: scale(1);
+              }
+
+              100% {
+                transform: scale(0);
+              }
             }
           }
         }
@@ -479,7 +476,7 @@ export default {
     }
     .tips {
       color: #717171;
-      font-size: 0.8rem;
+      font-size: 0.6rem;
       padding: 0.4rem;
     }
     .no-message {

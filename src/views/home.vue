@@ -10,6 +10,8 @@
       <DemoWrapper @buttonClick="buttonClick" />
       <!-- 优势 -->
       <AdvantageWrapper />
+      <!-- 团队介绍 -->
+      <TeamIntroduction />
       <!-- 应用 -->
       <ApplyWrapper />
       <!-- 联系我们 -->
@@ -28,6 +30,7 @@ import AdvantageWrapper from "../components/home/advantage-wrapper.vue";
 import ApplyWrapper from "../components/home/apply-wrapper.vue";
 import ContactWrapper from "../components/home/contact-wrapper.vue";
 import { insertClickrecord } from "@/api/request.js";
+import TeamIntroduction from "../components/home/team-Introduction.vue";
 export default {
   components: {
     // FooterView,
@@ -37,6 +40,7 @@ export default {
     AdvantageWrapper,
     ApplyWrapper,
     ContactWrapper,
+    TeamIntroduction,
   },
   name: "home",
   data() {

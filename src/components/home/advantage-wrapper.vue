@@ -1,5 +1,5 @@
 <template>
-  <div class="main-middle01">
+  <div class="our-advantage main-middle01 content-width">
     <h4 class="middle01-title"><strong>我们的优势</strong></h4>
     <div class="web middle01-content">
       <div
@@ -117,12 +117,11 @@ export default {
 <style lang="less" scoped>
 // 优势
 .main-middle01 {
-  // height: 1100px;
-  margin: 40px auto 0;
+  margin: 0rem auto 2rem;
   background-color: #f3f3f3;
-  padding: 0 15% 16px;
+  padding-top: 3rem;
   .middle01-title {
-    height: 130px;
+    height: 5rem;
     font-size: 2rem;
     font-family: PingFangSC-Semibold;
     text-align: center;
@@ -157,7 +156,7 @@ export default {
         padding: 24px 1.5rem;
         // height: 100%;
         background-color: #fff;
-        border-radius: 20px;
+        border-radius: 0.3rem;
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -216,7 +215,7 @@ export default {
     flex-direction: column;
     .middle01_li {
       background-color: #fff;
-      border-radius: 8px;
+      border-radius: 0.3rem;
       padding: 24px 12px;
       margin-left: 4% !important;
       width: 88% !important;
