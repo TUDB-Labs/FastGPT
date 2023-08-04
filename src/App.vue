@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <!-- 头部 -->
-    <HeaderView v-if="$route.path.indexOf('share') === -1" />
+    <HeaderView v-if="false && $route.path.indexOf('share') === -1" />
     <router-view />
     <!-- 底部 -->
     <!-- 不是手机端 是手机但是不是法律-->
-    <FooterView v-if="this.$route.path === '/'" />
-    <controls v-if="$route.path.indexOf('/pdf-view') === -1" />
+    <FooterView v-if="false && this.$route.path === '/'" />
+    <controls v-if="false && $route.path.indexOf('/pdf-view') === -1" />
   </div>
 </template>
 

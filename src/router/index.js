@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+const Layout = () => import('@/Layout');
 const Home = () => import('@/views/home');
 const BuyCar = () => import('@/views/buy-car');
 const Law = () => import('@/views/law');
@@ -19,61 +20,69 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
-    },
-    {
-      path: '/buy-car',
-      name: 'BuyCar',
-      component: BuyCar
-    },
-    {
-      path: '/law',
-      name: 'Law',
-      component: Law
-    },
-    {
-      path: '/expert',
-      name: 'Expert',
-      component: Expert
-    },
-    {
-      path: '/pdf-view',
-      name: 'PdfView',
-      component: PdfView,
+      name: 'Layout',
+      component: Layout,
       children: [
         {
-          path: '/pdf-view/:id',
-          name: 'PdfViewDetails',
-          component: PdfViewDetails
+          path: '',
+          name: 'Home',
+          component: Home
+        },
+        {
+          path: '/buy-car',
+          name: 'BuyCar',
+          component: BuyCar
+        },
+        {
+          path: '/law',
+          name: 'Law',
+          component: Law
+        },
+        {
+          path: '/expert',
+          name: 'Expert',
+          component: Expert
+        },
+        {
+          path: '/pdf-view',
+          name: 'PdfView',
+          component: PdfView,
+          children: [
+            {
+              path: '/pdf-view/:id',
+              name: 'PdfViewDetails',
+              component: PdfViewDetails
+            }
+          ]
+        },
+        {
+          path: '/pdf-upload',
+          name: 'PdfUpload',
+          component: PdfUpload
+        },
+        {
+          path: '/robot-chat',
+          name: 'RobotChat',
+          component: RobotChat
+        },
+        {
+          path: '/dental-consultation',
+          name: 'DentalConsultation',
+          component: DentalConsultation
+        },
+        {
+          path: '/natural-gas',
+          name: 'NaturalGas',
+          component: NaturalGas
+        },
+        {
+          path: '/share/:id',
+          name: 'share',
+          component: share
         }
       ]
     },
-    {
-      path: '/pdf-upload',
-      name: 'PdfUpload',
-      component: PdfUpload
-    },
-    {
-      path: '/robot-chat',
-      name: 'RobotChat',
-      component: RobotChat
-    },
-    {
-      path: '/dental-consultation',
-      name: 'DentalConsultation',
-      component: DentalConsultation
-    },
-    {
-      path: '/natural-gas',
-      name: 'NaturalGas',
-      component: NaturalGas
-    },
-    {
-      path: '/share/:id',
-      name: 'share',
-      component: share
-    }
+
   ]
 })
 
