@@ -144,7 +144,7 @@ export default {
           children: [
             {
               img: "https://cdn.tudb.work/aios/web/images/demo2.png",
-              name: "购车攻略",
+              name: "购车咨询",
               desc: "帮助您全面了解不同车型的价格，配置，优缺点等，为您的购车体验保驾护航",
               path: "buy-car",
             },

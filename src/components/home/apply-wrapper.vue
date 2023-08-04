@@ -291,7 +291,7 @@ export default {
           // font-size: 13px;
           font-weight: bold;
           .right_li {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             padding: 0.5rem 0 0;
             img {
               width: 60px;
