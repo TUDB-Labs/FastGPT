@@ -431,6 +431,9 @@ export default {
             margin-bottom: 1.5rem;
             width: calc(100% - 42px);
           }
+          .text_desc {
+            font-size: 1.08rem;
+          }
         }
       }
       /deep/.carousel-indicators {

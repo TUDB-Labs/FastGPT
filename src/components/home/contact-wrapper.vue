@@ -221,6 +221,10 @@ export default {
         margin-top: 16px !important;
       }
     }
+    /deep/ input,
+    textarea {
+      font-size: 1.08rem;
+    }
     .submit-btn {
       text-align: center !important;
       button {

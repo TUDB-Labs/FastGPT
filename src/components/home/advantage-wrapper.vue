@@ -244,6 +244,9 @@ export default {
         display: block !important;
         border-radius: 0 !important;
         padding: 0 0;
+        .text_desc {
+          font-size: 1.08rem;
+        }
         h4 {
           // font-size: 16px;
         }
