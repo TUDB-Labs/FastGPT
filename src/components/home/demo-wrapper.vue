@@ -1,7 +1,7 @@
 <template>
   <div class="demo-wrapper content-width">
     <div class="main-tt-title">
-      <strong><span>AIGC</span> &nbsp;DEMO体验</strong>
+      <strong><span>AIGC垂直场景</span> &nbsp;DEMO体验</strong>
     </div>
     <div class="phone tabs">
       <span
@@ -117,7 +117,7 @@ export default {
       //demo
       newDemoObjList: [
         {
-          name: "智能机器人",
+          name: "对话机器人",
           children: [
             {
               img: "https://cdn.tudb.work/aios/web/images/demo1.png",
@@ -318,6 +318,9 @@ export default {
           }
         }
       }
+    }
+    .el-icon-right {
+      font-size: 1rem;
     }
   }
   .main-tt-content {

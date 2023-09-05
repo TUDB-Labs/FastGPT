@@ -226,7 +226,7 @@ export default {
   max-width: 500px;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  // border: 1px solid rgba(0, 0, 0, 0.2);
   /deep/.arrow {
     display: none;
   }

@@ -30,7 +30,7 @@
             placeholder="请输入您想了解的内容(选填)"
           />
         </p>
-        <div class="percent">{{ formData.problem?.length || 0 }} / 200</div>
+        <div class="percent">{{ formData.problem?ormData.problem.length : 0 }} / 200</div>
       </div>
       <div class="action">
         <b-button @click="onSubmit">提 交</b-button>

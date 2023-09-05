@@ -31,7 +31,7 @@
             maxlength="200"
             placeholder="请输入您想了解的内容(选填)"
           />
-          <div class="percent">{{ formData.problem?.length || 0 }} / 200</div>
+          <div class="percent">{{ formData.problem ? formData.problem.length : 0 }} / 200</div>
         </div>
         <div class="submit-btn">
           <b-button @click="submitForm">提 交</b-button>

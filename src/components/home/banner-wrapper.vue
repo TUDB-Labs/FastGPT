@@ -1,11 +1,14 @@
 <template>
   <div class="banner-wrapper">
     <div class="web banner-content content-width">
-      <p class="tips" style="font-size: 2.2rem; line-height: 40px">
-        <strong>AIGC企业私有化部署方案</strong>
+      <p class="main-title" style="font-size: 2.2rem; line-height: 40px">
+        <strong>生成式AI企业级解决方案</strong>
       </p>
-      <p class="tips" style="margin: 1.2rem 0 3rem">高安全，低成本，可定制</p>
-      <b-button @click="startBtn">免费1V1咨询</b-button>
+      <p class="tips" style="margin: 1.2rem 0 3rem">高性能，低成本，可定制</p>
+      <b-button @click="startBtn">
+        <span>获取解决方案</span>
+        <img src="@/assets/images/url-send.png" alt="">
+      </b-button>
     </div>
     <div class="phone banner-content">
       <div class="logo">
@@ -61,13 +64,20 @@ export default {
     // border-radius: 20px;
     padding-top: 4.8rem;
     text-align: left;
-    .tips {
+    .main-title {
       color: #254cd8;
     }
+    .tips {
+      color: #000;
+    }
     button {
-      height: 2.2rem;
-      width: 12rem;
+      height: 2.8rem;
+      width: 24.5rem;
       font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1rem;
     }
     a {
       color: #1890ff;
