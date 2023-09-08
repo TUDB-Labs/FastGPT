@@ -115,7 +115,7 @@ export default {
     }
   }
   .content-width {
-    margin: 0 10vw;
+    margin: 0 12vw;
   }
   .content {
     padding: 3rem 0 4rem;

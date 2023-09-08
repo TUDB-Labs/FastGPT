@@ -1,33 +1,30 @@
 <template>
   <div class="our-advantage main-middle01 content-width">
     <h4 class="middle01-title"><strong>我们的优势</strong></h4>
-    <div class="web middle01-content">
-      <div
+    <el-row class="web middle01-content" :gutter="20">
+      <el-col
         v-for="(item, index) in advantageList"
         :key="index"
+        :span="8"
         class="wow middle01_li animate__animated"
         :class="{
           animate__fadeInLeft: index % 2 === 0,
           animate__fadeInRight: index % 2 === 1,
         }"
       >
-        <img class="middle01_l" :src="item.leftImg" :alt="'index' + index" />
-        <div class="middle01_m">
-          <img :src="item.lineImg" alt="line" />
-        </div>
-        <div class="middle01_r">
           <div class="left_img">
             <img :src="item.rightImg" :alt="item.title" />
           </div>
+        <div class="middle01_r">
           <div class="left_con">
-            <h4>
+            <h6>
               <strong>{{ item.title }}</strong>
-            </h4>
+            </h6>
             <p class="text_desc">{{ item.desc }}</p>
           </div>
         </div>
-      </div>
-    </div>
+      </el-col>
+    </el-row>
     <div class="phone middle01-content">
       <div
         v-for="(item, index) in advantageList"
@@ -133,27 +130,45 @@ export default {
   }
   .middle01-content {
     // height: 900px;
-    margin: 0 auto;
+    margin: 2rem auto 0;
     padding-bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     // overflow: hidden;
     .middle01_li {
-      width: 85%;
+      // width: 33%;
       // height: 150px;
       // padding: 24px 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 50px;
+      position: relative;
       //   transition: all 0.5s;
       .middle01_l {
-        width: 7%;
+        // width: 7%;
       }
       .middle01_m {
         width: 15%;
       }
+        .left_img {
+          // width: 12%;
+          border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -35%);
+          img {
+            // display: block;
+            width: 4rem;
+            // height: 5rem;
+            border-radius: 50%;
+          }
+        }
       .middle01_r {
         // width: 74%;
-        padding: 24px 1.5rem;
+        padding: 1rem;
         // height: 100%;
         background-color: #fff;
         border-radius: 0.3rem;
@@ -162,22 +177,18 @@ export default {
         align-items: center;
         text-align: left;
         transition: all 0.5s;
-        .left_img {
-          // width: 12%;
-          border-radius: 50%;
-          img {
-            display: block;
-            width: 5rem;
-            height: 5rem;
-            border-radius: 50%;
-          }
-        }
         .left_con {
           // width: 65%;
-          margin-left: 1rem;
+          // margin-left: 1rem;
+          margin-top: 3rem;
+          text-align: center;
           h4 {
             margin-bottom: 0.8rem;
           }
+        }
+        .text_desc {
+          // font-size: 1.08rem;
+          margin-top: 1rem;
         }
       }
     }
@@ -185,14 +196,14 @@ export default {
     //   transform: scale(1.05);
     // }
   }
-  .middle01_li:nth-child(2n) {
-    margin-left: 13%;
-  }
+  // .middle01_li:nth-child(2n) {
+  //   margin-left: 13%;
+  // }
 }
 
 @media (min-width: 767px) {
   .web {
-    display: block !important;
+    display: flex !important;
   }
   .phone {
     display: none !important;
@@ -246,6 +257,7 @@ export default {
         padding: 0 0;
         .text_desc {
           font-size: 1.08rem;
+          // margin-top: 2rem;
         }
         h4 {
           // font-size: 16px;

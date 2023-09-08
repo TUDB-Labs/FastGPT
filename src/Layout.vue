@@ -204,7 +204,7 @@ body,
 }
 
 /deep/.content-width {
-  padding: 0 15vw;
+  padding: 0 12vw;
 }
 
 @media (max-width: 1000px) {
