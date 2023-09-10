@@ -8,10 +8,10 @@
         <div class="tips">高性能，低成本，可定制</div>
         <b-button @click="startBtn">
           <span>获取解决方案</span>
-          <img src="@/assets/images/send-fill.png" alt="" />
+          <img src="@/assets/images/send-fill.png" style="width: 1rem" alt="" />
         </b-button>
       </div>
-      <el-row :gutter="24" class="card-list content-width">
+      <el-row class="card-list content-width">
         <el-col v-for="item in cardList" class="" :key="item.label" :span="8">
           <div class="item">
             <img src="" alt="" />
@@ -30,11 +30,35 @@
         <span> <strong>AIGC</strong> </span>
       </div>
       <!-- <img src="https://cdn.tudb.work/aios/web/images/zd_logo.png" class="logo" alt="logo" /> -->
-      <h4 class="" style="font-size: 2.3rem">
-        <strong>AIGC企业私有化<br />部署方案</strong>
-      </h4>
-      <h4 class="">高安全，低成本，可定制</h4>
+      <div class="slogan-box">
+        <strong class="slogan-text">生成式AI<br />企业级解决方案</strong>
+        <h4 class="slogan-tips">高安全，低成本，可定制</h4>
+      </div>
       <b-button @click="startBtn"><strong>获取解决方案</strong></b-button>
+      <b-carousel
+        id="carousel-2"
+        v-model="slide1"
+        :interval="40000"
+        indicators
+        class="card-list content-width"
+        @sliding-start="onSlideStart"
+        @sliding-end="onSlideEnd"
+      >
+        <!-- Text slides with image -->
+        <b-carousel-slide
+          v-for="(item, index) in cardList"
+          :key="index"
+          img-blank
+          img-alt="Blank image"
+        >
+        <div class="item">
+          <img src="" alt="" />
+          <div class="info">
+            <el-row class="name">{{ item.label }}</el-row>
+            <el-row class="desc">{{ item.desc }}</el-row>
+          </div></div>
+        </b-carousel-slide>
+      </b-carousel>
     </div>
     <solution-dialog ref="solutionDialog" />
   </div>
@@ -48,6 +72,7 @@ export default {
   components: { SolutionDialog },
   data() {
     return {
+      slide1: 0,
       cardList: [
         {
           label: "定制企业级AI解决方案",
@@ -72,6 +97,12 @@ export default {
   watch: {},
   computed: {},
   methods: {
+    onSlideStart() {
+      this.sliding = true;
+    },
+    onSlideEnd() {
+      this.sliding = false;
+    },
     //1V1定位
     startBtn() {
       this.$refs.solutionDialog.show();
@@ -89,8 +120,8 @@ export default {
   margin: 0 auto 6.5rem;
   color: #fff;
   .banner-content {
-    background: url(https://cdn.tudb.work/aios/web/images/banner.png) no-repeat;
-    // background: url(~@/assets/images/banner.png) no-repeat;
+    // background: url(https://cdn.tudb.work/aios/web/images/banner.png) no-repeat;
+    background: url(~@/assets/images/banner.png) no-repeat;
     position: relative;
     height: 27rem;
     // overflow: hidden;
@@ -125,19 +156,28 @@ export default {
       transition: color 0.3s;
       -webkit-text-decoration-skip: objects;
     }
+  }
+}
+
+@media (min-width: 767px) {
+  .web {
+    display: block;
     .card-list {
       position: absolute;
-      width: 100%;
+      width: calc(100% + 1rem);
       bottom: -3rem;
       left: 0;
       color: #000;
       z-index: 1;
+      margin-left: -1rem;
       .item {
         background-color: #fff;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
         border-radius: 0.5rem;
         padding: 1rem 1.2rem;
         display: flex;
+
+        margin-left: 1rem;
         .info {
           .name {
             font-weight: 550;
@@ -156,7 +196,7 @@ export default {
               position: absolute;
               left: 0;
               top: 0.3rem;
-              width: 0.4rem;
+              width: 0.3rem;
               border-radius: 0.3rem;
               height: 1.8rem;
               background-color: #254cd8;
@@ -165,12 +205,6 @@ export default {
         }
       }
     }
-  }
-}
-
-@media (min-width: 767px) {
-  .web {
-    display: block;
   }
   .phone {
     display: none;
@@ -189,32 +223,109 @@ export default {
       // background: url(https://cdn.tudb.work/aios/web/images/phone-banner.png)
       //   no-repeat;
       background: url(~@/assets/images/phone-banner.png) no-repeat;
-      background-size: 100% 100%;
+      background-size: cover;
       display: block;
-      padding: 24px 0 0;
+      padding: 1rem 0 0;
       text-align: center;
-      height: 600px;
+      height: 50rem;
       position: relative;
       border-radius: 0;
       .logo {
         // margin: 30px 0;
       }
-      h4 {
-        color: #254cd8;
-        margin: 24px 0;
+      .slogan-box {
+        text-align: left;
+        font-size: 2.1rem;
+        margin: 3rem 18vw 0;
+        .slogan-text {
+          color: #254cd8;
+          margin: 24px 0;
+        }
       }
       button {
         position: absolute;
-        width: 273px;
-        bottom: 24px;
-        font-size: 1.3rem;
-        height: 42px;
+        width: 22rem;
+        bottom: 5rem;
+        font-size: 1.1rem;
+        text-align: center;
+        height: 2.8rem;
         left: 50%;
         transform: translateX(-50%);
+        justify-content: center;
       }
       // background-size: 100%;
     }
+
+    .card-list {
+      position: absolute;
+      width: 90vw;
+      bottom: -5rem;
+      left: 5vw;
+      color: #000;
+      .item {
+        display: flex;
+
+        .info {
+          .name {
+            font-weight: 550;
+            font-size: 1.6rem;
+            color: #000;
+            font-weight: 550;
+          }
+          .desc {
+            font-size: 0.75rem;
+            color: #254cd8;
+            margin-top: 0.5rem;
+            position: relative;
+            padding-left: 1rem;
+            font-weight: 550;
+            &::before {
+              content: "";
+              // display: inline-block;
+              position: absolute;
+              left: 0;
+              top: 0.3rem;
+              width: 0.3rem;
+              border-radius: 0.3rem;
+              height: 1.8rem;
+              background-color: #254cd8;
+            }
+          }
+        }
+      }
+    }
   }
+        /deep/.carousel-indicators {
+          // bottom: -3.5rem;
+          li {
+            background-color: #bdbdbd;
+            width: 5px;
+            height: 5px;
+            border-radius: 6px !important;
+            border: none;
+            // margin: 1rem 3px 0!important;
+            position: relative;
+            top: 0.4rem;
+            &.active {
+              background-color: #4f79f6;
+              border-radius: 6px !important;
+            }
+          }
+        }
+        /deep/.carousel-inner {
+          height: 8.4rem !important;
+          border-radius: 0.4rem;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+        background-color: #fff;
+        padding: 0.6rem 1.2rem;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+          .carousel-caption {
+            right: 0;
+            left: 0;
+            top: 0;
+            padding: 0;
+          }
+        }
 
   .logo {
     font-size: 2rem;

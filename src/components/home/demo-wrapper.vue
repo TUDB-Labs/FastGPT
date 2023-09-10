@@ -3,56 +3,56 @@
     <div class="main-tt-title">
       <strong><span>AIGC垂直场景</span> &nbsp;DEMO体验</strong>
     </div>
-    <div class="phone tabs">
-      <span
+    <div class="phone main-box">
+      <!-- <div class="phone tabs">
+        <span
+          v-for="(typeItem, typeIndex) in newDemoObjList"
+          :key="typeIndex"
+          class="item"
+          :class="{ active: curTabIndex === typeIndex }"
+          @click="curTabIndex = typeIndex"
+        >
+          <strong>{{ typeItem.name }}</strong>
+        </span>
+      </div> -->
+      <div
         v-for="(typeItem, typeIndex) in newDemoObjList"
         :key="typeIndex"
-        class="item"
-        :class="{ active: curTabIndex === typeIndex }"
-        @click="curTabIndex = typeIndex"
+        class="main-box-item"
       >
-        <strong>{{ typeItem.name }}</strong>
-      </span>
-    </div>
-    <div class="phone main-tt-content">
-      <b-carousel
-        id="carousel-1"
-        v-model="slide1"
-        :interval="4000"
-        indicators
-        @sliding-start="onSlideStart"
-        @sliding-end="onSlideEnd"
-      >
-        <!-- Text slides with image -->
-        <b-carousel-slide
-          v-for="(item, index) in newDemoObjList[curTabIndex].children"
-          :key="index"
-          img-blank
-          img-alt="Blank image"
+        <h4 class="type-name">
+          <strong>{{ typeItem.name }}</strong>
+        </h4>
+        <b-carousel
+          id="carousel-1"
+          v-model="slide1"
+          :interval="40000"
+          :indicators="typeItem.children && typeItem.children.length > 1"
+          @sliding-start="onSlideStart"
+          @sliding-end="onSlideEnd"
         >
-          <div class="main-card-wrapper">
-            <div class="main-card">
-              <div class="image">
-                <img :src="item.img" :alt="item.name" />
-              </div>
-              <div class="card-desc">
-                <h4 style="">
-                  <strong>{{ item.name }}</strong>
-                </h4>
-                <div class="descContent">
+          <!-- Text slides with image -->
+          <b-carousel-slide
+            v-for="(item, index) in typeItem.children"
+            :key="index"
+            img-blank
+            img-alt="Blank image"
+          >
+            <div class="main-card-wrapper">
+              <div class="main-card">
+                <div>
+                  <p class="name">{{ item.name }}</p>
                   <p class="text_desc">{{ item.desc }}</p>
                 </div>
-                <!-- 
-            v-b-popover.hover.top="item.hopeCon"
-            title="" -->
+                <img :src="item.img" :alt="item.title" />
                 <b-button @click="showDemoDetail(item)">
                   <span>体验 DEMO</span> <i class="el-icon-right"></i
                 ></b-button>
               </div>
             </div>
-          </div>
-        </b-carousel-slide>
-      </b-carousel>
+          </b-carousel-slide>
+        </b-carousel>
+      </div>
     </div>
     <div class="web main-box">
       <div class="type-list">
@@ -71,7 +71,7 @@
               style="margin-left: 1rem"
             ></i>
             <el-progress
-            v-if="selectTypeItem.name === typeItem.name"
+              v-if="selectTypeItem.name === typeItem.name"
               :show-text="false"
               :percentage="65"
               :stroke-width="3"
@@ -86,11 +86,11 @@
           :key="index"
           class="demo-item"
         >
-              <div>
-                <p class="name">{{ item.name }}</p>
-              <p class="text_desc">{{ item.desc }}</p>
-              </div>
-            <img :src="item.img" :alt="item.title" />
+          <div>
+            <p class="name">{{ item.name }}</p>
+            <p class="text_desc">{{ item.desc }}</p>
+          </div>
+          <img :src="item.img" :alt="item.title" />
           <el-button class="demo-btn" size="mini" @click="showDemoDetail(item)">
             <span>体验 DEMO</span>
             <i class="el-icon-right"></i>
@@ -281,8 +281,8 @@ export default {
         border-radius: 6px;
         .el-progress {
           width: 100%;
-        position: relative;
-        top: 1.5rem
+          position: relative;
+          top: 1.5rem;
         }
         &.active {
           color: #254cd8;
@@ -295,11 +295,11 @@ export default {
     .demo-list {
       display: flex;
       flex: 1;
-      background: #FFFFFF;
-      border: 1px solid #254CD8;
+      background: #ffffff;
+      border: 1px solid #254cd8;
       border-radius: 6px;
-        margin-top: 0.8rem;
-        margin-left: 1rem;
+      margin-top: 0.8rem;
+      margin-left: 1rem;
       .demo-item {
         width: 33.33%;
         border-radius: 0.3rem;
@@ -312,24 +312,23 @@ export default {
         align-items: center;
         justify-content: space-between;
         &:not(:last-child) {
-          
-        border-right: 1px solid #f3f3f3;
+          border-right: 1px solid #f3f3f3;
         }
         &:hover {
           transform: scale(1.05);
         }
-          img {
-            width: 7rem;
-          }
-            .name {
-              color: #254cd8;
-              font-weight: 550;
-              font-size: 1.2rem;
-            }
-            .text_desc {
-              font-size: 0.6rem;
-              margin-top: 0.8rem;
-            }
+        img {
+          width: 7rem;
+        }
+        .name {
+          color: #254cd8;
+          font-weight: 550;
+          font-size: 1.2rem;
+        }
+        .text_desc {
+          font-size: 0.6rem;
+          margin-top: 0.8rem;
+        }
         /deep/.demo-btn {
           width: 100%;
           margin-top: 0.5rem;
@@ -455,44 +454,76 @@ export default {
     padding-bottom: 3rem;
     .phone {
       display: block !important;
-      &.main-tt-content {
-        border: 1px solid #ebeef5;
-      }
-      .main-card-wrapper {
-        width: 100% !important;
-        .main-card {
-          h4 {
-          }
-          .image img {
-            width: 9rem !important;
-          }
-          button {
-            // width: 14rem !important;
-            margin-bottom: 1.5rem;
-            width: calc(100% - 42px);
-          }
-          .text_desc {
-            font-size: 1.08rem;
+      .main-box-item {
+        border: 1px solid #254cd8;
+        border-radius: 0.4rem;
+        overflow: hidden;
+        &:not(:first-child) {
+          margin-top: 1.6rem;
+        }
+        .type-name {
+          text-align: center;
+          color: #254cd8;
+          background-color: rgb(240, 240, 240);
+          line-height: 4rem;
+          border-bottom: 1px solid #4f79f6;
+        }
+        .main-card-wrapper {
+          width: 100% !important;
+          .main-card {
+            padding: 0 2rem;
+            .name {
+              color: #254cd8;
+              font-size: 1.9rem;
+              font-weight: 550;
+            }
+            .text_desc {
+              margin: 1rem 0;
+            }
+            img {
+              width: 9rem !important;
+            }
+            button {
+              // width: 14rem !important;
+              margin: 2rem auto 0;
+              height: 3rem;
+              font-size: 1.3rem;
+              width: 100%;
+              font-weight: 550;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              font-size: 1.2rem;
+            }
+            .text_desc {
+              font-size: 1.08rem;
+            }
           }
         }
-      }
-      /deep/.carousel-indicators {
-        // bottom: -3.5rem;
-        li {
-          background-color: #bdbdbd;
-          &.active {
-            background-color: #4f79f6;
+        /deep/.carousel-indicators {
+          // bottom: -3.5rem;
+          li {
+            background-color: #bdbdbd;
+            height: 5px;
+            border-radius: 6px !important;
+            border: none;
+            width: 4rem;
+            margin: -1.5rem 6px 0;
+            &.active {
+              background-color: #4f79f6;
+              border-radius: 6px !important;
+            }
           }
         }
-      }
-      /deep/.carousel-inner {
-        height: 33rem !important;
-        border-radius: 0.2rem;
-        .carousel-caption {
-          right: 0;
-          left: 0;
-          top: 0;
-          padding: 0;
+        /deep/.carousel-inner {
+          height: 27rem !important;
+          border-radius: 0.2rem;
+          .carousel-caption {
+            right: 0;
+            left: 0;
+            top: 0;
+            padding: 0;
+          }
         }
       }
     }
