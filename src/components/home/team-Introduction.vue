@@ -3,6 +3,7 @@
     <h4 class="middle01-title"><strong>团队介绍</strong></h4>
     <main>
       <div class="info">
+        <h4>中科知道</h4>
         背靠“科研国家队“，拥有近十年的图数据库和AI底层技术沉淀，致力于成为国家“新兴基础设施“和“下一代人工智能“的重要组成部分。团队核心成员来自蚂蚁集团、PINTEREST、FACEBOOK、GOOGLE、LINKEDIN、微软、IBM、CLOUDERA等国际一流研究所或科技企业。多名成员是TENSORFLOW、PYTORCH、APACHE
         HADOOP、SPARK、KAFKA、KUBEFLOW、ARGO等大数据与人工智能领域极具影响力项目的PMC或活跃贡献者。
         <br /><br />
@@ -10,7 +11,7 @@
         (法律医疗、金融、烟草) 得到应用，年营收超千万。
       </div>
       <div class="img-box">
-        <img src="@/assets/images/team-Introduction.png" alt="" />
+        <img src="https://cdn.tudb.work/aios/web/images/team-Introduction.png" alt="" />
       </div>
     </main>
   </div>
@@ -52,15 +53,22 @@ main {
   .info {
     padding: 1.2rem;
     font-size: 0.7rem;
-    flex: 1;
+    flex: 0.8;
     text-align: left;
     line-height: 1.4rem;
+  h4 {
+    font-weight: 550;
+    transform: skewX(-6deg) scaleY(1.2);
+    color: rgb(0,37,92);
+    margin-bottom: 1.2rem;
+  }
   }
   .img-box {
     flex: 1;
     img {
       width: 100%;
       height: 100%;
+      object-fit: cover;
     }
   }
 }
@@ -83,6 +91,10 @@ main {
       .info {
         font-size: 1.08rem;
         line-height: 1.8rem;
+      h4 {
+    text-align: center;
+    margin-bottom: 1.0rem;
+  }
       }
     }
   }

@@ -9,7 +9,7 @@
         <div ref="chatList" class="chat-list">
           <div class="chat-item question first">
             <div class="header-img-wrapper">
-              <img src="@/assets/images/yayi.webp" alt="" class="header-img" />
+              <img src="https://cdn.tudb.work/aios/web/images/yayi.webp" alt="" class="header-img" />
             </div>
             <div class="content">
               <div>您好，我是您的口腔智能助理，请问您有什么需要咨询的吗？</div>
@@ -33,7 +33,7 @@
             <div :key="'question' + index" class="chat-item question">
               <div class="header-img-wrapper">
                 <img
-                  src="@/assets/images/yayi.webp"
+                  src="https://cdn.tudb.work/aios/web/images/yayi.webp"
                   alt=""
                   class="header-img"
                 />

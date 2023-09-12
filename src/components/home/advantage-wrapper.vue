@@ -1,7 +1,7 @@
 <template>
   <div class="our-advantage main-middle01 content-width">
     <h4 class="middle01-title"><strong>我们的优势</strong></h4>
-    <el-row class="web middle01-content" :gutter="20">
+    <el-row class="middle01-content" :gutter="20">
       <el-col
         v-for="(item, index) in advantageList"
         :key="index"
@@ -25,29 +25,6 @@
         </div>
       </el-col>
     </el-row>
-    <div class="phone middle01-content">
-      <div
-        v-for="(item, index) in advantageList"
-        :key="index"
-        class="wow middle01_li animate__animated"
-        :class="{
-          animate__fadeInLeft: index % 2 === 0,
-          animate__fadeInRight: index % 2 === 1,
-        }"
-      >
-        <div class="middle01_l">
-          <img :src="item.leftImg" :alt="'index' + index" />
-          <span class="line"><img :src="item.lineImg" alt="line" /></span>
-          <img :src="item.rightImg" :alt="item.title" />
-        </div>
-        <div class="middle01_r">
-          <h4>
-            <strong>{{ item.title }}</strong>
-          </h4>
-          <p class="text_desc">{{ item.desc }}</p>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -180,7 +157,7 @@ export default {
         .left_con {
           // width: 65%;
           // margin-left: 1rem;
-          margin-top: 3rem;
+          margin-top: 2.7rem;
           text-align: center;
           h4 {
             margin-bottom: 0.8rem;
@@ -219,19 +196,23 @@ export default {
     .middle01-title {
       height: 90px;
     }
-  }
-  .phone.middle01-content {
+  .middle01-content {
     display: block !important;
-    display: flex;
-    flex-direction: column;
+    padding: 0 3vw;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     .middle01_li {
       background-color: #fff;
       border-radius: 0.3rem;
-      padding: 24px 12px;
-      margin-left: 4% !important;
-      width: 88% !important;
-      margin-bottom: 20px;
-      align-items: self-start !important;
+      // padding: 24px 12px;
+      padding: 0.8rem 1.2rem 1.8rem!important;
+      width: 100%;
+      .left_img {
+        transform: translate(-50%, -50%);
+      }
+      h6 {
+        font-size: 1.35rem;
+      }
       .middle01_l {
         width: 50px !important;
         height: 100%;
@@ -257,6 +238,7 @@ export default {
         padding: 0 0;
         .text_desc {
           font-size: 1.08rem;
+          text-align: left;
           // margin-top: 2rem;
         }
         h4 {
@@ -264,9 +246,7 @@ export default {
         }
       }
     }
-    .middle01_li:nth-child(2n) {
-      margin-left: 8% !important;
-    }
+  }
   }
 }
 </style>

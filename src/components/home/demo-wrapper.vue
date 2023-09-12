@@ -4,17 +4,6 @@
       <strong><span>AIGC垂直场景</span> &nbsp;DEMO体验</strong>
     </div>
     <div class="phone main-box">
-      <!-- <div class="phone tabs">
-        <span
-          v-for="(typeItem, typeIndex) in newDemoObjList"
-          :key="typeIndex"
-          class="item"
-          :class="{ active: curTabIndex === typeIndex }"
-          @click="curTabIndex = typeIndex"
-        >
-          <strong>{{ typeItem.name }}</strong>
-        </span>
-      </div> -->
       <div
         v-for="(typeItem, typeIndex) in newDemoObjList"
         :key="typeIndex"
@@ -24,8 +13,8 @@
           <strong>{{ typeItem.name }}</strong>
         </h4>
         <b-carousel
-          id="carousel-1"
-          v-model="slide1"
+          :id="'carousel-'+typeIndex"
+          :value="slide1"
           :interval="40000"
           :indicators="typeItem.children && typeItem.children.length > 1"
           @sliding-start="onSlideStart"
@@ -68,7 +57,7 @@
             <i
               v-if="selectTypeItem.name === typeItem.name"
               class="el-icon-caret-right"
-              style="margin-left: 1rem"
+              style="margin-left: 0.5rem"
             ></i>
             <el-progress
               v-if="selectTypeItem.name === typeItem.name"
@@ -220,7 +209,7 @@ export default {
 .demo-wrapper {
   margin: 0 auto;
   padding-top: 3rem;
-  padding-bottom: 1rem;
+  padding-bottom: 2rem;
   margin-top: -3rem;
   .main-tt-title {
     width: 100%;
@@ -289,6 +278,7 @@ export default {
           border: 1px solid #254cd8;
         }
         .type {
+          font-size: 1.2rem;
         }
       }
     }
@@ -318,7 +308,8 @@ export default {
           transform: scale(1.05);
         }
         img {
-          width: 7rem;
+          width: 6rem;
+          height: 6rem;
         }
         .name {
           color: #254cd8;
@@ -378,17 +369,10 @@ export default {
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         // background-color: #f3f3f3 !important;
         position: relative;
-        .image {
-          width: 100%;
-          height: 13rem;
-          display: flex;
-          justify-content: center;
-          align-items: center;
           img {
-            width: 7.5rem;
-            display: block;
+            width: 6rem;
+            height: 6rem;
           }
-        }
         .card-desc {
           height: 144px;
           display: flex;
@@ -471,7 +455,7 @@ export default {
         .main-card-wrapper {
           width: 100% !important;
           .main-card {
-            padding: 0 2rem;
+            padding: 0 1.6rem;
             .name {
               color: #254cd8;
               font-size: 1.9rem;
@@ -481,11 +465,13 @@ export default {
               margin: 1rem 0;
             }
             img {
-              width: 9rem !important;
+              width: 7rem;
+              height: 7rem;
+              margin-top: 1rem;
             }
             button {
               // width: 14rem !important;
-              margin: 2rem auto 0;
+              margin: 3rem auto 0;
               height: 3rem;
               font-size: 1.3rem;
               width: 100%;
@@ -496,7 +482,7 @@ export default {
               font-size: 1.2rem;
             }
             .text_desc {
-              font-size: 1.08rem;
+              font-size: 0.85rem;
             }
           }
         }

@@ -254,9 +254,8 @@ header {
   color: #15274f;
   cursor: pointer;
   .company-name {
-    font-style: italic;
     font-size: 1.2rem;
-    transform: scaleY(1.1);
+    transform: skewX(-6deg) scaleY(1.2);
     margin-right: 3px;
     color: #16264a;
   }

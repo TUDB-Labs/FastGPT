@@ -164,9 +164,11 @@ export default {
         }
       }
       .submit-btn {
-        text-align: left;
+        text-align: center;
         button {
           width: 120px;
+          padding: 0.3rem 0.8rem;
+          border: none;
         }
       }
     }

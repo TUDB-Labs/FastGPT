@@ -1,7 +1,7 @@
 <template>
   <b-modal
     ref="myModal"
-    size="md"
+    size="lg"
     id="login-modal"
     centered
     no-close-on-backdrop
@@ -18,9 +18,14 @@
     <div class="login-content">
       <el-row class="title-1">联系专家团队</el-row>
       <el-row class="title-2">为您定制专属解决方案</el-row>
-      <el-form ref="ruleForm" label-width="90px" inline :model="solutionForm" :rules="rules" size="small">
-        <el-row :gutter="20">
-          <el-col :span="12">
+      <el-form
+        ref="ruleForm"
+        label-width="90px"
+        inline
+        :model="solutionForm"
+        :rules="rules"
+        size="small"
+      >
             <el-form-item label="手机号码:" prop="phoneNumber">
               <el-input
                 v-model="solutionForm.phoneNumber"
@@ -28,8 +33,6 @@
                 placeholder="请输入您的手机号码"
               />
             </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item label="姓 名:" prop="userName">
               <el-input
                 v-model="solutionForm.userName"
@@ -37,8 +40,6 @@
                 placeholder="请输入您的姓名"
               />
             </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item label="公司名称:" prop="companyName">
               <el-input
                 v-model="solutionForm.companyName"
@@ -46,8 +47,6 @@
                 placeholder="请输入您的公司名称"
               />
             </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item label="所在行业:" prop="szhy">
               <el-input
                 v-model="solutionForm.szhy"
@@ -55,17 +54,13 @@
                 placeholder="请输入您公司的所在行业"
               />
             </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="职务:" prop="position">
+            <el-form-item label="职 务:" prop="position">
               <el-input
                 v-model="solutionForm.position"
                 maxlength="50"
                 placeholder="请输入您的职务"
               />
             </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item label="公司规模:" prop="companySize">
               <el-select v-model="solutionForm.companySize">
                 <el-option
@@ -76,15 +71,17 @@
                 />
               </el-select>
             </el-form-item>
-          </el-col>
-          
-          <el-col :span="24">
-            <el-form-item label="合作需求:" prop="hzxq">
-              <el-input v-model="solutionForm.hzxq" :rows="4" type="textarea" maxlength="200"
-  show-word-limit />
+            <el-form-item label="合作需求:" prop="hzxq" class="hzxq">
+              <el-input
+                v-model="solutionForm.hzxq"
+                :rows="4"
+                placeholder="请输入合作需求"
+                type="textarea"
+                maxlength="200"
+                show-word-limit
+              />
             </el-form-item>
-          </el-col>
-        </el-row>
+      </el-form>
         <el-row class="confirm-btn-wrapper">
           <b-button
             class="dark-btn confirm-btn"
@@ -95,7 +92,6 @@
             提交信息
           </b-button>
         </el-row>
-      </el-form>
     </div>
   </b-modal>
 </template>
@@ -149,9 +145,9 @@ export default {
       this.$refs.myModal.show();
     },
     onSave() {
-      this.$refs.ruleForm.validate(valida => {
-        if (!valida) return
-      })
+      this.$refs.ruleForm.validate((valida) => {
+        if (!valida) return;
+      });
     },
     onClose() {
       this.$refs.myModal.hide();
@@ -168,20 +164,26 @@ export default {
     border: none;
   }
   .modal-dialog {
-    width: 45rem;
-    max-width: initial;
+    // width: 45rem;
+    // max-width: initial;
   }
-  /deep/.el-form-item {
-      width: 100%;
-      margin-bottom: 16px!important;
-      display: flex;
-      .el-form-item__error {
-        top: initial;
-      }
-      .el-form-item__content {
-        flex: 1;
-      }
-    .el-input,.el-select {
+  .el-form {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .el-form-item {
+    width: 50%;
+    margin-bottom: 1rem !important;
+    display: flex;
+    margin-right: 0;
+    .el-form-item__error {
+      top: initial;
+    }
+    .el-form-item__content {
+      flex: 1;
+    }
+    .el-input,
+    .el-select {
       width: 100%;
     }
     .el-form-item__label {
@@ -229,6 +231,9 @@ export default {
       color: #254cd8;
       margin: 0.2rem 0 1.5rem;
     }
+    .custom-col {
+      width: 50%;
+    }
     .el-form-item {
       margin-bottom: 26px;
     }
@@ -253,8 +258,8 @@ export default {
       text-align: center;
       .confirm-btn {
         // width: 100%;
-      width: 15rem;
-        margin-top: 2.5rem;
+        width: 15rem;
+        margin-top: 1.5rem;
       }
     }
     .dark-btn {
@@ -291,6 +296,46 @@ export default {
     .custom-control-input:checked ~ .custom-control-label::before {
       background-color: #192a51;
       border-color: #192a51;
+    }
+  }
+}
+@media (max-width: 767px) {
+  /deep/#login-modal {
+    .modal-content {
+      border: none;
+      border-radius: 0.6rem;
+      outline: 0;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    .modal-body {
+      padding: 1rem 1.3rem 1rem 1rem;
+    }
+    .modal-header {
+      img {
+        width: 4rem;
+      }
+      .close-btn {
+        top: -0.1rem;
+      }
+    }
+    .login-content {
+      padding: 0 0 1.2rem;
+      .title-1,
+      .title-2 {
+        text-align: center;
+      }
+      .el-form-item {
+        width: 100%;
+      }
+      .hzxq {
+        .el-form-item__label {
+          display: none;
+        }
+      }
+      .confirm-btn-wrapper .confirm-btn {
+        margin-top: 1.5rem;
+      }
     }
   }
 }
