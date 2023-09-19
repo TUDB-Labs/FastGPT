@@ -11,7 +11,10 @@
         (法律医疗、金融、烟草) 得到应用，年营收超千万。
       </div>
       <div class="img-box">
-        <img src="https://cdn.tudb.work/aios/web/images/team-Introduction.png" alt="" />
+        <img
+          src="https://cdn.tudb.work/aios/web/images/team-Introduction.png"
+          alt=""
+        />
       </div>
     </main>
   </div>
@@ -56,12 +59,12 @@ main {
     flex: 0.8;
     text-align: left;
     line-height: 1.4rem;
-  h4 {
-    font-weight: 550;
-    transform: skewX(-6deg) scaleY(1.2);
-    color: rgb(0,37,92);
-    margin-bottom: 1.2rem;
-  }
+    h4 {
+      font-weight: 550;
+      transform: skewX(-6deg) scaleY(1.2);
+      color: rgb(0, 37, 92);
+      margin-bottom: 1.2rem;
+    }
   }
   .img-box {
     flex: 1;
@@ -91,10 +94,11 @@ main {
       .info {
         font-size: 1.08rem;
         line-height: 1.8rem;
-      h4 {
-    text-align: center;
-    margin-bottom: 1.0rem;
-  }
+        h4 {
+          text-align: center;
+          margin-bottom: 0.6rem;
+          font-size: 2rem;
+        }
       }
     }
   }

@@ -56,8 +56,8 @@
               <el-row class="name">{{ item.label }}</el-row>
               <el-row class="desc-box">
                 <img :src="item.icon" alt="" />
-              <div class="desc">{{ item.desc }}</div>
-            </el-row>
+                <div class="desc">{{ item.desc }}</div>
+              </el-row>
             </div>
           </div>
         </b-carousel-slide>
@@ -80,17 +80,17 @@ export default {
         {
           label: "定制企业级AI解决方案",
           desc: "结合领域专业数据或企业私有数据，微调 LLM，打造符合企业个性化需求的AI解决方案",
-          icon: require('@/assets/images/ai.png'),
+          icon: require("@/assets/images/ai.png"),
         },
         {
           label: "AI核心能力",
           desc: "不同业务场景下，将AI对话，AI写作，AI分析，AI绘图能力高效落地",
-          icon: require('@/assets/images/hexin.png'),
+          icon: require("@/assets/images/hexin.png"),
         },
         {
           label: "私有化部署",
           desc: "快速部署一个类似于ChatGPT的企业级 LLM应用，保证企业数据的安全性和隐私性",
-          icon: require('@/assets/images/siyouhua.png'),
+          icon: require("@/assets/images/siyouhua.png"),
         },
       ],
     };
@@ -186,11 +186,11 @@ export default {
         align-items: center;
 
         margin-left: 1rem;
-          img {
-            width: 3.2rem;
-            height: 3.2rem;
-            margin-right: 1.2rem;
-          }
+        img {
+          width: 3rem;
+          height: 3rem;
+          margin-right: 1.2rem;
+        }
         .info {
           .name {
             font-weight: 550;
@@ -209,7 +209,7 @@ export default {
               // display: inline-block;
               position: absolute;
               left: 0;
-              top: 0.3rem;
+              top: 0.2rem;
               width: 0.3rem;
               border-radius: 0.3rem;
               height: 1.8rem;
@@ -234,7 +234,8 @@ export default {
     padding: 0;
     color: #000;
     .phone.banner-content {
-      background: url(https://cdn.tudb.work/aios/web/images/phone-banner.png) no-repeat;
+      background: url(https://cdn.tudb.work/aios/web/images/phone-banner.png)
+        no-repeat;
       // background: url(~@/assets/images/phone-banner.png) no-repeat;
       background-size: 100% 100%;
       display: block;
@@ -256,7 +257,7 @@ export default {
           color: #254cd8;
           margin: 1.2rem 0 0.8rem;
           display: block;
-        line-height: 3rem;
+          line-height: 3rem;
         }
       }
       button {
@@ -296,26 +297,26 @@ export default {
               width: 2.3rem;
               margin-right: 1rem;
             }
-          .desc {
-            font-size: 0.9rem;
-            color: #254cd8;
-            margin-top: 0.5rem;
-            position: relative;
-            padding-left: 1rem;
-            text-align: left;
-            font-weight: 550;
-            &::before {
-              content: "";
-              // display: inline-block;
-              position: absolute;
-              left: 0;
-              top: 0.3rem;
-              width: 0.2rem;
-              border-radius: 0.3rem;
-              height: 80%;
-              background-color: #254cd8;
+            .desc {
+              font-size: 0.9rem;
+              color: #254cd8;
+              margin-top: 0.5rem;
+              position: relative;
+              padding-left: 1rem;
+              text-align: left;
+              font-weight: 550;
+              &::before {
+                content: "";
+                // display: inline-block;
+                position: absolute;
+                left: 0;
+                top: 0.3rem;
+                width: 0.2rem;
+                border-radius: 0.3rem;
+                height: 80%;
+                background-color: #254cd8;
+              }
             }
-          }
           }
         }
       }
@@ -362,7 +363,7 @@ export default {
     cursor: pointer;
     .company-name {
       font-size: 1.6rem;
-    transform: skewX(-6deg) scaleY(1.2);
+      transform: skewX(-6deg) scaleY(1.2);
       margin-right: 3px;
       color: #16264a;
       margin-top: -3px;

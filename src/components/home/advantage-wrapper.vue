@@ -12,9 +12,9 @@
           animate__fadeInRight: index % 2 === 1,
         }"
       >
-          <div class="left_img">
-            <img :src="item.rightImg" :alt="item.title" />
-          </div>
+        <div class="left_img">
+          <img :src="item.rightImg" :alt="item.title" />
+        </div>
         <div class="middle01_r">
           <div class="left_con">
             <h6>
@@ -104,11 +104,12 @@ export default {
     justify-content: space-around;
     align-items: center;
     letter-spacing: 4px;
+    // margin-top: 2rem;
   }
   .middle01-content {
     // height: 900px;
     margin: 2rem auto 0;
-    padding-bottom: 16px;
+    padding-bottom: 0.8rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -129,20 +130,20 @@ export default {
       .middle01_m {
         width: 15%;
       }
-        .left_img {
-          // width: 12%;
-          border-radius: 50%;
+      .left_img {
+        // width: 12%;
+        border-radius: 50%;
         position: absolute;
         top: 0;
         left: 50%;
-        transform: translate(-50%, -35%);
-          img {
-            // display: block;
-            width: 4rem;
-            // height: 5rem;
-            border-radius: 50%;
-          }
+        transform: translate(-50%, -39%);
+        img {
+          // display: block;
+          width: 4rem;
+          // height: 5rem;
+          border-radius: 50%;
         }
+      }
       .middle01_r {
         // width: 74%;
         padding: 1rem;
@@ -196,57 +197,57 @@ export default {
     .middle01-title {
       height: 90px;
     }
-  .middle01-content {
-    display: block !important;
-    padding: 0 3vw;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    .middle01_li {
-      background-color: #fff;
-      border-radius: 0.3rem;
-      // padding: 24px 12px;
-      padding: 0.8rem 1.2rem 1.8rem!important;
-      width: 100%;
-      .left_img {
-        transform: translate(-50%, -50%);
-      }
-      h6 {
-        font-size: 1.35rem;
-      }
-      .middle01_l {
-        width: 50px !important;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        img {
-          width: 30px;
+    .middle01-content {
+      display: block !important;
+      padding: 0 3vw;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      .middle01_li {
+        background-color: #fff;
+        border-radius: 0.3rem;
+        // padding: 24px 12px;
+        padding: 0.8rem 1.2rem 1.8rem !important;
+        width: 100%;
+        .left_img {
+          transform: translate(-50%, -50%);
         }
-        .line {
-          transform: rotate(90deg);
+        h6 {
+          font-size: 1.35rem;
+        }
+        .middle01_l {
+          width: 50px !important;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          img {
+            width: 30px;
+          }
+          .line {
+            transform: rotate(90deg);
+            flex: 1;
+            margin: 6px 0;
+          }
+        }
+        .middle01_r {
           flex: 1;
-          margin: 6px 0;
-        }
-      }
-      .middle01_r {
-        flex: 1;
-        width: auto !important;
-        height: auto !important;
-        display: block !important;
-        border-radius: 0 !important;
-        padding: 0 0;
-        .text_desc {
-          font-size: 1.08rem;
-          text-align: left;
-          // margin-top: 2rem;
-        }
-        h4 {
-          // font-size: 16px;
+          width: auto !important;
+          height: auto !important;
+          display: block !important;
+          border-radius: 0 !important;
+          padding: 0 0;
+          .text_desc {
+            font-size: 1.08rem;
+            text-align: left;
+            // margin-top: 2rem;
+          }
+          h4 {
+            // font-size: 16px;
+          }
         }
       }
     }
-  }
   }
 }
 </style>

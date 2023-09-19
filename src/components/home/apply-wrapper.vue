@@ -24,9 +24,9 @@
             <img :src="item.leftImg" :alt="item.title" />
           </div>
           <div class="left_con">
-            <h4>
+            <h5>
               <strong>{{ item.title }}</strong>
-            </h4>
+            </h5>
             <p class="text_desc">{{ item.desc }}</p>
           </div>
         </div>
@@ -94,7 +94,7 @@ export default {
       // 应用
       applyList: [
         {
-          leftImg: "https://cdn.tudb.work/aios/web/images/ai.png",
+          leftImg: require("@/assets/images/ai-kefu.png"),
           title: "智能客服",
           desc: "AIGC私有化部署，让企业更好的利用内部数据和知识库，提高智能客服的回答质量和满意度",
           rightList: [
@@ -227,6 +227,7 @@ export default {
           margin: 0 6px;
           .image {
             width: 4rem;
+            height: 4.7rem;
           }
         }
       }

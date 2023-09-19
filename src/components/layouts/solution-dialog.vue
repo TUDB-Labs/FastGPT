@@ -26,72 +26,81 @@
         :rules="rules"
         size="small"
       >
-            <el-form-item label="手机号码:" prop="phoneNumber">
-              <el-input
-                v-model="solutionForm.phoneNumber"
-                maxlength="11"
-                placeholder="请输入您的手机号码"
-              />
-            </el-form-item>
-            <el-form-item label="姓 名:" prop="userName">
-              <el-input
-                v-model="solutionForm.userName"
-                maxlength="15"
-                placeholder="请输入您的姓名"
-              />
-            </el-form-item>
-            <el-form-item label="公司名称:" prop="companyName">
-              <el-input
-                v-model="solutionForm.companyName"
-                maxlength="50"
-                placeholder="请输入您的公司名称"
-              />
-            </el-form-item>
-            <el-form-item label="所在行业:" prop="szhy">
-              <el-input
-                v-model="solutionForm.szhy"
-                maxlength="50"
-                placeholder="请输入您公司的所在行业"
-              />
-            </el-form-item>
-            <el-form-item label="职 务:" prop="position">
-              <el-input
-                v-model="solutionForm.position"
-                maxlength="50"
-                placeholder="请输入您的职务"
-              />
-            </el-form-item>
-            <el-form-item label="公司规模:" prop="companySize">
-              <el-select v-model="solutionForm.companySize">
-                <el-option
-                  v-for="e in companySizeList"
-                  :key="e.value"
-                  :label="e.label"
-                  :value="e.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="合作需求:" prop="hzxq" class="hzxq">
-              <el-input
-                v-model="solutionForm.hzxq"
-                :rows="4"
-                placeholder="请输入合作需求"
-                type="textarea"
-                maxlength="200"
-                show-word-limit
-              />
-            </el-form-item>
-      </el-form>
-        <el-row class="confirm-btn-wrapper">
-          <b-button
-            class="dark-btn confirm-btn"
-            :style="{ cursor: saveLoading ? 'not-allowed' : 'auto' }"
-            @click="onSave"
+        <el-form-item label="手机号码:" prop="phoneNumber">
+          <el-input
+            v-model="solutionForm.phoneNumber"
+            maxlength="11"
+            placeholder="请输入您的手机号码"
+          />
+        </el-form-item>
+        <el-form-item label="" prop="userName">
+          <span slot="label"
+            >姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</span
           >
-            <b-spinner v-if="saveLoading" small></b-spinner>
-            提交信息
-          </b-button>
-        </el-row>
+          <el-input
+            v-model="solutionForm.userName"
+            maxlength="15"
+            placeholder="请输入您的姓名"
+          />
+        </el-form-item>
+        <el-form-item label="公司名称:" prop="companyName">
+          <el-input
+            v-model="solutionForm.companyName"
+            maxlength="50"
+            placeholder="请输入您的公司名称"
+          />
+        </el-form-item>
+        <el-form-item label="所在行业:" prop="szhy">
+          <el-input
+            v-model="solutionForm.szhy"
+            maxlength="50"
+            placeholder="请输入您公司的所在行业"
+          />
+        </el-form-item>
+        <el-form-item prop="position">
+          <span slot="label"
+            >职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</span
+          >
+          <el-input
+            v-model="solutionForm.position"
+            maxlength="50"
+            placeholder="请输入您的职务"
+          />
+        </el-form-item>
+        <el-form-item label="公司规模:" prop="companySize">
+          <el-select
+            v-model="solutionForm.companySize"
+            placeholder="请选择您所在公司规模"
+          >
+            <el-option
+              v-for="e in companySizeList"
+              :key="e.value"
+              :label="e.label"
+              :value="e.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="合作需求:" prop="hzxq" class="full-width hzxq">
+          <el-input
+            v-model="solutionForm.hzxq"
+            :rows="4"
+            placeholder="请输入简述您的合作需求"
+            type="textarea"
+            maxlength="200"
+            show-word-limit
+          />
+        </el-form-item>
+      </el-form>
+      <el-row class="confirm-btn-wrapper">
+        <b-button
+          class="dark-btn confirm-btn"
+          :style="{ cursor: saveLoading ? 'not-allowed' : 'auto' }"
+          @click="onSave"
+        >
+          <b-spinner v-if="saveLoading" small></b-spinner>
+          提交信息
+        </b-button>
+      </el-row>
     </div>
   </b-modal>
 </template>
@@ -127,11 +136,11 @@ export default {
       },
       saveLoading: false,
       companySizeList: [
-        { label: "5人以下", value: 5 },
-        { label: "5-15人", value: 15 },
-        { label: "15-50人", value: 50 },
-        { label: "50-200人", value: 200 },
-        { label: "200以上", value: "max" },
+        { label: "0-20人", value: 0 },
+        { label: "20-99人", value: 20 },
+        { label: "100-499人", value: 100 },
+        { label: "500-999人", value: 500 },
+        { label: "1000人及以上", value: 1000 },
       ],
     };
   },
@@ -186,8 +195,18 @@ export default {
     .el-select {
       width: 100%;
     }
+    .el-textarea__inner {
+      padding: 5px 10px;
+    }
+    .el-input__count {
+      bottom: -20px;
+      right: 0;
+      line-height: 20px;
+      background-color: transparent;
+    }
     .el-form-item__label {
-      font-weight: 550;
+      font-weight: 549;
+      color: #000;
     }
     input {
       color: #000;
@@ -253,6 +272,9 @@ export default {
       .get-cod-btn {
         margin-left: 1rem;
       }
+    }
+    .full-width {
+      width: 100% !important;
     }
     .confirm-btn-wrapper {
       text-align: center;

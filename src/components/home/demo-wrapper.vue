@@ -13,7 +13,7 @@
           <strong>{{ typeItem.name }}</strong>
         </h4>
         <b-carousel
-          :id="'carousel-'+typeIndex"
+          :id="'carousel-' + typeIndex"
           :value="slide1"
           :interval="40000"
           :indicators="typeItem.children && typeItem.children.length > 1"
@@ -314,7 +314,7 @@ export default {
         .name {
           color: #254cd8;
           font-weight: 550;
-          font-size: 1.2rem;
+          font-size: 1.05rem;
         }
         .text_desc {
           font-size: 0.6rem;
@@ -338,7 +338,7 @@ export default {
             width: 100% !important;
             text-align: left;
             i {
-              font-weight: 550;
+              font-weight: 600;
               float: right;
               font-size: 1.2rem;
             }
@@ -369,10 +369,10 @@ export default {
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         // background-color: #f3f3f3 !important;
         position: relative;
-          img {
-            width: 6rem;
-            height: 6rem;
-          }
+        img {
+          width: 6rem;
+          height: 6rem;
+        }
         .card-desc {
           height: 144px;
           display: flex;

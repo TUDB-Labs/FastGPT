@@ -31,7 +31,9 @@
             maxlength="200"
             placeholder="请输入您想了解的内容(选填)"
           />
-          <div class="percent">{{ formData.problem ? formData.problem.length : 0 }} / 200</div>
+          <div class="percent">
+            {{ formData.problem ? formData.problem.length : 0 }} / 200
+          </div>
         </div>
         <div class="submit-btn">
           <b-button @click="submitForm">提 交</b-button>
@@ -39,10 +41,8 @@
       </div>
     </div>
     <div class="zd_code">
-      <img
-        src="https://cdn.tudb.work/aios/web/images/code2.png"
-        alt="公众号二维码"
-      />
+      <img src="@/assets/images/wxgzcode.png" alt="公众号二维码" />
+      <p>关注中科知道<br />微信公众号<br />获取更多资讯</p>
     </div>
   </div>
 </template>
@@ -115,18 +115,17 @@ export default {
     height: 100%;
     text-align: right;
     .image {
-      width: 100%;
-      height: 130px;
       text-align: right;
       img {
-        width: 100px;
-        height: 100px;
+        width: 4.5rem;
+        height: 4.5rem;
       }
     }
     .imgDesc {
-      font-size: 2.1rem;
+      font-size: 1.6rem;
       font-family: PingFangSC-Semibold;
       text-align: right;
+      margin-top: 1rem;
       span {
         color: #f7b024;
       }
@@ -135,8 +134,7 @@ export default {
   .main-bottom-right {
     flex: 1;
     height: 100%;
-    font-size: 0.8rem;
-    margin: 0 5%;
+    margin: 0 1.6rem;
     .main-bottom-form {
       width: 100%;
       height: 70%;
@@ -148,6 +146,7 @@ export default {
         outline: none;
         padding: 6px 15px;
         width: 100%;
+        font-size: 0.8rem;
       }
       .textarea-wrapper {
         margin: 30px 0 20px;
@@ -158,9 +157,11 @@ export default {
           outline: none;
           padding: 6px 15px;
           width: 100%;
+          font-size: 0.8rem;
         }
         .percent {
           text-align: right;
+          font-size: 0.75rem;
         }
       }
       .submit-btn {
@@ -180,10 +181,14 @@ export default {
     // justify-content: center;
     // align-items: center;
     img {
-      // width: 150px;
-      // height: 150px;
+      width: 6rem;
+      height: 6rem;
+      margin-bottom: 0.6rem;
       // display: block;
     }
+    font-size: 0.8rem;
+    font-family: Noto Sans S Chinese;
+    font-weight: bold;
   }
 }
 
@@ -193,6 +198,12 @@ export default {
   }
   .phone {
     display: none !important;
+  }
+  .main-bottom .main-bottom-right .main-bottom-form .submit-btn {
+    button {
+      padding: 0.2rem 0.8rem;
+      font-size: 0.8rem;
+    }
   }
 }
 
@@ -213,7 +224,7 @@ export default {
       }
       .imgDesc {
         margin-top: 6px;
-        font-size: 1.8rem;
+        font-size: 1.7rem;
         text-align: center;
       }
     }
