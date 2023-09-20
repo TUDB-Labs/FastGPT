@@ -38,6 +38,10 @@ export const SSE = function (url, options) {
     xhr.addEventListener('progress', () => {
       if (this.listeners['message']) {
         if (xhr.status !== 200 || isValidJSON(xhr.responseText)) {
+          showToast({
+            content: `服务器异常,请稍后再试`,
+            type: "danger",
+          })
           return this.listeners['error'](xhr)
         }
         let data = xhr.responseText

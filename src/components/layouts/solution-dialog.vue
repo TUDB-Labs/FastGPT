@@ -50,19 +50,19 @@
             placeholder="请输入您的公司名称"
           />
         </el-form-item>
-        <el-form-item label="所在行业:" prop="szhy">
+        <el-form-item label="所在行业:" prop="industry">
           <el-input
-            v-model="solutionForm.szhy"
+            v-model="solutionForm.industry"
             maxlength="50"
             placeholder="请输入您公司的所在行业"
           />
         </el-form-item>
-        <el-form-item prop="position">
+        <el-form-item prop="job">
           <span slot="label"
             >职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</span
           >
           <el-input
-            v-model="solutionForm.position"
+            v-model="solutionForm.job"
             maxlength="50"
             placeholder="请输入您的职务"
           />
@@ -80,11 +80,11 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="合作需求:" prop="hzxq" class="full-width hzxq">
+        <el-form-item label="合作需求:" prop="demand" class="full-width demand">
           <el-input
-            v-model="solutionForm.hzxq"
+            v-model="solutionForm.demand"
             :rows="4"
-            placeholder="请输入简述您的合作需求"
+            placeholder="请简述您的合作需求"
             type="textarea"
             maxlength="200"
             show-word-limit
@@ -108,7 +108,7 @@
 <script>
 // import showToast from "@/utils/toast.js";
 import { mapActions } from "vuex";
-// import { getVerCode, loginByCode } from "@/api/request.js"; //loginByCode
+import { insertConsultingSolutions } from "@/api/request.js"; //loginByCode
 export default {
   name: "solution-dialog",
   props: {},
@@ -136,11 +136,11 @@ export default {
       },
       saveLoading: false,
       companySizeList: [
-        { label: "0-20人", value: 0 },
-        { label: "20-99人", value: 20 },
-        { label: "100-499人", value: 100 },
-        { label: "500-999人", value: 500 },
-        { label: "1000人及以上", value: 1000 },
+        { label: "0-20人", value: "0-20人" },
+        { label: "20-99人", value: "20-99人" },
+        { label: "100-499人", value: "100-499人" },
+        { label: "500-999人", value: "500-999人" },
+        { label: "1000人及以上", value: "1000人及以上" },
       ],
     };
   },
@@ -156,6 +156,12 @@ export default {
     onSave() {
       this.$refs.ruleForm.validate((valida) => {
         if (!valida) return;
+        insertConsultingSolutions(this.solutionForm).then(() => {
+          this.$message.success(
+            "您的合作需求已提交成功，请耐心等待工作人员的联系"
+          );
+          this.onClose();
+        });
       });
     },
     onClose() {
@@ -350,7 +356,7 @@ export default {
       .el-form-item {
         width: 100%;
       }
-      .hzxq {
+      .demand {
         .el-form-item__label {
           display: none;
         }

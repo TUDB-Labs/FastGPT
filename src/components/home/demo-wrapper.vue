@@ -480,6 +480,9 @@ export default {
               justify-content: space-between;
               align-items: center;
               font-size: 1.2rem;
+              i {
+                font-weight: 600;
+              }
             }
             .text_desc {
               font-size: 0.85rem;

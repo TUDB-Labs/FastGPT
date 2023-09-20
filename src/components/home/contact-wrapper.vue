@@ -144,7 +144,7 @@ export default {
         border-radius: 0.3rem;
         border: 1px solid #dcdfe6;
         outline: none;
-        padding: 6px 15px;
+        padding: 0.3rem 0.6rem;
         width: 100%;
         font-size: 0.8rem;
       }
@@ -155,7 +155,7 @@ export default {
           border-radius: 0.3rem;
           border: 1px solid #dcdfe6;
           outline: none;
-          padding: 6px 15px;
+          padding: 0.3rem 0.6rem;
           width: 100%;
           font-size: 0.8rem;
         }

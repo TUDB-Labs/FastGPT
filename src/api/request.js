@@ -26,6 +26,11 @@ export const insertSolution = (data) => {
   return interceptor.post(url, data)
 }
 
+export const insertConsultingSolutions = (data) => {
+  const url = baseUrl + "/api/aios/consultingSolutions";
+  return interceptor.post(url, data)
+}
+
 export const insertClickrecord = (data) => {
   const url = baseUrl + "/api/aios/insertClickrecord";
   return interceptor.post(url, data)
