@@ -156,12 +156,18 @@ export default {
     onSave() {
       this.$refs.ruleForm.validate((valida) => {
         if (!valida) return;
-        insertConsultingSolutions(this.solutionForm).then(() => {
-          this.$message.success(
-            "您的合作需求已提交成功，请耐心等待工作人员的联系"
-          );
-          this.onClose();
-        });
+        this.saveLoading = true;
+        insertConsultingSolutions(this.solutionForm)
+          .then(() => {
+            this.$message.success(
+              "您的合作需求已提交成功，请耐心等待工作人员的联系"
+            );
+            this.onClose();
+          })
+          .finally(() => {
+            this.saveLoading = false;
+          })
+          .catch(() => {});
       });
     },
     onClose() {
