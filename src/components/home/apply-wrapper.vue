@@ -169,15 +169,16 @@ export default {
   background-color: #f3f3f3;
   padding-bottom: 24px;
   .middle-title {
-    height: 12rem;
+    height: 9rem;
     font-size: 2rem;
     text-align: center;
-    margin: 0 auto;
+    padding-top: 1rem;
+    // margin: 1rem auto 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    letter-spacing: 4px;
+    // letter-spacing: 4px;
     .one {
     }
   }
@@ -255,15 +256,14 @@ export default {
   .main-middle {
     .middle-title {
       display: block;
-      height: 11rem;
-      padding-top: 50px;
+      height: 9.8rem;
+      padding-top: 3.3rem;
       .one {
         font-size: 1.2rem;
       }
     }
     .phone.middle-content {
       display: block !important;
-
       padding: 0 3vw;
       .middle_li {
         display: block !important;

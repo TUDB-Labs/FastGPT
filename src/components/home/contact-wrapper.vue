@@ -170,6 +170,7 @@ export default {
           width: 120px;
           padding: 0.3rem 0.8rem;
           border: none;
+          font-weight: bold;
         }
       }
     }
@@ -241,7 +242,9 @@ export default {
     .submit-btn {
       text-align: center !important;
       button {
-        font-size: 1rem;
+        font-size: 1.2rem;
+        width: 10rem;
+        height: 2.5rem;
       }
     }
   }

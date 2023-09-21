@@ -123,7 +123,10 @@ export default {
       align-items: center;
       margin-bottom: 50px;
       position: relative;
-      //   transition: all 0.5s;
+      transition: all 0.5s;
+      &:hover {
+        transform: scale(1.1);
+      }
       .middle01_l {
         // width: 7%;
       }

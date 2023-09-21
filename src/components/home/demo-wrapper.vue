@@ -17,6 +17,7 @@
           :value="slide1"
           :interval="40000"
           :indicators="typeItem.children && typeItem.children.length > 1"
+          :class="{ 'one-child': typeItem.children.length === 1 }"
           @sliding-start="onSlideStart"
           @sliding-end="onSlideEnd"
         >
@@ -460,6 +461,7 @@ export default {
               color: #254cd8;
               font-size: 1.9rem;
               font-weight: 550;
+              margin-top: 1rem;
             }
             .text_desc {
               margin: 1rem 0;
@@ -497,11 +499,17 @@ export default {
             border-radius: 6px !important;
             border: none;
             width: 4rem;
-            margin: -1.5rem 6px 0;
+            margin: -1.2rem 6px 0;
             &.active {
               background-color: #4f79f6;
               border-radius: 6px !important;
             }
+          }
+        }
+
+        .one-child {
+          /deep/.carousel-inner {
+            height: 25rem !important;
           }
         }
         /deep/.carousel-inner {
