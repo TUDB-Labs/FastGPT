@@ -1,12 +1,12 @@
 <template>
   <div class="main-middle">
     <div class="middle-title">
-      <p class="one">
+      <h3 class="one">
         <strong>AIGC私有化部署已应用于多个企业</strong>
-      </p>
-      <p>
+      </h3>
+      <h3>
         <strong>成为优质企业信赖之选</strong>
-      </p>
+      </h3>
     </div>
     <div class="web middle-content content-width">
       <div

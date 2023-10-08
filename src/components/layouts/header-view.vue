@@ -10,11 +10,11 @@
           alt="logo"
         />
       </div> -->
-      <div class="logo pointer" @click="$router.push('/')">
-        <span class="company-name text-bold"> <strong>中科知道</strong> </span>
+      <h1 class="logo pointer" @click="$router.push('/')">
+        <span class="company-name text-bold"><strong>中科知道</strong> </span>
         <el-divider direction="vertical"></el-divider>
-        <span> <strong>AIGC</strong> </span>
-      </div>
+        <strong>AIGC</strong>
+      </h1>
       <div v-if="curPath === '/'" class="tabs">
         <span class="item" @click="goPosition('.demo-wrapper')">DEMO 体验</span>
         <span class="item" @click="goPosition('.our-advantage')">技术优势</span>
@@ -244,6 +244,7 @@ header {
 .logo {
   text-align: left;
   width: 16rem;
+  margin-bottom: 0;
   // width: 8rem;
   // height: 30px;
 }

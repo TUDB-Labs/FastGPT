@@ -2,10 +2,10 @@
   <div class="banner-wrapper">
     <div class="web banner-content content-width">
       <div style="margin-left: 1.5rem">
-        <p class="main-title" style="font-size: 2.5rem; line-height: 40px">
+        <h2 class="main-title" style="font-size: 2.3rem; line-height: 40px">
           <strong>生成式AI企业级解决方案</strong>
-        </p>
-        <div class="tips">高性能，低成本，可定制</div>
+        </h2>
+        <h3 class="tips">高性能，低成本，可定制</h3>
         <b-button @click="startBtn">
           <span>获取解决方案</span>
           <img src="@/assets/images/send-fill.png" style="width: 1rem" alt="" />
@@ -16,7 +16,7 @@
           <div class="item">
             <img :src="item.icon" alt="" />
             <div class="info">
-              <el-row class="name">{{ item.label }}</el-row>
+              <h4 class="name">{{ item.label }}</h4>
               <el-row class="desc">{{ item.desc }}</el-row>
             </div>
           </div>
@@ -24,15 +24,15 @@
       </el-row>
     </div>
     <div class="phone banner-content">
-      <div class="logo">
+      <h1 class="logo">
         <span class="company-name text-bold"> <strong>中科知道</strong> </span>
         <el-divider direction="vertical"></el-divider>
-        <span> <strong>AIGC</strong> </span>
-      </div>
+        <strong>AIGC</strong>
+      </h1>
       <!-- <img src="https://cdn.tudb.work/aios/web/images/zd_logo.png" class="logo" alt="logo" /> -->
       <div class="slogan-box">
-        <strong class="slogan-text">生成式AI<br />企业级解决方案</strong>
-        <h4 class="slogan-tips">高性能，低成本，可定制</h4>
+        <h2><strong class="slogan-text">生成式AI<br />企业级解决方案</strong></h2>
+        <h3 class="slogan-tips">高性能，低成本，可定制</h3>
       </div>
       <b-button @click="startBtn"><strong>获取解决方案</strong></b-button>
       <b-carousel
@@ -246,6 +246,7 @@ export default {
       border-radius: 0;
       .logo {
         // margin: 30px 0;
+        margin-bottom: 0;
         font-weight: 550;
         padding-top: 1.5rem;
       }
@@ -258,6 +259,9 @@ export default {
           margin: 1.2rem 0 0.8rem;
           display: block;
           line-height: 3rem;
+        }
+        .slogan-tips {
+          // font-size: 2.1rem!important;
         }
       }
       button {

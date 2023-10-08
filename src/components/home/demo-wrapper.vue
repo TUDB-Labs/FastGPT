@@ -1,8 +1,8 @@
 <template>
   <div class="demo-wrapper content-width">
-    <div class="main-tt-title">
+    <h3 class="main-tt-title">
       <strong><span>AIGC垂直场景</span> &nbsp;DEMO体验</strong>
-    </div>
+    </h3>
     <div class="phone main-box">
       <div
         v-for="(typeItem, typeIndex) in newDemoObjList"
