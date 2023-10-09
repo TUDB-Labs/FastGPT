@@ -3,7 +3,7 @@
     <div class="web banner-content content-width">
       <div style="margin-left: 1.5rem">
         <h2 class="main-title" style="font-size: 2.3rem; line-height: 40px">
-          <strong>生成式AI企业级解决方案</strong>
+          生成式AI企业级解决方案
         </h2>
         <h3 class="tips">高性能，低成本，可定制</h3>
         <b-button @click="startBtn">
@@ -31,7 +31,8 @@
       </h1>
       <!-- <img src="https://cdn.tudb.work/aios/web/images/zd_logo.png" class="logo" alt="logo" /> -->
       <div class="slogan-box">
-        <h2><strong class="slogan-text">生成式AI<br />企业级解决方案</strong></h2>
+        <h2 class="slogan-text">生成式AI</h2>
+        <h2 class="slogan-text">企业级解决方案</h2>
         <h3 class="slogan-tips">高性能，低成本，可定制</h3>
       </div>
       <b-button @click="startBtn"><strong>获取解决方案</strong></b-button>
@@ -136,6 +137,7 @@ export default {
     .main-title {
       color: #254cd8;
       letter-spacing: 3px;
+      font-weight: 550;
     }
     .tips {
       color: #000;
@@ -256,11 +258,13 @@ export default {
         margin: 1.2rem 18vw 0;
         .slogan-text {
           color: #254cd8;
-          margin: 1.2rem 0 0.8rem;
+          margin: 0;
           display: block;
-          line-height: 3rem;
+          line-height: 2.5rem;
+          font-weight: 550;
         }
         .slogan-tips {
+          margin-top: 2rem;
           // font-size: 2.1rem!important;
         }
       }

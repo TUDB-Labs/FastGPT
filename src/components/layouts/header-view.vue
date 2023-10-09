@@ -11,9 +11,9 @@
         />
       </div> -->
       <h1 class="logo pointer" @click="$router.push('/')">
-        <span class="company-name text-bold"><strong>中科知道</strong> </span>
+        <span class="company-name text-bold">中科知道</span>
         <el-divider direction="vertical"></el-divider>
-        <strong>AIGC</strong>
+        AIGC
       </h1>
       <div v-if="curPath === '/'" class="tabs">
         <span class="item" @click="goPosition('.demo-wrapper')">DEMO 体验</span>
@@ -245,6 +245,7 @@ header {
   text-align: left;
   width: 16rem;
   margin-bottom: 0;
+  font-weight: 550;
   // width: 8rem;
   // height: 30px;
 }
