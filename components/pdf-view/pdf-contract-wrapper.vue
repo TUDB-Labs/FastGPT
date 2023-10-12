@@ -24,22 +24,14 @@
             question: chat.type === 4,
           }"
         >
-          <span
+          <div
             class="content"
             :class="{ summary: chat.otherType === 'summary' }"
           >
-            <BlinkAnimation
-              v-if="!chat.otherType && chat.type === 4 && !chat.content"
-              color="#000"
-            />
-            <p
-              v-if="chat.otherType === 'summary' && chat.content"
-              class="summary-title"
-            >
-              内容概要:
-            </p>
-            <span>{{ chat.content.replace(/\\n{1,}/g, "\n").replace(/\n{1,}/g, "\n") }}</span>
-          </span>
+            <BlinkAnimation v-show="!chat.otherType && chat.type === 4 && !chat.content" color="#000" />
+            <div v-if="chat.otherType === 'summary' && chat.content" class="summary-title">内容概要:</div>
+            <span style="white-space: pre-wrap;">{{ chat.content.replace(/\\n{1,}/g, "\n").replace(/\n{1,}/g, "\n") }}</span>
+          </div>
         </div>
       </div>
       <el-empty
@@ -167,8 +159,7 @@ export default {
   methods: {
     // 通过sse监听服务端返回的内容
     async getQuestion() {
-      // process.env.VUE_APP_LAW_SERVER
-      const url = `/api/pdf/message/ask`;
+      const url = process.env.VUE_APP_WEBSITE_SERVER + `/api/pdf/message/ask`;
 
       // 新增一条空白回复
       const curChat = {
@@ -292,7 +283,6 @@ export default {
       .chat-content-wrapper {
         text-align: left;
         min-width: 3rem;
-        white-space: pre-wrap;
         &.summary {
           min-height: 2.6rem;
         }
