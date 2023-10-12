@@ -1,59 +1,36 @@
 {
-  "name": "permsion-project",
-  "version": "0.1.0",
+  "name": "website-web",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --mode dev",
-    "build": "vue-cli-service build --mode prod",
-    "build:test": "vue-cli-service build --mode dev",
-    "lint": "vue-cli-service lint"
+    "serve": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
   },
   "dependencies": {
-    "@kangc/v-md-editor": "^1.7.11",
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/proxy": "^2.1.0",
     "alife-logger": "^1.8.30",
-    "axios": "^1.4.0",
     "bootstrap": "4",
     "bootstrap-vue": "^2.23.1",
-    "core-js": "^3.6.5",
-    "echarts": "^5.4.2",
-    "element-ui": "^2.15.13",
+    "core-js": "^3.25.3",
+    "dotenv": "^16.3.1",
+    "echarts": "^5.4.3",
+    "element-ui": "^2.15.10",
     "jsonp": "^0.2.1",
     "less": "4.1.3",
     "less-loader": "7.3.0",
-    "pdfjs-dist": "^2.16.105",
-    "vue": "^2.6.11",
+    "nuxt": "2.15.7",
+    "pdfjs-dist": "2.16.105",
+    "uuid": "^9.0.1",
+    "vue": "^2.7.10",
     "vue-cookies": "^1.8.3",
-    "vue-router": "3.0.6",
+    "vue-server-renderer": "^2.7.10",
+    "vue-template-compiler": "^2.7.10",
     "vuex": "3.4.0",
     "vuex-persistedstate": "^4.1.0",
     "wowjs": "^1.1.3"
   },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.11",
-    "@vue/cli-plugin-eslint": "~4.5.11",
-    "@vue/cli-service": "~4.5.11",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  "devDependencies": {}
 }

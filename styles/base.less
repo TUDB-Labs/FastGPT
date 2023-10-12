@@ -1,0 +1,98 @@
+html {
+  font-size: 12px;
+}
+
+#modal-scoped .modal-body {
+  padding: 0;
+}
+
+#modal-scoped .modal-content {
+  background-color: transparent;
+  border: none;
+}
+
+
+
+/* #modal-scoped .modal-dialog {
+    margin: 0;
+  }
+
+  #modal-scoped .modal-dialog {
+    width: 100vw;
+    max-width: none;
+    height: 100vh !important;
+    margin: 0 !important;
+  } */
+
+@media (min-width: 375px) {
+  html {
+    /* 375px作为16px的基准,414px宽度时正好对应18px的根字号大小 */
+    font-size: calc(12px + 2 * (100vw - 375px) / 39);
+  }
+}
+
+/* // 如果设备是414px, 100vw == 414px；根字号为18px */
+@media (min-width: 414px) {
+  html {
+    /* 414px作为18px的基准,根字号大小累加增加4px (18px - 22px) */
+    font-size: calc(13px + 4 * (100vw - 414px) / 586);
+  }
+}
+
+@media (min-width: 1000px) {
+  html {
+    /* 屏幕宽度从1000px往后每增加100px，根字号大小就增加0.5px */
+    font-size: calc(15px + 5 * (100vw - 1000px) / 1000);
+  }
+}
+
+
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+  /*高宽分别对应横竖滚动条的尺寸*/
+  height: 0.6rem;
+}
+
+::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 0.6rem;
+  box-shadow: inset 0 0 0.4rem #909399;
+  background: #909399;
+}
+
+::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  box-shadow: inset 0 0 0.4rem transparent;
+  border-radius: 0.6rem;
+  background: rgba(0, 0, 0, 0);
+}
+
+.text-cut {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.flex-sub {
+  flex: 1;
+}
+
+.el-loading-mask {
+  z-index: 2!important;
+}
+
+.el-message-box__wrapper {
+  .el-message-box {
+      width: 20rem;
+    }
+}
+
+.el-message {
+  top: 0.6rem!important;
+  min-width: 20rem!important;
+  padding: 0.6rem!important;
+}
+
+.not-allowed {
+  cursor: not-allowed;
+}

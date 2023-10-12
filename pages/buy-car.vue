@@ -1,0 +1,587 @@
+<template>
+  <div class="wrapper">
+    <h4>
+      <img src="https://cdn.tudb.work/aios/web/images/demo2.png" alt="" />
+      <strong>购车咨询</strong>
+    </h4>
+
+    <div class="main-content content-width">
+        <div class="search-wrapper">
+          <div class="submit-wrapper">
+            <input
+              v-model.trim="searchValue"
+              type="text"
+              placeholder="请输入您想了解的购车信息，例如：车型，配置，价位..."
+              maxlength="100"
+              @keydown="onKeydown"
+            />
+            <img
+              src="https://cdn.tudb.work/aios/web/images/send-btn.png"
+              alt="send-img"
+              class="send-img"
+              @click="onSearch"
+            />
+          </div>
+          <div class="count-wrapper">
+            <img
+              src="@/assets/images/delete.png"
+              alt="clear"
+              @click="searchValue = ''"
+            />
+            <span>{{ searchValue.length }} / 100</span>
+          </div>
+          <b-progress
+            v-if="isShowProgress"
+            ref="bprogress"
+            :value="searchProgress"
+            :max="100"
+            show-progress
+            animated
+            style="margin-top: 6px; height: 0.7rem"
+          />
+        </div>
+        <div class="recommend-wrapper">
+          <h5>
+            <strong>推荐问题</strong>
+            <span class="refresh" @click="onRefresh"
+              >换一批<img
+                src="https://cdn.tudb.work/aios/web/images/change.png"
+                alt=""
+              />
+            </span>
+          </h5>
+          <div class="recommend-list">
+            <div
+              v-for="(item, index) in recommendList.filter(
+                (recommend) => recommend.index === curRecommendIndex
+              )"
+              :key="index"
+              class="recommend-item"
+              @click="onSelectRecommend(item)"
+            >
+              {{ item.content }}
+            </div>
+          </div>
+          <p class="sql">
+            <b-button v-if="curType === 'result'" @click="showSql"
+              >SQL</b-button
+            >
+            <b-button v-if="curType === 'sql'" @click="showResult"
+              >结果</b-button
+            >
+          </p>
+          <div class="result-wrap">
+            <!-- <b-spinner
+              v-if="loading"
+              variant="primary"
+              label="Busy"
+              class="spinner"
+              style="margin-top: 5rem"
+            /> -->
+            <template v-if="curType === 'result'">
+              <el-table
+                ref="table"
+                v-show="resultObj.id && resultObj.sql"
+                height="100%"
+                stripe
+                border
+                :data="resultObj.result"
+              >
+                <el-table-column
+                  v-for="field in fields"
+                  :key="field"
+                  :prop="field"
+                  :label="field"
+                  sortable
+                  :min-width="field.length * oneWordWidth + 80"
+                />
+              </el-table>
+              <div v-show="!resultObj.id && resultObj.sql">
+                <!-- 暂无结果内容，请输入您想了解的购车信息进行查询" -->
+                您的问题不准确或者含有歧义，请简洁描述下想要查询的车型。
+              </div>
+            </template>
+            <div
+              v-if="curType === 'sql'"
+              style="text-align: left; margin: 1rem; font-size: 0.9rem"
+            >
+              {{
+                resultObj.sql || "暂无sql内容，请输入您想了解的购车信息进行查询"
+              }}
+            </div>
+            <!-- <div class="result-content">{{ resultContent }}</div> -->
+          </div>
+          <Actions
+            v-if="resultObj.id"
+            :attitude="resultObj.attitude"
+            @like="upvote(1)"
+            @diss="upvote(-1)"
+          />
+        </div>
+        <div class="tips">
+          本公司不对服务内容与结果的真实性，准确性进行陈述与保证，相关内容亦不能替代特定领域专家意见
+        </div>
+      </div>
+    <login-modal ref="loginModal" />
+  </div>
+</template>
+
+<script>
+const maxCount = 10;
+import showToast from "@/utils/toast.js";
+import { isExceedLimit, addWebCount } from "@/utils/index.js";
+import Actions from "../components/actions.vue";
+import LoginModal from "@/components/layouts/login-modal.vue";
+import { mapGetters } from "vuex";
+
+export default {
+  name: "buy-car",
+  props: {},
+  components: { Actions, LoginModal },
+  data() {
+    return {
+      searchValue: "",
+      curRecommendIndex: 1,
+      recommendList: [
+        { content: "今年新上市的奔驰SUV有哪些？", index: 1 },
+        { content: "续航大于700公里的电动车有哪些？", index: 1 },
+        { content: "2023年上市的20万-30万的四驱车型有哪些？", index: 1 },
+        { content: "查询2023年上市的长度大于5米的电动车", index: 1 },
+        { content: "今年上市的7座电动车有哪些？", index: 2 },
+        { content: "最近两年上市的排量超过6L的车有哪些？", index: 2 },
+        {
+          content: "2020年以来，宝马推出过哪些型号的三缸发动机的车？",
+          index: 2,
+        },
+        { content: "今年新上市的奥迪Q3有哪些车型？", index: 2 },
+      ],
+      fields: [],
+      resultObj: {
+        id: "",
+        result: [],
+        attitude: 0,
+      },
+      tableData: [],
+      resultContent: "",
+      curType: "result", // sql
+      loading: false,
+      searchProgress: 0,
+      isShowProgress: false,
+      timer: null,
+    };
+  },
+  created() {},
+  beforeDestroy() {
+    if (this.timer) {
+      window.clearInterval(this.timer);
+      this.timer = null;
+    }
+  },
+  mounted() {},
+  watch: {},
+  computed: {
+    ...mapGetters(["userInfo"]),
+    oneWordWidth() {
+      return parseFloat(getComputedStyle(document.documentElement).fontSize);
+    },
+  },
+  methods: {
+    onSearch() {
+      if (this.loading) return;
+      if (!this.searchValue)
+        return showToast({
+          content: "请输入你想了解的购车信息",
+          type: "warning",
+        });
+      this.loading = true;
+      this.curType = "result";
+
+      // 如果未登录需要记录查询次数 判断是否超过提问次数超过就弹出登录框
+      if (!this.userInfo.phoneNumber && isExceedLimit("buyCar")) {
+        this.$refs.loginModal.show();
+        this.loading = false;
+        return showToast({
+          content: `您今日的提问次数已达上限${maxCount}次`,
+          type: "danger",
+        });
+      }
+      this.searchProgress = 0;
+      this.isShowProgress = true;
+      this.timer = setInterval(() => {
+        if (this.searchProgress >= 95) {
+          window.clearInterval(this.timer);
+          this.timer = null;
+          return;
+        }
+        this.searchProgress += 1;
+      }, 50);
+      this.$request.getBuyCar({ prompt: this.searchValue })
+        .then((res) => {
+          if (!res.flag) {
+            return this.$confirm(res.message, "提示", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning",
+              showCancelButton: false,
+            })
+              .then(() => {})
+              .catch(() => {});
+          }
+          addWebCount("buyCar");
+          const { result, id, sql } = res.data;
+          this.resultObj = { result, id, sql, attitude: 0 };
+          if (result && result.length) {
+            const obj = result[0];
+            delete obj.id;
+            this.fields = Object.keys(obj);
+          } else {
+            this.fields = [];
+          }
+          this.$nextTick(() => {
+            this.$refs?.table?.doLayout();
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+          this.$refs.bprogress.$el.classList.add("animate__fadeOut");
+          // 把进度条置为100并清除进度条定时器
+          this.searchProgress = 100;
+          if (this.timer) {
+            window.clearInterval(this.timer);
+            this.timer = null;
+          }
+          setTimeout(() => {
+            this.isShowProgress = false;
+          }, 1000);
+        })
+        .catch((error) => {
+          console.log("error", error);
+          this.$confirm(error.message || "服务器异常,请稍后再试", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+            showCancelButton: false,
+          })
+            .then(() => {})
+            .catch(() => {});
+        });
+    },
+    onKeydown() {},
+    onSelectRecommend(item) {
+      if (this.loading) return;
+      this.searchValue = item.content;
+      this.onSearch();
+    },
+    onRefresh() {
+      if (this.curRecommendIndex === 1) {
+        return (this.curRecommendIndex = 2);
+      }
+      if (this.curRecommendIndex === 2) {
+        return (this.curRecommendIndex = 1);
+      }
+      console.log(this.curRecommendIndex);
+    },
+    upvote(record) {
+      const { id, attitude } = this.resultObj;
+      if (attitude === record) return;
+      this.$request.carLikeOrDiss({
+        record: record,
+        id: id,
+      }).then((res) => {
+        if (res.status === "success") {
+          this.resultObj.attitude = record;
+        } else {
+          showToast({
+            content: record === 1 ? "点赞失败" : "踩失败",
+            type: "danger",
+          });
+        }
+      }).catch(() => {});
+    },
+    showSql() {
+      this.curType = "sql";
+    },
+    showResult() {
+      this.curType = "result";
+    },
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.wrapper {
+  h4 {
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    margin-bottom: 0;
+    height: 3rem;
+    margin-left: -5.3rem;
+    // padding: 0 0 0.6rem;
+    img {
+      width: 2.1rem;
+      margin-right: 12px;
+    }
+  }
+
+    .main-content {
+      margin: 0 auto;
+      height: calc(100vh - 3rem);
+      display: flex;
+      flex-direction: column;
+
+    background: #f0f0f0;
+      .search-wrapper {
+        // top: 3rem;
+        width: 100%;
+        padding-top: 1rem;
+        // position: sticky;
+        background: #f0f0f0;
+      }
+      .submit-wrapper {
+        height: 2.8rem;
+        // border: 1px solid gray;
+        overflow: hidden;
+        background: #ffffff;
+        border-radius: 0.3rem;
+        // margin-top: 0.5rem;
+        display: flex;
+        input {
+          height: 2.8rem;
+          border: none;
+          width: 100%;
+          background: transparent;
+          color: #000;
+          padding: 0 0.8rem;
+          outline: none;
+          flex: 1;
+          font-size: 0.9rem;
+          box-shadow: 0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
+            0 0 20px -12px #80808061, 0 0 20px -12px #80808061,
+            0 0 20px -12px #80808061;
+        }
+        input::placeholder {
+          color: #666;
+        }
+        .send-img {
+          width: 3rem;
+          height: 2.8rem;
+          cursor: pointer;
+        }
+
+        .send-btn {
+          color: #fff;
+          // position: absolute;
+          width: 2.8rem;
+          height: 2.8rem;
+          // right: 0.5rem;
+          // top: 0;
+          cursor: not-allowed;
+          background: #254cd8;
+        }
+      }
+      .count-wrapper {
+        align-items: center;
+        justify-content: flex-end;
+        display: flex;
+        font-size: 0.9rem;
+        margin-top: 0.2rem;
+        img {
+          width: 1.2rem;
+          margin-right: 0.2rem;
+          cursor: pointer;
+        }
+        span {
+          // width: 60px;
+        }
+      }
+      .recommend-wrapper {
+        margin-top: 1rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        h5 {
+          display: flex;
+          align-items: center;
+          font-size: 1.2rem;
+          margin-bottom: 0;
+        }
+        .refresh {
+          font-size: 1rem;
+          // height: 1.6rem;
+          // line-height: 1.6rem;
+          // width: 5rem;
+          border-radius: 0.3rem;
+          background: #fff;
+          margin-left: 12px;
+          padding: 0.3rem 0.6rem;
+          cursor: pointer;
+          img {
+            width: 1rem;
+            margin-left: 6px;
+          }
+        }
+        .recommend-list {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          .recommend-item {
+            width: 49%;
+            padding: 0.6rem 0.6rem;
+            background: #f0f0f0;
+            border: 1px solid #bdbdbd;
+            border-radius: 0.3rem;
+            color: #000;
+            margin-top: 1rem;
+            cursor: pointer;
+            text-align: left;
+            line-height: 1.2rem;
+            font-size: 0.9rem;
+            &:hover {
+              background: #d6d8db;
+            }
+          }
+        }
+        .result-wrap {
+          flex: 1;
+          // height: calc(100vh - 24.3rem);
+          background: #ffffff;
+          border: 1px solid #254cd8;
+          border-radius: 5px;
+          position: relative;
+          overflow: hidden;
+          .result-content {
+            height: 100%;
+            overflow: auto;
+            text-align: left;
+            padding: 12px;
+          }
+          .spinner {
+            position: absolute;
+            left: 49%;
+            top: 20%;
+            z-index: 1;
+          }
+        }
+        .sql {
+          // right: 6px;
+          // top: 6px;
+          // position: absolute;
+          text-align: right;
+          font-size: 0.6rem;
+          button {
+            margin: 1.4rem 0 0.5rem;
+            padding: 0 8px;
+            // line-height: 12px;
+          }
+        }
+      }
+      .tips {
+        color: #717171;
+        font-size: 0.6rem;
+        padding: 0.3rem 0;
+        line-height: 1.2rem;
+      }
+    }
+}
+
+@media (min-width: 767px) {
+  .wrapper {
+    h4 {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      margin-left: -5.3rem;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .wrapper {
+    h4 {
+      padding: 0.7rem 0;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      margin-left: 0;
+    }
+      .main-content {
+        position: relative;
+        .recommend-wrapper {
+          .recommend-list {
+            .recommend-item {
+              width: 100% !important;
+              // line-height: 20px;
+            }
+          }
+          .result-wrap {
+            // height: calc(100vh - 24.3rem);
+          }
+        }
+      }
+  }
+}
+
+/deep/ .table thead th {
+  white-space: nowrap;
+}
+/deep/ .table tr td {
+  white-space: nowrap;
+}
+/deep/.b-table-sticky-header.table-responsive {
+  max-height: 100%;
+}
+
+/deep/.el-table {
+  font-size: 0.9rem;
+  // .sort-caret.ascending {
+  //   border-bottom-color: #606266;
+  // }
+  // .sort-caret.descending {
+  //   border-top-color: #606266;
+  // }
+
+  /*滚动条整体样式*/
+  // .el-table__body-wrapper::-webkit-scrollbar {
+  //   width: 0.5rem;
+  //   /*高宽分别对应横竖滚动条的尺寸*/
+  //   height: 0.5rem;
+  // }
+
+  // .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  //   /*滚动条里面小方块*/
+  //   border-radius: 10px;
+  //   box-shadow: inset 0 0 5px #254cd8;
+  //   background: #254cd8;
+  // }
+
+  // .el-table__body-wrapper::-webkit-scrollbar-track {
+  //   /*滚动条里面轨道*/
+  //   box-shadow: inset 0 0 5px transparent;
+  //   border-radius: 10px;
+  //   background: #fff;
+  // }
+  .cell {
+    // line-height: 1.2rem;
+  }
+  thead {
+    tr th {
+      background: #ebeef5;
+    }
+  }
+  .el-table__cell {
+    padding: 0.5rem 0;
+  }
+  th.el-table__cell {
+    & > .cell {
+      color: #212529;
+    }
+  }
+}
+/deep/ .progress-bar.progress-bar-striped.progress-bar-animated {
+  color: transparent;
+}
+</style>
