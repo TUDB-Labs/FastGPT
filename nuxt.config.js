@@ -4,15 +4,15 @@ const baseUrl = process.env.NODE_ENV === 'development' ? '/web-server' : ''
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: '中科知道官网 - AIGC，生成式AI企业级解决方案，大语言模型(LLM)，私有化部署，AI核心能力',
+    title: '中科知道 | AIGC',
     htmlAttrs: {
       lang: 'en'
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0' },
-      { hid: 'description', name: 'description', content: '中科知道是专注于人工智能服务研发的科技公司，为个人用户和企业用户提供全链路 AIGC 和人工智能技术服务。' },
-      { hid: 'keywords', name: 'keywords', content: '中科知道，中科知道官网，中科知道(北京)科技有限公司，AIGC，大语言模型(LLM)，私有化部署，通用人工智能(AGI)，生成式AI企业级解决方案' },
+      { hid: 'description', name: 'description', content: '中科知道-AIGC平台，根据大模型（LLM）结合领域专业数据或企业私有数据为客户提供定制化的企业级AI解决方案并实现私有化部署，助力企业高效、安全的构建个性化知识库。' },
+      { hid: 'keywords', name: 'keywords', content: '中科知道,AIGC,LLM,大模型,私有化部署,定制化,企业级,AI,解决方案,人工智能,数据,知识' },
       { name: 'format-detection', content: 'telephone=no' },
       { name: 'baidu-site-verification', content: 'codeva-bOa7yJyCmF' },
     ],
