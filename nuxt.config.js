@@ -15,7 +15,7 @@ export default {
       { hid: 'keywords', name: 'keywords', content: '中科知道,AIGC,LLM,大模型,私有化部署,定制化,企业级,AI,解决方案,人工智能,数据,知识' },
       { name: 'format-detection', content: 'telephone=no' },
       { name: 'baidu-site-verification', content: 'codeva-bOa7yJyCmF' },
-      { 'http-equiv': 'Content-Type', content: 'text/html;charset=gb2312' },
+      // { 'http-equiv': 'Content-Type', content: 'text/html;charset=gb2312' },
       { name: 'sogou_site_verification', content: '6yiMwTJQk8' },
     ],
     link: [
