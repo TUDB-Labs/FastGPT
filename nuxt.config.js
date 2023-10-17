@@ -17,6 +17,7 @@ export default {
       { name: 'baidu-site-verification', content: 'codeva-bOa7yJyCmF' },
       // { 'http-equiv': 'Content-Type', content: 'text/html;charset=gb2312' },
       { name: 'sogou_site_verification', content: 'S7H10TzSgM' },
+      { name: '360-site-verification', content: 'c8f83a3d5ee55345c0d4637520d08c0e' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
