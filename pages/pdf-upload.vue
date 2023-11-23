@@ -155,6 +155,10 @@ export default {
       this.curStatus = "action";
     },
     onSuccess(event = {}) {
+      if (event.code !== 200) {
+        this.onCloseUpload()
+        return this.$message.warning('文件上传失败')
+      }
       this.createConversation(event.data);
     },
     goChat(item) {
