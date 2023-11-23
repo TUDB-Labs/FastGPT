@@ -72,7 +72,7 @@
           </div>
         </div>
       </div>
-      <p class="tips">PDF文档不得超过5MB，暂不支持同时上传多个PDF</p>
+      <p class="tips">PDF文档不得超过2MB，暂不支持同时上传多个PDF</p>
 
       <div class="recommand-list">
         <div

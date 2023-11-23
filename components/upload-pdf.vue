@@ -51,7 +51,7 @@ export default {
         return false;
       }
       // 文件大小不能超过1M
-      if (file.size / 1024 / 1024 > 5) {
+      if (file.size / 1024 / 1024 > 2) {
         this.$message.warning("PDF文件大小超出限制");
         return false;
       }
