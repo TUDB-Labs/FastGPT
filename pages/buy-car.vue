@@ -143,17 +143,17 @@ export default {
       searchValue: "",
       curRecommendIndex: 1,
       recommendList: [
-        { content: "今年新上市的奔驰SUV有哪些？", index: 1 },
+        { content: "2022年新上市的奔驰SUV有哪些？", index: 1 },
         { content: "续航大于700公里的电动车有哪些？", index: 1 },
         { content: "2023年上市的20万-30万的四驱车型有哪些？", index: 1 },
         { content: "查询2023年上市的长度大于5米的电动车", index: 1 },
-        { content: "今年上市的7座电动车有哪些？", index: 2 },
+        { content: "2022年上市的7座电动车有哪些？", index: 2 },
         { content: "最近两年上市的排量超过6L的车有哪些？", index: 2 },
         {
           content: "2020年以来，宝马推出过哪些型号的三缸发动机的车？",
           index: 2,
         },
-        { content: "今年新上市的奥迪Q3有哪些车型？", index: 2 },
+        { content: "2022年新上市的奥迪Q3有哪些车型？", index: 2 },
       ],
       fields: [],
       resultObj: {
