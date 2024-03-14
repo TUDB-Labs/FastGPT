@@ -1,11 +1,11 @@
 FROM node:14.15.4-slim as ybuild
 WORKDIR /opt/
 COPY ./ /opt/
-RUN yarn config set registry https://registry.npm.taobao.org/ 
+RUN npm config set registry https://registry.npmmirror.com
 
-RUN  yarn install
+RUN  npm install
 
-RUN yarn generate
+RUN npm run generate
 
 FROM nginx:1.11.13-alpine   
 COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
